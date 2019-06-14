@@ -24,6 +24,12 @@ namespace Server.Controllers
             return await this.repo.RetrieveAllAsync();
         }
 
+        [HttpGet("Client/{id}")]
+        public async Task<IEnumerable<Order>> GetForClient(int id)
+        {
+            return await this.repo.RetrieveForClientAsync(id);
+        }
+
         // GET: api/Order/5
         [HttpGet("{id}", Name = "Get")]
         public async Task<Order> Get(int id)

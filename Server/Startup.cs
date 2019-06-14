@@ -28,8 +28,17 @@ namespace Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddDbContext<CatalogContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services
+                .AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(
+                    options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
+            services.AddDbContext<CatalogContext>(options => {
+                options
+                    .UseLazyLoadingProxies()
+                    .UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+            });
             services.AddScoped<IOrderRepository,OrderRepository>();            
             services.AddSwaggerGen(c => c.SwaggerDoc ("v1", new Info { Title = "Catalog Order Information Service API", Version = "v1" }));
         }

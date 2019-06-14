@@ -10,6 +10,7 @@ namespace Server.Models
     [Table("client", Schema="catalog")]
     public class Client
     {
+        public Client() { }
         [Column("client_id")]
         public int Id { get; set; }
         [Column("client_name")]
@@ -21,6 +22,6 @@ namespace Server.Models
         [Column("client_phone")]
         public string Phone { get; set; }
 
-        public List<Order> Orders { get; set; }
+        public virtual List<Order> Orders { get; set; }
     }
 }

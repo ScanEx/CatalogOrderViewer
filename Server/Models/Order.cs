@@ -9,7 +9,8 @@ namespace Server.Models
 {
     [Table("order", Schema="catalog")]
     public class Order
-    {        
+    {
+        public Order() { }
         [Column("order_id")]
         public int Id { get; set; }
         [Column("order_number")]
@@ -22,7 +23,8 @@ namespace Server.Models
         public DateTime CompleteDate { get; set; }
         [Column("client_id")]
         public int ClientId { get; set; }
-        public Client Client { get; set; }
+        [ForeignKey("ClientId")]
+        public virtual Client Client { get; set; }
         [Column("manager_id")]
         public int ManagerId { get; set; }
         [Column("order_state_id")]

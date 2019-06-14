@@ -10,6 +10,7 @@ namespace Server.Repositories
     {
         Task<Order> CreateAsync(Order order);
         Task<IEnumerable<Order>> RetrieveAllAsync();
+        Task<IEnumerable<Order>> RetrieveForClientAsync(int id);
         Task<Order> RetrieveAsync(int id);
         Task<Order> UpdateAsync(int id, Order order);
         Task<bool> DeleteAsync(int id);

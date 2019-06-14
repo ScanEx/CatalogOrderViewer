@@ -45,12 +45,18 @@ namespace Server.Repositories
         }
         public async Task<IEnumerable<Order>> RetrieveAllAsync()
         {
-            return await Task.Run(() => this.db.Orders.Include(e => e.Client));
+            return await Task.Run(() => this.db.Orders);
         }
         public async Task<Order> RetrieveAsync(int id)
         {
             return await this.db.Orders.FindAsync(id);                
         }
+
+        public async Task<IEnumerable<Order>> RetrieveForClientAsync(int id)
+        {
+            return await Task.Run(() => this.db.Orders.Where(e => e.ClientId == id));
+        }
+
         public async Task<Order> UpdateAsync(int id, Order order)
         {
             return await Task.Run(() => {
