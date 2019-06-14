@@ -11,6 +11,8 @@ namespace Server
     {
         public CatalogContext(DbContextOptions options) : base(options) { }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Client> Clients { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -22,7 +24,6 @@ namespace Server
                 .HasOne(e => e.Client)
                 .WithMany(e => e.Orders)
                 .HasForeignKey(e => e.ClientId);
-
         }        
     }
 }
