@@ -1,0 +1,27 @@
+{
+  "name": "catalog-order-viewer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "browser": "Server/wwwroot/main.js",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "rollup": "^1.10.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-cpy": "^1.1.0",
+    "rollup-plugin-css-porter": "^1.0.2",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-svelte": "^5.0.3",
+    "svelte": "^3.0.0"
+  },
+  "dependencies": {}
+}
