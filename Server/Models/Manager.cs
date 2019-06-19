@@ -7,13 +7,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Server.Models
 {
-    [Table("manager", Schema="catalog")]
+    [Table("Users")]
     public class Manager
     {
         public Manager () {}
-        [Key, Column("manager_id")]
+        [Key, Column("id")]
         public int Id { get; set; }        
-        [Column("manager_name")]
+        [Column("Name")]
         public string Name { get; set; }
     }
 }

@@ -11,7 +11,8 @@ namespace Server
     {
         public CatalogContext(DbContextOptions options) : base(options) { }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Region> Regions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

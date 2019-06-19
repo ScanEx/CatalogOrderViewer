@@ -7,55 +7,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Server.Models
 {
-    [Table("order", Schema="catalog")]
+    [Table("orders")]
     public class Order
     {
         public Order() { }
-        [Column("order_id")]
+        [Key, Column("orderid")]
         public int Id { get; set; }
-        [Column("order_number")]
-        public string Number { get; set; }
-        [Column("order_contract_number")]
-        public string ContractNumber { get; set; }
-        [Column("order_create_date")]
-        public DateTime CreateDate { get; set; }
-        [Column("order_complete_date")]
-        public DateTime CompleteDate { get; set; }
-        [Column("client_id")]
-        public int ClientId { get; set; }
-        // [ForeignKey("ClientId")]
-        // public virtual Client Client { get; set; }
-        [Column("manager_id")]
-        public int ManagerId { get; set; }
-        [ForeignKey("ManagerId")]
-        public virtual Manager Manager { get; set; }
-        [Column("order_state_id")]
-        public int StateId { get; set; }
-        [ForeignKey("StateId")]
-        public virtual OrderState State { get; set; }
-        [Column("order_source_id")]
-        public int SourceId { get; set; }
-        [ForeignKey("SourceId")]
-        public virtual OrderSource Source { get; set; }
-        [Column("theme")]
-        public string Theme { get; set; }
-        [Column("contract_date")]
-        public DateTime ContractDate { get; set; }
-        [Column("account_number")]
-        public string AccountNumber { get; set; }
-        [Column("date_payment")]
-        public DateTime DatePayment { get; set; }
-        [Column("date_act")]
-        public DateTime DateAct { get; set; }
-        [Column("value_added_tax")]
-        public int ValueAddedTax { get; set; }
-        [Column("contact_amount")]
-        public int ContactAmount { get; set; }
-        [Column("comment")]
-        public string Comment { get; set; }
-
-        // public virtual List<Granule> Granules { get; set; }
-        public virtual List<Roi> Rois { get; set; }
-        public virtual List<SupplierInvoice> SupplierInvoices { get; set; }
+        [Column("ord_name")]
+        public string Name { get; set; }
+        [Column("custid")]
+        public int CustomerId { get; set; }
+        [ForeignKey("CustomerId")]
+        public virtual Customer Customer { get; set; }
+        [Column("ts_open")]
+        public DateTime OpenDate { get; set; }
+        [Column("ts_closed")]
+        public DateTime ClosedDate { get; set; }
+        [Column("contract_id")]
+        public string ContractId { get; set; }        
+        public virtual List<Region> Regions { get; set; }
     }
 }

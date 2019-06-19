@@ -1,9 +1,23 @@
 <script>
-    import Granule from './Granule.svelte';
-    export let granules = [];
-    export let createDate = '';
-    export let number = '';
+    import Region from './Region.svelte';    
+    export let contractId = '';
+    export let name = '';
+    export let id;
+    let regions = [];
     let expanded = false;
+    let loaded = false;
+    const toggle = () => {
+        if (!loaded && !expanded) {
+            fetch(`api/Regions/ByOrder/${id}`)
+            .then(response => response.json())
+            .then(json => {
+                loaded = true;
+                regions = json;
+            })
+            .catch(e => console.log(e));
+        }
+        expanded = !expanded;
+    };
 </script>
 
 <style>
@@ -35,13 +49,13 @@
 </style>
 
 <div class="order">
-    <div class="header" on:click|stopPropagation="{() => expanded = !expanded}">
+    <div class="header" on:click|stopPropagation="{toggle}">
         <i class="icon" class:collapsed="{!expanded}" class:expanded="{expanded}"></i>
-        <span>{number}</span>
+        <span>{contractId}</span>        
     </div>
     <div class="content" class:hidden="{!expanded}">
-        {#each granules as g}
-        <Granule {...g} />
+        {#each regions as r}
+        <Region {...r} />
         {/each}
     </div>
 </div>

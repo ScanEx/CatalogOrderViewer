@@ -1,8 +1,7 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import css from 'rollup-plugin-css-porter';
-import copy from 'rollup-plugin-cpy';
+// import css from 'rollup-plugin-css-porter';
 import json from 'rollup-plugin-json';
 import babel from 'rollup-plugin-babel';
 import pkg from './package.json';
@@ -20,14 +19,7 @@ export default {
         resolve(),            
         commonjs(),
         json(),
-        css({dest: 'Server/wwwroot/main.css', minified: true}),
-        copy({
-            files: [                    
-                'Client/Images/*.png',
-                'Client/Images/*.svg',
-            ],
-            dest: 'Server/wwwroot',
-        }),
+//        css({dest: 'Server/wwwroot/main.css', minified: true}),
         babel({
             include: 'node_modules/svelte/shared.js',
             exclude: 'node_modules/**'

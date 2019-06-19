@@ -7,15 +7,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Server.Models
 {
-    [Table("order_state", Schema="catalog")]
-    public class OrderState
-    {
-        public OrderState () {}
-        [Key, Column("order_state_id")]
+    [Table("dict_Dtypes")]
+    public class Product {
+        public Product () {}
+        [Column("id")]
         public int Id { get; set; }
-        [Column("order_state_code")]
-        public string Code { get; set; }
-        [Column("order_state_name")]
+        [Column("dt_name")]
         public string Name { get; set; }
     }
 }

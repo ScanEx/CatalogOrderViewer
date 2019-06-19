@@ -7,19 +7,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Server.Models
 {    
-    [Table("client", Schema="catalog")]
-    public class Client
+    [Table("customers")]
+    public class Customer
     {
-        public Client() { }
-        [Column("client_id")]
+        public Customer() { }
+        [Key, Column("custid")]
         public int Id { get; set; }
-        [Column("client_name")]
+        [Column("cust_name")]
         public string Name { get; set; }
-        [Column("client_agent")]
-        public string Agent { get; set; }
-        [Column("client_email")]
+        [Column("contact_name")]
+        public string ContactName { get; set; }
+        [Column("contact_email")]
         public string Email { get; set; }
-        [Column("client_phone")]
+        [Column("contact_phone")]
         public string Phone { get; set; }
 
         public virtual List<Order> Orders { get; set; }

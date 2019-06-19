@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
-using Server.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Server
@@ -38,8 +37,7 @@ namespace Server
                 options
                     .UseLazyLoadingProxies()
                     .UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
-            });
-            services.AddScoped<IOrderRepository,OrderRepository>();            
+            });            
             services.AddSwaggerGen(c => c.SwaggerDoc ("v1", new Info { Title = "Catalog Order Information Service API", Version = "v1" }));
         }
 

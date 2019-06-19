@@ -1,25 +1,27 @@
 <script>
-    import Orders from './Orders.svelte';
+    import Order from './Order.svelte';
 
-    let orders = [];
-
-    fetch('api/Clients/7965')
-    .then(response => response.json())
-    .then(json => orders = json.orders)
-    .catch(e => console.log(e));
+    let get_orders =
+        fetch('api/Customers/7884')
+        .then(response => response.json())
+        .then(json => json.orders);
 
 </script>
 
 <style>
-    .app > * {
-        display: inline-block;
-        vertical-align: top;
+    .app * {
+        font-family: sans-serif;
     }
 </style>
 
 <div class="app">
-    <div class="sidebar">
-        <Orders bind:items="{orders}"/>
-    </div>    
-    <div class="map">MAP</div>
+    {#await get_orders}
+    <div>Getting orders...</div>
+    {:then orders}
+        {#each orders as x}
+        <Order {...x} />
+        {/each}
+    {:catch error}
+    <div>Error: {error}</div>
+    {/await}
 </div>

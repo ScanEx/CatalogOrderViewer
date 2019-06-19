@@ -12,46 +12,46 @@ namespace Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientsController : ControllerBase
+    public class CustomersController : ControllerBase
     {
         private readonly CatalogContext _context;
 
-        public ClientsController(CatalogContext context)
+        public CustomersController(CatalogContext context)
         {
             _context = context;
         }
 
-        // GET: api/Clients
+        // GET: api/Customers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Client>>> GetClient()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer()
         {
-            return await _context.Clients.ToListAsync();
+            return await _context.Customers.ToListAsync();
         }
 
-        // GET: api/Clients/5
+        // GET: api/Customers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Client>> GetClient(int id)
+        public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-            var client = await _context.Clients.FindAsync(id);
+            var e = await _context.Customers.FindAsync(id);
 
-            if (client == null)
+            if (e == null)
             {
                 return NotFound();
             }
 
-            return client;
+            return e;
         }
 
-        // PUT: api/Clients/5
+        // PUT: api/Customers/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClient(int id, Client client)
+        public async Task<IActionResult> PutCustomer(int id, Customer e)
         {
-            if (id != client.Id)
+            if (id != e.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(client).State = EntityState.Modified;
+            _context.Entry(e).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ClientExists(id))
+                if (!CustomerExists(id))
                 {
                     return NotFound();
                 }
@@ -72,35 +72,35 @@ namespace Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Clients
+        // POST: api/Customers
         [HttpPost]
-        public async Task<ActionResult<Client>> PostClient(Client client)
+        public async Task<ActionResult<Customer>> PostCustomer(Customer e)
         {
-            _context.Clients.Add(client);
+            _context.Customers.Add(e);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetClient", new { id = client.Id }, client);
+            return CreatedAtAction("GetCustomer", new { id = e.Id }, e);
         }
 
-        // DELETE: api/Clients/5
+        // DELETE: api/Customers/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Client>> DeleteClient(int id)
+        public async Task<ActionResult<Customer>> DeleteCustomer(int id)
         {
-            var client = await _context.Clients.FindAsync(id);
-            if (client == null)
+            var e = await _context.Customers.FindAsync(id);
+            if (e == null)
             {
                 return NotFound();
             }
 
-            _context.Clients.Remove(client);
+            _context.Customers.Remove(e);
             await _context.SaveChangesAsync();
 
-            return client;
+            return e;
         }
 
-        private bool ClientExists(int id)
+        private bool CustomerExists(int id)
         {
-            return _context.Clients.Any(e => e.Id == id);
+            return _context.Customers.Any(e => e.Id == id);
         }
     }
 }
