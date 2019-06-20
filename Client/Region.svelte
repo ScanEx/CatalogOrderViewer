@@ -1,8 +1,11 @@
 <script>
     import T from 'scanex-translations';
+    import {createEventDispatcher} from 'svelte';
+
     export let name = '';
     export let granules = [];
-    let expanded = false;    
+    let expanded = false;
+    let selected = -1;
 
     T.addText('eng', {
         product: 'Product',
@@ -15,6 +18,36 @@
         size: 'Размер',
         mb: 'Мб'
     });
+
+    let checked = false;
+    let unchecked = true;
+    let undetermined = false;
+
+    $: {
+        checked = granules.every(({granule: {product}}) => product.checked);
+        undetermined = !checked && granules.some(({granule: {product}}) => product.checked);
+        unchecked = !checked && !undetermined;
+    }
+
+    const toggle = () => {
+        let items = granules.slice();
+        items.forEach(({granule: {product}}) => {
+            product.checked = unchecked;
+        });
+        granules = items;
+    };
+
+    const dispatch = createEventDispatcher();
+
+    const reset = () => {
+        selected = -1;
+    };
+
+    const select = i => {
+        selected = i;
+        const {granule} = granules[i];
+        dispatch('select', {...granule, reset});
+    };
 
     const translate = T.getText.bind(T);
 
@@ -29,13 +62,19 @@
         margin-bottom: 8px;
     }
     .roi .header {
-        padding: 17px 10px 17px 10px;
+        padding: 17px 9px 17px 9px;
         cursor: pointer;        
         background-color: #F3F7FA;
         border: 1px solid #D8E1E8;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
-    }    
+        width: 100%;
+    }     
+    .roi .header td,
+    .roi .content th,
+    .roi .content td {
+        white-space: nowrap;
+    }
     .roi .header.collapsed {
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
@@ -46,38 +85,39 @@
         font-size: inherit;
         text-rendering: auto;
         -webkit-font-smoothing: antialiased;
-    }
-    .roi .header > *,
-    .roi .header > .size > * {
-        vertical-align: middle;
-    }
-    .roi .header > .toggle.expanded::before {
+    }    
+    .roi .header .toggle.expanded::before {
         content: "\f0d7";
     }
-    .roi .header > .toggle.collapsed::before {
+    .roi .header .toggle.collapsed::before {
         content: "\f0da";
-    }
-    .roi .header .size {
-        float: right;
-    }
-    .roi .header > .size > .download {
+    }    
+    .roi .header .down,
+    .roi .header .preview,
+    .roi .content .info,
+    .roi .content .check {
+        cursor: pointer;
         display: inline-block;
-        background-image: url('download.png');
         background-position: center;
-        background-repeat: no-repeat;
+        background-repeat: no-repeat;        
+    }
+    .roi .header .down {                
         width: 20px;
         height: 20px;        
     }
-    .roi .header > .preview {
-        display: inline-block;
-        background-image: url('preview.png');
-        background-position: center;
-        background-repeat: no-repeat;
+    .roi .header .down.active {
+        background-image: url('down-active.png');
+    }
+    .roi .header .down.inactive {
+        background-image: url('down-inactive.png');
+    }
+    .roi .header .preview {        
+        background-image: url('preview.png');        
         width: 16px;
         height: 16px;
     }
-    .roi .header > .preview,
-    .roi .header > .name {
+    .roi .header .preview,
+    .roi .header .name {
         margin-left: 10px;
     }
     .roi .content {        
@@ -90,59 +130,111 @@
     .roi .content.hidden {
         display: none;
     }
-    .roi .content table th,
-    .roi .content table td {
+    .roi .content th,
+    .roi .content td {
         text-align: left;
-        border-right: 1px solid #D8E1E8; 
+        border-left: 1px solid #D8E1E8;
         padding-top: 6px;
         padding-bottom: 6px;
+        padding-left: 12px;
+        padding-right: 12px;        
     }
-    .roi .content table th:last-child,
-    .roi .content table td:last-child {
-        border-right: none;
+    .roi .header .name,
+    .roi .content th:first-child {
+        width: 100%;
     }
-    .roi .content table th:first-child,
-    .roi .content table td:first-child {
-        padding-left: 32px;
-        padding-right: 9px;
-    }
-    .roi .content table th:nth-child(2),
-    .roi .content table td:nth-child(2) {
-        padding-left: 9px;
-    }
-    .roi .content table th {        
+    .roi .content th:first-child,
+    .roi .content td:first-child,
+    .roi .content th:last-child,
+    .roi .content td:last-child {        
+        border-left: none;
+    }         
+    .roi .content th:first-child,
+    .roi .content td:first-child {
+        padding-left: 32px;            
+    }    
+    .roi .content th {        
         color: #92A0AC;
         border-bottom: 1px solid #D8E1E8;
     }
-    .roi .content table td {
+    .roi .content td {
         color: #455467;
+        cursor: pointer;
+        border-top: 1px solid transparent;
+        border-bottom: 1px solid transparent;
+    }
+    .roi .content .info {        
+        background-image: url('info.png');        
+        width: 16px;
+        height: 16px;
+    }
+    .roi .content .check {        
+        width: 14px;
+        height: 14px;        
+    }
+    .roi .content .check.checked {
+        background-image: url('check_on.png');
+    }
+    .roi .content .check.unchecked {
+        background-image: url('check_off.png');
+    }
+    .roi .content .check.undetermined {
+        background-image: url('check_un.png');
+    }
+    .roi .content .selected td {
+        border-top: 1px solid #00A2D3;
+        border-bottom: 1px solid #00A2D3;
+    }
+    .roi .content .selected td:first-child {
+        border-left: 1px solid #00A2D3;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+    }
+    .roi .content .selected td:last-child {
+        border-right: 1px solid #00A2D3;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
     }
 </style>
 
 <div class="roi">
-    <div class="header" class:collapsed="{!expanded}">
-        <i class="toggle" on:click|stopPropagation="{() => expanded = !expanded}" class:collapsed="{!expanded}" class:expanded="{expanded}"></i>
-        <i class="preview"></i>
-        <span class="name">{name}</span>
-        <div class="size">
-            <span>550 {translate('mb')}</span>
-            <i class="download"></i>
-        </div>        
-    </div>
-    <div class="content" class:hidden="{!expanded}">        
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th>{translate('product')}</th>
-                <th>{translate('size')}</th>
-                <th></th>
-            </tr>
-            {#each granules as g}
-            <tr>
-                <td>{g.product.name}</td>
-                <td>100 {translate('mb')}</td>
-                <td></td>
-            </tr>
-            {/each}
-        </table>
-    </div>
+    <table class="header" class:collapsed="{!expanded}">
+        <tr>
+            <td>
+                <i class="toggle" on:click|stopPropagation="{() => expanded = !expanded}" class:collapsed="{!expanded}" class:expanded="{expanded}"></i>
+            </td>
+            <td>
+                <i class="preview"></i>
+            </td>
+            <td class="name" on:click|stopPropagation="{() => expanded = !expanded}">{name}</td>
+            {#if expanded}
+            <td>550 {translate('mb')}</td>
+            {/if}
+            <td>
+                <i class="down" class:active="{expanded && !unchecked}" class:inactive="{!expanded || unchecked}"></i>
+            </td>
+        </tr>                                
+    </table>
+    <table class="content" class:hidden="{!expanded}" cellpadding="0" cellspacing="0">
+        <tr>
+            <th>{translate('product')}</th>
+            <th>{translate('size')}</th>
+            <th></th>
+            <th on:click="{toggle}">
+                <i class="check" class:checked="{checked}" class:unchecked="{unchecked}" class:undetermined="{undetermined}"></i>
+            </th>
+        </tr>
+        {#each granules as g, i}
+        <tr class:selected="{i === selected}" on:click="{() => select(i)}">
+            <td>{g.granule.product.name}</td>
+            <td>100 {translate('mb')}</td>
+            <td>
+                <i class="info"></i>
+            </td>
+            <td on:click|stopPropagation="{() => granules[i].granule.product.checked = !granules[i].granule.product.checked}">
+                <i class="check" class:checked="{g.granule.product.checked}" class:unchecked="{!g.granule.product.checked}"></i>
+            </td>
+        </tr>
+        {/each}
+    </table>    
 </div>

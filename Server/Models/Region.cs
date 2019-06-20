@@ -21,6 +21,6 @@ namespace Server.Models
         public int OrderId { get; set; }
         [ForeignKey("OrderId")]
         public virtual Order Order { get; set; }
-        public virtual List<Granule> Granules { get; set; }
+        public virtual List<RegionGranule> Granules { get; set; }
     }
 }

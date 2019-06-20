@@ -9,6 +9,9 @@
 </script>
 
 <style>
+    .app {
+        width: 390px;
+    }
     .app * {
         font-family: sans-serif;
     }

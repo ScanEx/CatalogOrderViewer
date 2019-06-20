@@ -82,10 +82,29 @@ var App = (function () {
     function toggle_class(element, name, toggle) {
         element.classList[toggle ? 'add' : 'remove'](name);
     }
+    function custom_event(type, detail) {
+        const e = document.createEvent('CustomEvent');
+        e.initCustomEvent(type, false, false, detail);
+        return e;
+    }
 
     let current_component;
     function set_current_component(component) {
         current_component = component;
+    }
+    function createEventDispatcher() {
+        const component = current_component;
+        return (type, detail) => {
+            const callbacks = component.$$.callbacks[type];
+            if (callbacks) {
+                // TODO are there situations where events could be dispatched
+                // in a server (non-DOM) environment?
+                const event = custom_event(type, detail);
+                callbacks.slice().forEach(fn => {
+                    fn.call(component, event);
+                });
+            }
+        };
     }
 
     const dirty_components = [];
@@ -99,6 +118,9 @@ var App = (function () {
             update_scheduled = true;
             resolved_promise.then(flush);
         }
+    }
+    function add_binding_callback(fn) {
+        binding_callbacks.push(fn);
     }
     function add_render_callback(fn) {
         render_callbacks.push(fn);
@@ -498,20 +520,57 @@ var App = (function () {
 
     function add_css() {
     	var style = element("style");
-    	style.id = 'svelte-120ipp6-style';
-    	style.textContent = ".roi.svelte-120ipp6{margin-top:8px;font-family:'IBM Plex Sans'}.roi.svelte-120ipp6:last-child{margin-bottom:8px}.roi.svelte-120ipp6 .header.svelte-120ipp6{padding:17px 10px 17px 10px;cursor:pointer;background-color:#F3F7FA;border:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px}.roi.svelte-120ipp6 .header.collapsed.svelte-120ipp6{border-bottom-left-radius:5px;border-bottom-right-radius:5px}.roi.svelte-120ipp6 .header .toggle.svelte-120ipp6{display:inline-block;font:normal normal normal 14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased}.roi.svelte-120ipp6 .header>.svelte-120ipp6,.roi.svelte-120ipp6 .header>.size>.svelte-120ipp6{vertical-align:middle}.roi.svelte-120ipp6 .header>.toggle.expanded.svelte-120ipp6::before{content:\"\\f0d7\"}.roi.svelte-120ipp6 .header>.toggle.collapsed.svelte-120ipp6::before{content:\"\\f0da\"}.roi.svelte-120ipp6 .header .size.svelte-120ipp6{float:right}.roi.svelte-120ipp6 .header>.size>.download.svelte-120ipp6{display:inline-block;background-image:url('download.png');background-position:center;background-repeat:no-repeat;width:20px;height:20px}.roi.svelte-120ipp6 .header>.preview.svelte-120ipp6{display:inline-block;background-image:url('preview.png');background-position:center;background-repeat:no-repeat;width:16px;height:16px}.roi.svelte-120ipp6 .header>.preview.svelte-120ipp6,.roi.svelte-120ipp6 .header>.name.svelte-120ipp6{margin-left:10px}.roi.svelte-120ipp6 .content.svelte-120ipp6{border-left:1px solid #D8E1E8;border-bottom:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.roi.svelte-120ipp6 .content.hidden.svelte-120ipp6{display:none}.roi.svelte-120ipp6 .content table th.svelte-120ipp6,.roi.svelte-120ipp6 .content table td.svelte-120ipp6{text-align:left;border-right:1px solid #D8E1E8;padding-top:6px;padding-bottom:6px}.roi.svelte-120ipp6 .content table th.svelte-120ipp6:last-child,.roi.svelte-120ipp6 .content table td.svelte-120ipp6:last-child{border-right:none}.roi.svelte-120ipp6 .content table th.svelte-120ipp6:first-child,.roi.svelte-120ipp6 .content table td.svelte-120ipp6:first-child{padding-left:32px;padding-right:9px}.roi.svelte-120ipp6 .content table th.svelte-120ipp6:nth-child(2),.roi.svelte-120ipp6 .content table td.svelte-120ipp6:nth-child(2){padding-left:9px}.roi.svelte-120ipp6 .content table th.svelte-120ipp6{color:#92A0AC;border-bottom:1px solid #D8E1E8}.roi.svelte-120ipp6 .content table td.svelte-120ipp6{color:#455467}";
+    	style.id = 'svelte-tzzc90-style';
+    	style.textContent = ".roi.svelte-tzzc90{margin-top:8px;font-family:'IBM Plex Sans'}.roi.svelte-tzzc90:last-child{margin-bottom:8px}.roi.svelte-tzzc90 .header.svelte-tzzc90{padding:17px 9px 17px 9px;cursor:pointer;background-color:#F3F7FA;border:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px;width:100%}.roi.svelte-tzzc90 .header td.svelte-tzzc90,.roi.svelte-tzzc90 .content th.svelte-tzzc90,.roi.svelte-tzzc90 .content td.svelte-tzzc90{white-space:nowrap}.roi.svelte-tzzc90 .header.collapsed.svelte-tzzc90{border-bottom-left-radius:5px;border-bottom-right-radius:5px}.roi.svelte-tzzc90 .header .toggle.svelte-tzzc90{display:inline-block;font:normal normal normal 14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased}.roi.svelte-tzzc90 .header .toggle.expanded.svelte-tzzc90::before{content:\"\\f0d7\"}.roi.svelte-tzzc90 .header .toggle.collapsed.svelte-tzzc90::before{content:\"\\f0da\"}.roi.svelte-tzzc90 .header .down.svelte-tzzc90,.roi.svelte-tzzc90 .header .preview.svelte-tzzc90,.roi.svelte-tzzc90 .content .info.svelte-tzzc90,.roi.svelte-tzzc90 .content .check.svelte-tzzc90{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat}.roi.svelte-tzzc90 .header .down.svelte-tzzc90{width:20px;height:20px}.roi.svelte-tzzc90 .header .down.active.svelte-tzzc90{background-image:url('down-active.png')}.roi.svelte-tzzc90 .header .down.inactive.svelte-tzzc90{background-image:url('down-inactive.png')}.roi.svelte-tzzc90 .header .preview.svelte-tzzc90{background-image:url('preview.png');width:16px;height:16px}.roi.svelte-tzzc90 .header .preview.svelte-tzzc90,.roi.svelte-tzzc90 .header .name.svelte-tzzc90{margin-left:10px}.roi.svelte-tzzc90 .content.svelte-tzzc90{border-left:1px solid #D8E1E8;border-bottom:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.roi.svelte-tzzc90 .content.hidden.svelte-tzzc90{display:none}.roi.svelte-tzzc90 .content th.svelte-tzzc90,.roi.svelte-tzzc90 .content td.svelte-tzzc90{text-align:left;border-left:1px solid #D8E1E8;padding-top:6px;padding-bottom:6px;padding-left:12px;padding-right:12px}.roi.svelte-tzzc90 .header .name.svelte-tzzc90,.roi.svelte-tzzc90 .content th.svelte-tzzc90:first-child{width:100%}.roi.svelte-tzzc90 .content th.svelte-tzzc90:first-child,.roi.svelte-tzzc90 .content td.svelte-tzzc90:first-child,.roi.svelte-tzzc90 .content th.svelte-tzzc90:last-child,.roi.svelte-tzzc90 .content td.svelte-tzzc90:last-child{border-left:none}.roi.svelte-tzzc90 .content th.svelte-tzzc90:first-child,.roi.svelte-tzzc90 .content td.svelte-tzzc90:first-child{padding-left:32px}.roi.svelte-tzzc90 .content th.svelte-tzzc90{color:#92A0AC;border-bottom:1px solid #D8E1E8}.roi.svelte-tzzc90 .content td.svelte-tzzc90{color:#455467;cursor:pointer;border-top:1px solid transparent;border-bottom:1px solid transparent}.roi.svelte-tzzc90 .content .info.svelte-tzzc90{background-image:url('info.png');width:16px;height:16px}.roi.svelte-tzzc90 .content .check.svelte-tzzc90{width:14px;height:14px}.roi.svelte-tzzc90 .content .check.checked.svelte-tzzc90{background-image:url('check_on.png')}.roi.svelte-tzzc90 .content .check.unchecked.svelte-tzzc90{background-image:url('check_off.png')}.roi.svelte-tzzc90 .content .check.undetermined.svelte-tzzc90{background-image:url('check_un.png')}.roi.svelte-tzzc90 .content .selected td.svelte-tzzc90{border-top:1px solid #00A2D3;border-bottom:1px solid #00A2D3}.roi.svelte-tzzc90 .content .selected td.svelte-tzzc90:first-child{border-left:1px solid #00A2D3;border-top-left-radius:3px;border-bottom-left-radius:3px}.roi.svelte-tzzc90 .content .selected td.svelte-tzzc90:last-child{border-right:1px solid #00A2D3;border-top-right-radius:3px;border-bottom-right-radius:3px}";
     	append(document.head, style);
     }
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = Object.create(ctx);
     	child_ctx.g = list[i];
+    	child_ctx.i = i;
     	return child_ctx;
     }
 
-    // (139:12) {#each granules as g}
+    // (210:12) {#if expanded}
+    function create_if_block(ctx) {
+    	var td, t0, t1_value = ctx.translate('mb'), t1;
+
+    	return {
+    		c() {
+    			td = element("td");
+    			t0 = text("550 ");
+    			t1 = text(t1_value);
+    			attr(td, "class", "svelte-tzzc90");
+    		},
+
+    		m(target, anchor) {
+    			insert(target, td, anchor);
+    			append(td, t0);
+    			append(td, t1);
+    		},
+
+    		p: noop,
+
+    		d(detaching) {
+    			if (detaching) {
+    				detach(td);
+    			}
+    		}
+    	};
+    }
+
+    // (227:8) {#each granules as g, i}
     function create_each_block(ctx) {
-    	var tr, td0, t0_value = ctx.g.product.name, t0, t1, td1, t2, t3_value = ctx.translate('mb'), t3, t4, td2, t5;
+    	var tr, td0, t0_value = ctx.g.granule.product.name, t0, t1, td1, t2, t3_value = ctx.translate('mb'), t3, t4, td2, t5, td3, i_2, t6, dispose;
+
+    	function click_handler_2() {
+    		return ctx.click_handler_2(ctx);
+    	}
+
+    	function click_handler_3() {
+    		return ctx.click_handler_3(ctx);
+    	}
 
     	return {
     		c() {
@@ -524,10 +583,24 @@ var App = (function () {
     			t3 = text(t3_value);
     			t4 = space();
     			td2 = element("td");
+    			td2.innerHTML = `<i class="info svelte-tzzc90"></i>`;
     			t5 = space();
-    			attr(td0, "class", "svelte-120ipp6");
-    			attr(td1, "class", "svelte-120ipp6");
-    			attr(td2, "class", "svelte-120ipp6");
+    			td3 = element("td");
+    			i_2 = element("i");
+    			t6 = space();
+    			attr(td0, "class", "svelte-tzzc90");
+    			attr(td1, "class", "svelte-tzzc90");
+    			attr(td2, "class", "svelte-tzzc90");
+    			attr(i_2, "class", "check svelte-tzzc90");
+    			toggle_class(i_2, "checked", ctx.g.granule.product.checked);
+    			toggle_class(i_2, "unchecked", !ctx.g.granule.product.checked);
+    			attr(td3, "class", "svelte-tzzc90");
+    			toggle_class(tr, "selected", ctx.i === ctx.selected);
+
+    			dispose = [
+    				listen(td3, "click", stop_propagation(click_handler_2)),
+    				listen(tr, "click", click_handler_3)
+    			];
     		},
 
     		m(target, anchor) {
@@ -541,11 +614,24 @@ var App = (function () {
     			append(tr, t4);
     			append(tr, td2);
     			append(tr, t5);
+    			append(tr, td3);
+    			append(td3, i_2);
+    			append(tr, t6);
     		},
 
-    		p(changed, ctx) {
-    			if ((changed.granules) && t0_value !== (t0_value = ctx.g.product.name)) {
+    		p(changed, new_ctx) {
+    			ctx = new_ctx;
+    			if ((changed.granules) && t0_value !== (t0_value = ctx.g.granule.product.name)) {
     				set_data(t0, t0_value);
+    			}
+
+    			if (changed.granules) {
+    				toggle_class(i_2, "checked", ctx.g.granule.product.checked);
+    				toggle_class(i_2, "unchecked", !ctx.g.granule.product.checked);
+    			}
+
+    			if (changed.selected) {
+    				toggle_class(tr, "selected", ctx.i === ctx.selected);
     			}
     		},
 
@@ -553,12 +639,16 @@ var App = (function () {
     			if (detaching) {
     				detach(tr);
     			}
+
+    			run_all(dispose);
     		}
     	};
     }
 
     function create_fragment(ctx) {
-    	var div3, div1, i0, t0, i1, t1, span0, t2, t3, div0, span1, t4, t5_value = ctx.translate('mb'), t5, t6, i2, t7, div2, table, tr, th0, t8_value = ctx.translate('product'), t8, t9, th1, t10_value = ctx.translate('size'), t10, t11, th2, t12, dispose;
+    	var div, table0, tr0, td0, i0, t0, td1, t1, td2, t2, t3, t4, td3, i2, t5, table1, tr1, th0, t6_value = ctx.translate('product'), t6, t7, th1, t8_value = ctx.translate('size'), t8, t9, th2, t10, th3, i3, t11, dispose;
+
+    	var if_block = (ctx.expanded) && create_if_block(ctx);
 
     	var each_value = ctx.granules;
 
@@ -570,89 +660,106 @@ var App = (function () {
 
     	return {
     		c() {
-    			div3 = element("div");
-    			div1 = element("div");
+    			div = element("div");
+    			table0 = element("table");
+    			tr0 = element("tr");
+    			td0 = element("td");
     			i0 = element("i");
     			t0 = space();
-    			i1 = element("i");
+    			td1 = element("td");
+    			td1.innerHTML = `<i class="preview svelte-tzzc90"></i>`;
     			t1 = space();
-    			span0 = element("span");
+    			td2 = element("td");
     			t2 = text(ctx.name);
     			t3 = space();
-    			div0 = element("div");
-    			span1 = element("span");
-    			t4 = text("550 ");
-    			t5 = text(t5_value);
-    			t6 = space();
+    			if (if_block) if_block.c();
+    			t4 = space();
+    			td3 = element("td");
     			i2 = element("i");
-    			t7 = space();
-    			div2 = element("div");
-    			table = element("table");
-    			tr = element("tr");
+    			t5 = space();
+    			table1 = element("table");
+    			tr1 = element("tr");
     			th0 = element("th");
+    			t6 = text(t6_value);
+    			t7 = space();
+    			th1 = element("th");
     			t8 = text(t8_value);
     			t9 = space();
-    			th1 = element("th");
-    			t10 = text(t10_value);
-    			t11 = space();
     			th2 = element("th");
-    			t12 = space();
+    			t10 = space();
+    			th3 = element("th");
+    			i3 = element("i");
+    			t11 = space();
 
     			for (var i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
-    			attr(i0, "class", "toggle svelte-120ipp6");
+    			attr(i0, "class", "toggle svelte-tzzc90");
     			toggle_class(i0, "collapsed", !ctx.expanded);
     			toggle_class(i0, "expanded", ctx.expanded);
-    			attr(i1, "class", "preview svelte-120ipp6");
-    			attr(span0, "class", "name svelte-120ipp6");
-    			attr(span1, "class", "svelte-120ipp6");
-    			attr(i2, "class", "download svelte-120ipp6");
-    			attr(div0, "class", "size svelte-120ipp6");
-    			attr(div1, "class", "header svelte-120ipp6");
-    			toggle_class(div1, "collapsed", !ctx.expanded);
-    			attr(th0, "class", "svelte-120ipp6");
-    			attr(th1, "class", "svelte-120ipp6");
-    			attr(th2, "class", "svelte-120ipp6");
-    			attr(table, "cellpadding", "0");
-    			attr(table, "cellspacing", "0");
-    			attr(div2, "class", "content svelte-120ipp6");
-    			toggle_class(div2, "hidden", !ctx.expanded);
-    			attr(div3, "class", "roi svelte-120ipp6");
-    			dispose = listen(i0, "click", stop_propagation(ctx.click_handler));
+    			attr(td0, "class", "svelte-tzzc90");
+    			attr(td1, "class", "svelte-tzzc90");
+    			attr(td2, "class", "name svelte-tzzc90");
+    			attr(i2, "class", "down svelte-tzzc90");
+    			toggle_class(i2, "active", ctx.expanded && !ctx.unchecked);
+    			toggle_class(i2, "inactive", !ctx.expanded || ctx.unchecked);
+    			attr(td3, "class", "svelte-tzzc90");
+    			attr(table0, "class", "header svelte-tzzc90");
+    			toggle_class(table0, "collapsed", !ctx.expanded);
+    			attr(th0, "class", "svelte-tzzc90");
+    			attr(th1, "class", "svelte-tzzc90");
+    			attr(th2, "class", "svelte-tzzc90");
+    			attr(i3, "class", "check svelte-tzzc90");
+    			toggle_class(i3, "checked", ctx.checked);
+    			toggle_class(i3, "unchecked", ctx.unchecked);
+    			toggle_class(i3, "undetermined", ctx.undetermined);
+    			attr(th3, "class", "svelte-tzzc90");
+    			attr(table1, "class", "content svelte-tzzc90");
+    			attr(table1, "cellpadding", "0");
+    			attr(table1, "cellspacing", "0");
+    			toggle_class(table1, "hidden", !ctx.expanded);
+    			attr(div, "class", "roi svelte-tzzc90");
+
+    			dispose = [
+    				listen(i0, "click", stop_propagation(ctx.click_handler)),
+    				listen(td2, "click", stop_propagation(ctx.click_handler_1)),
+    				listen(th3, "click", ctx.toggle)
+    			];
     		},
 
     		m(target, anchor) {
-    			insert(target, div3, anchor);
-    			append(div3, div1);
-    			append(div1, i0);
-    			append(div1, t0);
-    			append(div1, i1);
-    			append(div1, t1);
-    			append(div1, span0);
-    			append(span0, t2);
-    			append(div1, t3);
-    			append(div1, div0);
-    			append(div0, span1);
-    			append(span1, t4);
-    			append(span1, t5);
-    			append(div0, t6);
-    			append(div0, i2);
-    			append(div3, t7);
-    			append(div3, div2);
-    			append(div2, table);
-    			append(table, tr);
-    			append(tr, th0);
-    			append(th0, t8);
-    			append(tr, t9);
-    			append(tr, th1);
-    			append(th1, t10);
-    			append(tr, t11);
-    			append(tr, th2);
-    			append(table, t12);
+    			insert(target, div, anchor);
+    			append(div, table0);
+    			append(table0, tr0);
+    			append(tr0, td0);
+    			append(td0, i0);
+    			append(tr0, t0);
+    			append(tr0, td1);
+    			append(tr0, t1);
+    			append(tr0, td2);
+    			append(td2, t2);
+    			append(tr0, t3);
+    			if (if_block) if_block.m(tr0, null);
+    			append(tr0, t4);
+    			append(tr0, td3);
+    			append(td3, i2);
+    			append(div, t5);
+    			append(div, table1);
+    			append(table1, tr1);
+    			append(tr1, th0);
+    			append(th0, t6);
+    			append(tr1, t7);
+    			append(tr1, th1);
+    			append(th1, t8);
+    			append(tr1, t9);
+    			append(tr1, th2);
+    			append(tr1, t10);
+    			append(tr1, th3);
+    			append(th3, i3);
+    			append(table1, t11);
 
     			for (var i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(table, null);
+    				each_blocks[i].m(table1, null);
     			}
     		},
 
@@ -666,11 +773,41 @@ var App = (function () {
     				set_data(t2, ctx.name);
     			}
 
-    			if (changed.expanded) {
-    				toggle_class(div1, "collapsed", !ctx.expanded);
+    			if (ctx.expanded) {
+    				if (if_block) {
+    					if_block.p(changed, ctx);
+    				} else {
+    					if_block = create_if_block(ctx);
+    					if_block.c();
+    					if_block.m(tr0, t4);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
     			}
 
-    			if (changed.translate || changed.granules) {
+    			if ((changed.expanded || changed.unchecked)) {
+    				toggle_class(i2, "active", ctx.expanded && !ctx.unchecked);
+    				toggle_class(i2, "inactive", !ctx.expanded || ctx.unchecked);
+    			}
+
+    			if (changed.expanded) {
+    				toggle_class(table0, "collapsed", !ctx.expanded);
+    			}
+
+    			if (changed.checked) {
+    				toggle_class(i3, "checked", ctx.checked);
+    			}
+
+    			if (changed.unchecked) {
+    				toggle_class(i3, "unchecked", ctx.unchecked);
+    			}
+
+    			if (changed.undetermined) {
+    				toggle_class(i3, "undetermined", ctx.undetermined);
+    			}
+
+    			if (changed.selected || changed.granules || changed.translate) {
     				each_value = ctx.granules;
 
     				for (var i = 0; i < each_value.length; i += 1) {
@@ -681,7 +818,7 @@ var App = (function () {
     					} else {
     						each_blocks[i] = create_each_block(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(table, null);
+    						each_blocks[i].m(table1, null);
     					}
     				}
 
@@ -692,7 +829,7 @@ var App = (function () {
     			}
 
     			if (changed.expanded) {
-    				toggle_class(div2, "hidden", !ctx.expanded);
+    				toggle_class(table1, "hidden", !ctx.expanded);
     			}
     		},
 
@@ -701,19 +838,24 @@ var App = (function () {
 
     		d(detaching) {
     			if (detaching) {
-    				detach(div3);
+    				detach(div);
     			}
+
+    			if (if_block) if_block.d();
 
     			destroy_each(each_blocks, detaching);
 
-    			dispose();
+    			run_all(dispose);
     		}
     	};
     }
 
     function instance($$self, $$props, $$invalidate) {
-    	let { name = '', granules = [] } = $$props;
-        let expanded = false;    
+    	
+
+        let { name = '', granules = [] } = $$props;
+        let expanded = false;
+        let selected = -1;
 
         scanexTranslations_cjs.addText('eng', {
             product: 'Product',
@@ -727,6 +869,30 @@ var App = (function () {
             mb: 'Мб'
         });
 
+        let checked = false;
+        let unchecked = true;
+        let undetermined = false;
+
+        const toggle = () => {
+            let items = granules.slice();
+            items.forEach(({granule: {product}}) => {
+                product.checked = unchecked;
+            });
+            $$invalidate('granules', granules = items);
+        };
+
+        const dispatch = createEventDispatcher();
+
+        const reset = () => {
+            $$invalidate('selected', selected = -1);
+        };
+
+        const select = i => {
+            $$invalidate('selected', selected = i);
+            const {granule} = granules[i];
+            dispatch('select', {...granule, reset});
+        };
+
         const translate = scanexTranslations_cjs.getText.bind(scanexTranslations_cjs);
 
     	function click_handler() {
@@ -735,34 +901,322 @@ var App = (function () {
     		return $$result;
     	}
 
+    	function click_handler_1() {
+    		const $$result = expanded = !expanded;
+    		$$invalidate('expanded', expanded);
+    		return $$result;
+    	}
+
+    	function click_handler_2({ i }) {
+    		const $$result = granules[i].granule.product.checked = !granules[i].granule.product.checked;
+    		$$invalidate('granules', granules);
+    		return $$result;
+    	}
+
+    	function click_handler_3({ i }) {
+    		return select(i);
+    	}
+
     	$$self.$set = $$props => {
     		if ('name' in $$props) $$invalidate('name', name = $$props.name);
     		if ('granules' in $$props) $$invalidate('granules', granules = $$props.granules);
+    	};
+
+    	$$self.$$.update = ($$dirty = { granules: 1, checked: 1, undetermined: 1 }) => {
+    		if ($$dirty.granules || $$dirty.checked || $$dirty.undetermined) { {
+                    $$invalidate('checked', checked = granules.every(({granule: {product}}) => product.checked));
+                    $$invalidate('undetermined', undetermined = !checked && granules.some(({granule: {product}}) => product.checked));
+                    $$invalidate('unchecked', unchecked = !checked && !undetermined);
+                } }
     	};
 
     	return {
     		name,
     		granules,
     		expanded,
+    		selected,
+    		checked,
+    		unchecked,
+    		undetermined,
+    		toggle,
+    		select,
     		translate,
-    		click_handler
+    		click_handler,
+    		click_handler_1,
+    		click_handler_2,
+    		click_handler_3
     	};
     }
 
     class Region extends SvelteComponent {
     	constructor(options) {
     		super();
-    		if (!document.getElementById("svelte-120ipp6-style")) add_css();
+    		if (!document.getElementById("svelte-tzzc90-style")) add_css();
     		init(this, options, instance, create_fragment, safe_not_equal, ["name", "granules"]);
+    	}
+    }
+
+    /* Client\Info.svelte generated by Svelte v3.5.2 */
+
+    function add_css$1() {
+    	var style = element("style");
+    	style.id = 'svelte-6av53v-style';
+    	style.textContent = ".info.svelte-6av53v{position:absolute;background-color:#FFFFFF;width:580px}.info.svelte-6av53v .header.svelte-6av53v{border-top:1px solid #D8E1E8;border-left:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px;background-color:#F3F7FA}.info.svelte-6av53v .content.svelte-6av53v{border:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.info.svelte-6av53v .content th.svelte-6av53v,.info.svelte-6av53v .content td.svelte-6av53v{border-left:1px solid #D8E1E8}.info.svelte-6av53v .header td.svelte-6av53v:first-child,.info.svelte-6av53v .content th.svelte-6av53v:first-child,.info.svelte-6av53v .content td.svelte-6av53v:first-child{border-left:none}.info.svelte-6av53v .content th.svelte-6av53v{padding:5px 10px 5px 10px;color:#92A0AC;text-align:left}.info.svelte-6av53v .header td.svelte-6av53v,.info.svelte-6av53v .content td.svelte-6av53v{padding:8px 10px 8px 10px}.info.svelte-6av53v .content td.svelte-6av53v{border-top:1px solid #D8E1E8;color:#455467}.info.svelte-6av53v .header td.svelte-6av53v:first-child,.info.svelte-6av53v .content th.svelte-6av53v:last-child,.info.svelte-6av53v .content td.svelte-6av53v:last-child{width:100%}.info.svelte-6av53v .close.svelte-6av53v{padding:10px}.info.svelte-6av53v .close i.svelte-6av53v{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;background-image:url('close.png');width:10px;height:10px}";
+    	append(document.head, style);
+    }
+
+    function create_fragment$1(ctx) {
+    	var div, table0, tr0, td0, t0, t1, td1, t2, t3, td2, t4, table1, tr1, th0, t5_value = ctx.translate('parameter'), t5, t6, th1, t7_value = ctx.translate('value'), t7, t8, tr2, td3, t9_value = ctx.translate('sceneId'), t9, t10, td4, t11, t12, tr3, td5, t13_value = ctx.translate('platform'), t13, t14, td6, t15, t16, tr4, td7, t17_value = ctx.translate('date'), t17, t18, td8, t19, t20, tr5, td9, t21_value = ctx.translate('time'), t21, t22, td10, t23, dispose;
+
+    	return {
+    		c() {
+    			div = element("div");
+    			table0 = element("table");
+    			tr0 = element("tr");
+    			td0 = element("td");
+    			t0 = text(ctx.platform);
+    			t1 = space();
+    			td1 = element("td");
+    			t2 = text(ctx.date);
+    			t3 = space();
+    			td2 = element("td");
+    			td2.innerHTML = `<i class="svelte-6av53v"></i>`;
+    			t4 = space();
+    			table1 = element("table");
+    			tr1 = element("tr");
+    			th0 = element("th");
+    			t5 = text(t5_value);
+    			t6 = space();
+    			th1 = element("th");
+    			t7 = text(t7_value);
+    			t8 = space();
+    			tr2 = element("tr");
+    			td3 = element("td");
+    			t9 = text(t9_value);
+    			t10 = space();
+    			td4 = element("td");
+    			t11 = text(ctx.sceneId);
+    			t12 = space();
+    			tr3 = element("tr");
+    			td5 = element("td");
+    			t13 = text(t13_value);
+    			t14 = space();
+    			td6 = element("td");
+    			t15 = text(ctx.platform);
+    			t16 = space();
+    			tr4 = element("tr");
+    			td7 = element("td");
+    			t17 = text(t17_value);
+    			t18 = space();
+    			td8 = element("td");
+    			t19 = text(ctx.date);
+    			t20 = space();
+    			tr5 = element("tr");
+    			td9 = element("td");
+    			t21 = text(t21_value);
+    			t22 = space();
+    			td10 = element("td");
+    			t23 = text(ctx.time);
+    			attr(td0, "class", "svelte-6av53v");
+    			attr(td1, "class", "svelte-6av53v");
+    			attr(td2, "class", "close svelte-6av53v");
+    			attr(table0, "class", "header svelte-6av53v");
+    			attr(table0, "cellpadding", "0");
+    			attr(table0, "cellspacing", "0");
+    			attr(th0, "class", "svelte-6av53v");
+    			attr(th1, "class", "svelte-6av53v");
+    			attr(td3, "class", "svelte-6av53v");
+    			attr(td4, "class", "svelte-6av53v");
+    			attr(td5, "class", "svelte-6av53v");
+    			attr(td6, "class", "svelte-6av53v");
+    			attr(td7, "class", "svelte-6av53v");
+    			attr(td8, "class", "svelte-6av53v");
+    			attr(td9, "class", "svelte-6av53v");
+    			attr(td10, "class", "svelte-6av53v");
+    			attr(table1, "class", "content svelte-6av53v");
+    			attr(table1, "cellpadding", "0");
+    			attr(table1, "cellspacing", "0");
+    			attr(div, "class", "info svelte-6av53v");
+    			dispose = listen(td2, "click", stop_propagation(ctx.click_handler));
+    		},
+
+    		m(target, anchor) {
+    			insert(target, div, anchor);
+    			append(div, table0);
+    			append(table0, tr0);
+    			append(tr0, td0);
+    			append(td0, t0);
+    			append(tr0, t1);
+    			append(tr0, td1);
+    			append(td1, t2);
+    			append(tr0, t3);
+    			append(tr0, td2);
+    			append(div, t4);
+    			append(div, table1);
+    			append(table1, tr1);
+    			append(tr1, th0);
+    			append(th0, t5);
+    			append(tr1, t6);
+    			append(tr1, th1);
+    			append(th1, t7);
+    			append(table1, t8);
+    			append(table1, tr2);
+    			append(tr2, td3);
+    			append(td3, t9);
+    			append(tr2, t10);
+    			append(tr2, td4);
+    			append(td4, t11);
+    			append(table1, t12);
+    			append(table1, tr3);
+    			append(tr3, td5);
+    			append(td5, t13);
+    			append(tr3, t14);
+    			append(tr3, td6);
+    			append(td6, t15);
+    			append(table1, t16);
+    			append(table1, tr4);
+    			append(tr4, td7);
+    			append(td7, t17);
+    			append(tr4, t18);
+    			append(tr4, td8);
+    			append(td8, t19);
+    			append(table1, t20);
+    			append(table1, tr5);
+    			append(tr5, td9);
+    			append(td9, t21);
+    			append(tr5, t22);
+    			append(tr5, td10);
+    			append(td10, t23);
+    			add_binding_callback(() => ctx.div_binding(div, null));
+    		},
+
+    		p(changed, ctx) {
+    			if (changed.platform) {
+    				set_data(t0, ctx.platform);
+    			}
+
+    			if (changed.date) {
+    				set_data(t2, ctx.date);
+    			}
+
+    			if (changed.sceneId) {
+    				set_data(t11, ctx.sceneId);
+    			}
+
+    			if (changed.platform) {
+    				set_data(t15, ctx.platform);
+    			}
+
+    			if (changed.date) {
+    				set_data(t19, ctx.date);
+    			}
+
+    			if (changed.time) {
+    				set_data(t23, ctx.time);
+    			}
+
+    			if (changed.items) {
+    				ctx.div_binding(null, div);
+    				ctx.div_binding(div, null);
+    			}
+    		},
+
+    		i: noop,
+    		o: noop,
+
+    		d(detaching) {
+    			if (detaching) {
+    				detach(div);
+    			}
+
+    			ctx.div_binding(null, div);
+    			dispose();
+    		}
+    	};
+    }
+
+    function instance$1($$self, $$props, $$invalidate) {
+    	
+
+        let { sceneId = '', platform = '', date = '', time = '' } = $$props;
+
+        scanexTranslations_cjs.addText('eng', {
+            sceneId: 'Scene ID',
+            platform: 'Platform',
+            date: 'Acquisition Date',
+            time: 'Acqusition Time (UTC)',
+            parameter: 'Parameter',
+            value: 'Value'
+        });
+
+        scanexTranslations_cjs.addText('rus', {
+            sceneId: 'Идентификатор сцены',
+            platform: 'Платформа',
+            date: 'Дата съемки',
+            time: 'Время съемки (UTC)',
+            parameter: 'Параметр',
+            value: 'Значение',
+        });
+
+        const translate = scanexTranslations_cjs.getText.bind(scanexTranslations_cjs);
+        
+        const dispatch = createEventDispatcher();
+
+        let container;
+
+        const adjustPosition = ({top, left}) => {
+            container.style.top = `${top}px`; $$invalidate('container', container);
+            container.style.left = `${left}px`; $$invalidate('container', container);
+        };
+
+    	function click_handler() {
+    		return dispatch('close');
+    	}
+
+    	function div_binding($$node, check) {
+    		container = $$node;
+    		$$invalidate('container', container);
+    	}
+
+    	$$self.$set = $$props => {
+    		if ('sceneId' in $$props) $$invalidate('sceneId', sceneId = $$props.sceneId);
+    		if ('platform' in $$props) $$invalidate('platform', platform = $$props.platform);
+    		if ('date' in $$props) $$invalidate('date', date = $$props.date);
+    		if ('time' in $$props) $$invalidate('time', time = $$props.time);
+    	};
+
+    	return {
+    		sceneId,
+    		platform,
+    		date,
+    		time,
+    		translate,
+    		dispatch,
+    		container,
+    		adjustPosition,
+    		click_handler,
+    		div_binding
+    	};
+    }
+
+    class Info extends SvelteComponent {
+    	constructor(options) {
+    		super();
+    		if (!document.getElementById("svelte-6av53v-style")) add_css$1();
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, ["sceneId", "platform", "date", "time", "adjustPosition"]);
+    	}
+
+    	get adjustPosition() {
+    		return this.$$.ctx.adjustPosition;
     	}
     }
 
     /* Client\Order.svelte generated by Svelte v3.5.2 */
 
-    function add_css$1() {
+    function add_css$2() {
     	var style = element("style");
-    	style.id = 'svelte-wogyxl-style';
-    	style.textContent = ".order.svelte-wogyxl .header>.svelte-wogyxl{display:inline-block}.order.svelte-wogyxl .header.svelte-wogyxl{cursor:pointer}.order.svelte-wogyxl .header .icon.svelte-wogyxl{display:inline-block;font:normal normal normal 14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased}.order.svelte-wogyxl .header>.icon.expanded.svelte-wogyxl::before{content:\"\\f0d7\"}.order.svelte-wogyxl .header>.icon.collapsed.svelte-wogyxl::before{content:\"\\f0da\"}.order.svelte-wogyxl .content.svelte-wogyxl{padding-left:15px}.order.svelte-wogyxl .content.hidden.svelte-wogyxl{display:none}";
+    	style.id = 'svelte-21p7i4-style';
+    	style.textContent = ".order.svelte-21p7i4 .header>.svelte-21p7i4{display:inline-block}.order.svelte-21p7i4 .header.svelte-21p7i4{cursor:pointer}.order.svelte-21p7i4 .header .icon.svelte-21p7i4{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;width:12px;height:12px}.order.svelte-21p7i4 .header .icon.expanded.svelte-21p7i4{background-image:url('arrow-down.png')}.order.svelte-21p7i4 .header .icon.collapsed.svelte-21p7i4{background-image:url('arrow-right.png')}.order.svelte-21p7i4 .content.svelte-21p7i4{padding-left:15px}.order.svelte-21p7i4 .content.hidden.svelte-21p7i4{display:none}";
     	append(document.head, style);
     }
 
@@ -772,7 +1226,7 @@ var App = (function () {
     	return child_ctx;
     }
 
-    // (57:8) {#each regions as r}
+    // (83:8) {#each regions as r}
     function create_each_block$1(ctx) {
     	var current;
 
@@ -785,6 +1239,7 @@ var App = (function () {
     		region_props = assign(region_props, region_spread_levels[i]);
     	}
     	var region = new Region({ props: region_props });
+    	region.$on("select", ctx.select);
 
     	return {
     		c() {
@@ -821,7 +1276,7 @@ var App = (function () {
     	};
     }
 
-    function create_fragment$1(ctx) {
+    function create_fragment$2(ctx) {
     	var div2, div0, i, t0, span, t1, t2, div1, current, dispose;
 
     	var each_value = ctx.regions;
@@ -850,14 +1305,14 @@ var App = (function () {
     			for (var i_1 = 0; i_1 < each_blocks.length; i_1 += 1) {
     				each_blocks[i_1].c();
     			}
-    			attr(i, "class", "icon svelte-wogyxl");
+    			attr(i, "class", "icon svelte-21p7i4");
     			toggle_class(i, "collapsed", !ctx.expanded);
     			toggle_class(i, "expanded", ctx.expanded);
-    			attr(span, "class", "svelte-wogyxl");
-    			attr(div0, "class", "header svelte-wogyxl");
-    			attr(div1, "class", "content svelte-wogyxl");
+    			attr(span, "class", "svelte-21p7i4");
+    			attr(div0, "class", "header svelte-21p7i4");
+    			attr(div1, "class", "content svelte-21p7i4");
     			toggle_class(div1, "hidden", !ctx.expanded);
-    			attr(div2, "class", "order svelte-wogyxl");
+    			attr(div2, "class", "order svelte-21p7i4");
     			dispose = listen(div0, "click", stop_propagation(ctx.toggle));
     		},
 
@@ -868,6 +1323,7 @@ var App = (function () {
     			append(div0, t0);
     			append(div0, span);
     			append(span, t1);
+    			add_binding_callback(() => ctx.div0_binding(div0, null));
     			append(div2, t2);
     			append(div2, div1);
 
@@ -888,7 +1344,12 @@ var App = (function () {
     				set_data(t1, ctx.contractId);
     			}
 
-    			if (changed.regions) {
+    			if (changed.items) {
+    				ctx.div0_binding(null, div0);
+    				ctx.div0_binding(div0, null);
+    			}
+
+    			if (changed.regions || changed.select) {
     				each_value = ctx.regions;
 
     				for (var i_1 = 0; i_1 < each_value.length; i_1 += 1) {
@@ -934,6 +1395,8 @@ var App = (function () {
     				detach(div2);
     			}
 
+    			ctx.div0_binding(null, div0);
+
     			destroy_each(each_blocks, detaching);
 
     			dispose();
@@ -941,8 +1404,10 @@ var App = (function () {
     	};
     }
 
-    function instance$1($$self, $$props, $$invalidate) {
-    	let { contractId = '', name = '', id } = $$props;
+    function instance$2($$self, $$props, $$invalidate) {
+    	
+
+        let { contractId = '', name = '', id } = $$props;
         let regions = [];
         let expanded = false;
         let loaded = false;
@@ -959,6 +1424,34 @@ var App = (function () {
             $$invalidate('expanded', expanded = !expanded);
         };
 
+        let headerContainer;
+        let info;
+
+        const select = ({detail}) => {
+            const {sceneId, product: {platform}, reset} = detail;
+            if (!info) {
+                info = new Info({
+                    target: document.body,
+                    props: {sceneId, platform}
+                });
+                const {top, left, width} = headerContainer.getBoundingClientRect();
+                info.adjustPosition({top, left: left + width + 20});
+                info.$on('close', () => {
+                    info.$destroy();
+                    info = null;
+                    reset();
+                });
+            }
+            else {
+                info.$set({sceneId, platform});
+            }        
+        };
+
+    	function div0_binding($$node, check) {
+    		headerContainer = $$node;
+    		$$invalidate('headerContainer', headerContainer);
+    	}
+
     	$$self.$set = $$props => {
     		if ('contractId' in $$props) $$invalidate('contractId', contractId = $$props.contractId);
     		if ('name' in $$props) $$invalidate('name', name = $$props.name);
@@ -971,24 +1464,27 @@ var App = (function () {
     		id,
     		regions,
     		expanded,
-    		toggle
+    		toggle,
+    		headerContainer,
+    		select,
+    		div0_binding
     	};
     }
 
     class Order extends SvelteComponent {
     	constructor(options) {
     		super();
-    		if (!document.getElementById("svelte-wogyxl-style")) add_css$1();
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, ["contractId", "name", "id"]);
+    		if (!document.getElementById("svelte-21p7i4-style")) add_css$2();
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, ["contractId", "name", "id"]);
     	}
     }
 
     /* Client\App.svelte generated by Svelte v3.5.2 */
 
-    function add_css$2() {
+    function add_css$3() {
     	var style = element("style");
-    	style.id = 'svelte-yedfog-style';
-    	style.textContent = ".app.svelte-yedfog .svelte-yedfog{font-family:sans-serif}";
+    	style.id = 'svelte-1dzchxj-style';
+    	style.textContent = ".app.svelte-1dzchxj{width:390px}.app.svelte-1dzchxj .svelte-1dzchxj{font-family:sans-serif}";
     	append(document.head, style);
     }
 
@@ -998,7 +1494,7 @@ var App = (function () {
     	return child_ctx;
     }
 
-    // (24:4) {:catch error}
+    // (27:4) {:catch error}
     function create_catch_block(ctx) {
     	var div, t0, t1_value = ctx.error, t1;
 
@@ -1007,7 +1503,7 @@ var App = (function () {
     			div = element("div");
     			t0 = text("Error: ");
     			t1 = text(t1_value);
-    			attr(div, "class", "svelte-yedfog");
+    			attr(div, "class", "svelte-1dzchxj");
     		},
 
     		m(target, anchor) {
@@ -1028,7 +1524,7 @@ var App = (function () {
     	};
     }
 
-    // (20:4) {:then orders}
+    // (23:4) {:then orders}
     function create_then_block(ctx) {
     	var each_1_anchor, current;
 
@@ -1110,7 +1606,7 @@ var App = (function () {
     	};
     }
 
-    // (21:8) {#each orders as x}
+    // (24:8) {#each orders as x}
     function create_each_block$2(ctx) {
     	var current;
 
@@ -1159,7 +1655,7 @@ var App = (function () {
     	};
     }
 
-    // (18:23)       <div>Getting orders...</div>      {:then orders}
+    // (21:23)       <div>Getting orders...</div>      {:then orders}
     function create_pending_block(ctx) {
     	var div;
 
@@ -1167,7 +1663,7 @@ var App = (function () {
     		c() {
     			div = element("div");
     			div.textContent = "Getting orders...";
-    			attr(div, "class", "svelte-yedfog");
+    			attr(div, "class", "svelte-1dzchxj");
     		},
 
     		m(target, anchor) {
@@ -1186,7 +1682,7 @@ var App = (function () {
     	};
     }
 
-    function create_fragment$2(ctx) {
+    function create_fragment$3(ctx) {
     	var div, promise, current;
 
     	let info = {
@@ -1207,7 +1703,7 @@ var App = (function () {
     			div = element("div");
 
     			info.block.c();
-    			attr(div, "class", "app svelte-yedfog");
+    			attr(div, "class", "app svelte-1dzchxj");
     		},
 
     		m(target, anchor) {
@@ -1255,7 +1751,7 @@ var App = (function () {
     	};
     }
 
-    function instance$2($$self) {
+    function instance$3($$self) {
     	let get_orders =
             fetch('api/Customers/7884')
             .then(response => response.json())
@@ -1267,8 +1763,8 @@ var App = (function () {
     class App extends SvelteComponent {
     	constructor(options) {
     		super();
-    		if (!document.getElementById("svelte-yedfog-style")) add_css$2();
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, []);
+    		if (!document.getElementById("svelte-1dzchxj-style")) add_css$3();
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, []);
     	}
     }
 

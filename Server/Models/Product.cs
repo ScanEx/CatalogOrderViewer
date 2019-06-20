@@ -14,5 +14,7 @@ namespace Server.Models
         public int Id { get; set; }
         [Column("dt_name")]
         public string Name { get; set; }
+        [Column("dt_group")]
+        public string Platform {get; set;}
     }
 }

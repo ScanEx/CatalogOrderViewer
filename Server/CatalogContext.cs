@@ -18,6 +18,19 @@ namespace Server
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<RegionGranule>()
+                .HasKey(e => new { e.RegionId, e.GranuleId });
+
+            modelBuilder.Entity<RegionGranule>()
+                .HasOne(e => e.Granule)
+                .WithMany(e => e.Regions)
+                .HasForeignKey(e => e.GranuleId);
+
+            modelBuilder.Entity<RegionGranule>()
+                .HasOne(e => e.Region)
+                .WithMany(e => e.Granules)
+                .HasForeignKey(e => e.RegionId);
+
             // modelBuilder.Entity<Order>()
             //     .HasKey(e => e.Id);
 

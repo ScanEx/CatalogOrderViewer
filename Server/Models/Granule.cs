@@ -11,15 +11,14 @@ namespace Server.Models
     public class Granule
     {
         public Granule () {}
-        [Key, Column("gran_id")]
-        public string Id { get; set; }
-        [Column("roi_id")]
-        public int RegionId { get; set; }
-        [ForeignKey("RegionId")]
-        public virtual Region Region { get; set; }
+        [Key, Column("uid")]
+        public int Id { get; set; }
         [Column("dtype")]
         public int ProductType { get; set; }
-        [ForeignKey("ProductType")]
+        [Column("gran_id")]
+        public string SceneId { get; set; }
+        [ForeignKey("ProductType")]        
         public virtual Product Product { get; set; }
+        public virtual List<RegionGranule> Regions { get; set; }
     }
 }

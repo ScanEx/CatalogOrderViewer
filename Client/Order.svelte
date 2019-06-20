@@ -1,5 +1,7 @@
 <script>
-    import Region from './Region.svelte';    
+    import Region from './Region.svelte';
+    import Info from './Info.svelte';
+
     export let contractId = '';
     export let name = '';
     export let id;
@@ -18,6 +20,29 @@
         }
         expanded = !expanded;
     };
+
+    let headerContainer;
+    let info;
+
+    const select = ({detail}) => {
+        const {sceneId, product: {platform}, reset} = detail;
+        if (!info) {
+            info = new Info({
+                target: document.body,
+                props: {sceneId, platform}
+            });
+            const {top, left, width} = headerContainer.getBoundingClientRect();
+            info.adjustPosition({top, left: left + width + 20});
+            info.$on('close', () => {
+                info.$destroy();
+                info = null;
+                reset();
+            });
+        }
+        else {
+            info.$set({sceneId, platform});
+        }        
+    };
 </script>
 
 <style>
@@ -28,17 +53,18 @@
         cursor: pointer;
     }
     .order .header .icon {
+        cursor: pointer;
         display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
-        text-rendering: auto;
-        -webkit-font-smoothing: antialiased;
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 12px;
+        height: 12px;
     }
-    .order .header > .icon.expanded::before {
-        content: "\f0d7";
+    .order .header .icon.expanded {
+        background-image: url('arrow-down.png');
     }
-    .order .header > .icon.collapsed::before {
-        content: "\f0da";
+    .order .header .icon.collapsed{
+        background-image: url('arrow-right.png');
     }
     .order .content {
         padding-left: 15px;
@@ -49,13 +75,13 @@
 </style>
 
 <div class="order">
-    <div class="header" on:click|stopPropagation="{toggle}">
+    <div class="header" on:click|stopPropagation="{toggle}" bind:this="{headerContainer}">
         <i class="icon" class:collapsed="{!expanded}" class:expanded="{expanded}"></i>
         <span>{contractId}</span>        
     </div>
     <div class="content" class:hidden="{!expanded}">
         {#each regions as r}
-        <Region {...r} />
+        <Region {...r} on:select="{select}" />
         {/each}
     </div>
 </div>
