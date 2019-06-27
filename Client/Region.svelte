@@ -62,7 +62,7 @@
         margin-bottom: 8px;
     }
     .roi .header {
-        padding: 17px 9px 17px 9px;
+        padding: 17px 7px 17px 9px;
         cursor: pointer;        
         background-color: #F3F7FA;
         border: 1px solid #D8E1E8;
@@ -78,20 +78,21 @@
     .roi .header.collapsed {
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
-    }
+    }      
     .roi .header .toggle {
+        cursor: pointer;
         display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
-        text-rendering: auto;
-        -webkit-font-smoothing: antialiased;
-    }    
-    .roi .header .toggle.expanded::before {
-        content: "\f0d7";
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 12px;
+        height: 12px;
     }
-    .roi .header .toggle.collapsed::before {
-        content: "\f0da";
-    }    
+    .roi .header .toggle.expanded {
+        background-image: url('arrow-down.png');
+    }
+    .roi .header .toggle.collapsed{
+        background-image: url('arrow-right.png');
+    }
     .roi .header .down,
     .roi .header .preview,
     .roi .content .info,
@@ -103,7 +104,8 @@
     }
     .roi .header .down {                
         width: 20px;
-        height: 20px;        
+        height: 20px;
+        margin-left: 5px;
     }
     .roi .header .down.active {
         background-image: url('down-active.png');

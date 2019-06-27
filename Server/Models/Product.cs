@@ -10,7 +10,7 @@ namespace Server.Models
     [Table("dict_Dtypes")]
     public class Product {
         public Product () {}
-        [Column("id")]
+        [Column("dtid")]
         public int Id { get; set; }
         [Column("dt_name")]
         public string Name { get; set; }

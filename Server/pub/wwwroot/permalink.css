@@ -1,0 +1,275 @@
+.authWidget { font-size: 12px; }
+
+.authWidget-userPanel { display: table; }
+.authWidget-userPanel-iconCell { display: table-cell; vertical-align: middle; }
+.authWidget-userPanel-userMenuCell { display: table-cell; vertical-align: middle; }
+
+.authWidget-loginButton { cursor: pointer; }
+.authWidget-userPanel { 
+    display: table;
+}
+.authWidget-userPanel-iconCell { 
+    display: table-cell;
+    vertical-align: middle;
+}
+.authWidget-userPanel-userMenuCell {
+    display: table-cell;
+    vertical-align: middle;
+}
+.authWidget .authWidget-loginButton, .authWidget .authWidget-userPanel-userIcon { 
+    cursor: pointer;
+}
+.authWidget .dropdownMenuWidget { position:relative; }
+/*.authWidget .dropdownMenuWidget-item { padding-right: 0; }*/
+.authWidget .dropdownMenuWidget-itemDropdown { right: 0; min-width: 150px; }
+.authWidget-iframeContainer.ui-dialog-content.ui-widget-content { box-sizing: border-box; overflow: hidden; }
+.authWidget-iframeContainer .authorizationIframe { width: 100%; height: 100%; border: none; }
+.account {
+    background-image: url(account.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.account-arrow-down {
+    width: 8px;
+    height: 8px;
+    background-position: -5px -5px;
+}
+
+.account-exit {
+    width: 14px;
+    height: 14px;
+    background-position: -23px -5px;
+}
+
+.account-exit:hover {
+    width: 14px;
+    height: 14px;
+    background-position: -47px -5px;
+}
+
+.account-personal-area {
+    width: 14px;
+    height: 14px;
+    background-position: -71px -5px;
+}
+
+.account-personal-area:hover {
+    width: 14px;
+    height: 14px;
+    background-position: -95px -5px;
+}
+
+.account-personal-map {
+    width: 14px;
+    height: 14px;
+    background-position: -119px -5px;
+}
+
+.account-personal-map:hover {
+    width: 14px;
+    height: 14px;
+    background-position: -143px -5px;
+}
+
+.account-user-login {
+    width: 18px;
+    height: 18px;
+    background-position: -167px -5px;
+}
+
+.account-user-logout {
+    width: 16px;
+    height: 16px;
+    background-position: -195px -5px;
+}
+.dropdownWidget {
+    cursor: pointer;
+    position: relative;
+}
+.dropdownWidget.dropdownWidget-item {
+    border: none;
+}
+.dropdownWidget.dropdownWidget-item:last-child {
+    border: none;
+}
+.dropdownWidget-dropdown {
+    position: absolute;
+    z-index: 100;
+    background: #fff;
+    box-shadow: 0 0 10px hsla(0,0%,0%,0.3);
+}
+.dropdownWidget_direction-up .dropdownWidget-dropdown {
+    bottom: 0;
+}
+.dropdownWidget_direction-down .dropdownWidget-dropdown {
+    top: 0;
+}
+
+.dropdownWidget-item { padding: 4px 8px; border-top: 1px solid hsl(0, 0%, 90%); white-space: nowrap; }
+.dropdownWidget-item:last-child { border-bottom: 1px solid hsl(0, 0%, 90%); }
+
+.dropdownWidget-dropdownItem:hover { background: hsl(0, 0%, 95%); }
+.dropdownWidget-dropdownTitle { cursor: pointer; }
+
+.dropdownMenuWidget {
+    display: table;    
+}
+
+.dropdownMenuWidget-item {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0px 10px 0px 10px;
+    white-space: nowrap;
+}
+
+.dropdownMenuWidget-item a {
+    color: #303030;
+    text-decoration: none;
+}
+
+.dropdownMenuWidget-item a img, 
+.dropdownMenuWidget-item a span,
+.dropdownMenuWidget-item a i {
+    border: none;
+    vertical-align: middle;
+}
+
+.dropdownMenuWidget-item a:hover {
+    color: #000000;
+}
+
+.dropdownMenuWidget-itemDropdown {
+    position: absolute;
+    z-index: 100000;
+    min-width: 120px;
+}
+
+.dropdownMenuWidget-dropdownMenu {
+    background: white;
+    border: 1px solid #efefef;
+    border-bottom: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.dropdownMenuWidget-dropdownMenuIcon {
+    float: right;
+}
+
+.dropdownMenuWidget-dropdownMenuItem {
+    display: block;
+    border-bottom: 1px solid #efefef;
+    padding: 5px 10px;
+}
+
+.dropdownMenuWidget-dropdownMenuItem a {
+    width: 100%;
+    display: block;
+}
+
+.dropdownMenuWidget-dropdownItemAnchor_newWindow {
+    margin-right: 20px;
+}
+
+.dropdownMenuWidget-dropdownMenuItem:hover {
+    background: #efefef;
+}
+.dropdownWidget {
+    cursor: pointer;
+    position: relative;
+}
+.dropdownWidget.dropdownWidget-item {
+    border: none;
+}
+.dropdownWidget.dropdownWidget-item:last-child {
+    border: none;
+}
+.dropdownWidget-dropdown {
+    position: absolute;
+    z-index: 100;
+    background: #fff;
+    box-shadow: 0 0 10px hsla(0,0%,0%,0.3);
+}
+.dropdownWidget_direction-up .dropdownWidget-dropdown {
+    bottom: 0;
+}
+.dropdownWidget_direction-down .dropdownWidget-dropdown {
+    top: 0;
+}
+
+.dropdownWidget-item { padding: 4px 8px; border-top: 1px solid hsl(0, 0%, 90%); white-space: nowrap; }
+.dropdownWidget-item:last-child { border-bottom: 1px solid hsl(0, 0%, 90%); }
+
+.dropdownWidget-dropdownItem:hover { background: hsl(0, 0%, 95%); }
+.dropdownWidget-dropdownTitle { cursor: pointer; }
+
+.dropdownMenuWidget {
+    display: table;    
+}
+
+.dropdownMenuWidget-item {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0px 10px 0px 10px;
+    white-space: nowrap;
+}
+
+.dropdownMenuWidget-item a {
+    color: #303030;
+    text-decoration: none;
+}
+
+.dropdownMenuWidget-item a img, 
+.dropdownMenuWidget-item a span,
+.dropdownMenuWidget-item a i {
+    border: none;
+    vertical-align: middle;
+}
+
+.dropdownMenuWidget-item a:hover {
+    color: #000000;
+}
+
+.dropdownMenuWidget-itemDropdown {
+    position: absolute;
+    z-index: 100000;
+    min-width: 120px;
+}
+
+.dropdownMenuWidget-dropdownMenu {
+    background: white;
+    border: 1px solid #efefef;
+    border-bottom: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.dropdownMenuWidget-dropdownMenuIcon {
+    float: right;
+}
+
+.dropdownMenuWidget-dropdownMenuItem {
+    display: block;
+    border-bottom: 1px solid #efefef;
+    padding: 5px 10px;
+}
+
+.dropdownMenuWidget-dropdownMenuItem a {
+    width: 100%;
+    display: block;
+}
+
+.dropdownMenuWidget-dropdownItemAnchor_newWindow {
+    margin-right: 20px;
+}
+
+.dropdownMenuWidget-dropdownMenuItem:hover {
+    background: #efefef;
+}

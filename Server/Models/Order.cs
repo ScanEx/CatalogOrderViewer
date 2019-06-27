@@ -20,9 +20,7 @@ namespace Server.Models
         [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; set; }
         [Column("ts_open")]
-        public DateTime OpenDate { get; set; }
-        [Column("ts_closed")]
-        public DateTime ClosedDate { get; set; }
+        public DateTime OpenDate { get; set; }        
         [Column("contract_id")]
         public string ContractId { get; set; }        
         public virtual List<Region> Regions { get; set; }
