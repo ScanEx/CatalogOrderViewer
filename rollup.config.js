@@ -1,25 +1,26 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-// import css from 'rollup-plugin-css-porter';
+import cpy from 'rollup-plugin-cpy';
 import json from 'rollup-plugin-json';
 import babel from 'rollup-plugin-babel';
 import pkg from './package.json';
 
 export default {
-    input: 'Client/index.js',
+    input: 'src/index.js',
     output: {
-        file: pkg.browser,
-        format: 'iife',
-        sourcemap: true,
-        name: 'App',
+        file: pkg.module,
+        format: 'cjs',
+        sourcemap: true,        
     },
     plugins: [       
         svelte(),
         resolve(),            
         commonjs(),
         json(),
-//        css({dest: 'Server/wwwroot/main.css', minified: true}),
+        cpy([
+            {files: 'src/*.png', dest: './dist'}
+        ]),
         babel({
             include: 'node_modules/svelte/shared.js',
             exclude: 'node_modules/**'
