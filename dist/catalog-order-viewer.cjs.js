@@ -7,9 +7,6 @@ function assign(tar, src) {
         tar[k] = src[k];
     return tar;
 }
-function is_promise(value) {
-    return value && typeof value === 'object' && typeof value.then === 'function';
-}
 function run(fn) {
     return fn();
 }
@@ -49,9 +46,6 @@ function text(data) {
 }
 function space() {
     return text(' ');
-}
-function empty() {
-    return text('');
 }
 function listen(node, event, handler, options) {
     node.addEventListener(event, handler, options);
@@ -194,59 +188,6 @@ function transition_out(block, local, callback) {
             }
         });
         block.o(local);
-    }
-}
-
-function handle_promise(promise, info) {
-    const token = info.token = {};
-    function update(type, index, key, value) {
-        if (info.token !== token)
-            return;
-        info.resolved = key && { [key]: value };
-        const child_ctx = assign(assign({}, info.ctx), info.resolved);
-        const block = type && (info.current = type)(child_ctx);
-        if (info.block) {
-            if (info.blocks) {
-                info.blocks.forEach((block, i) => {
-                    if (i !== index && block) {
-                        group_outros();
-                        transition_out(block, 1, () => {
-                            info.blocks[i] = null;
-                        });
-                        check_outros();
-                    }
-                });
-            }
-            else {
-                info.block.d(1);
-            }
-            block.c();
-            transition_in(block, 1);
-            block.m(info.mount(), info.anchor);
-            flush();
-        }
-        info.block = block;
-        if (info.blocks)
-            info.blocks[index] = block;
-    }
-    if (is_promise(promise)) {
-        promise.then(value => {
-            update(info.then, 1, info.value, value);
-        }, error => {
-            update(info.catch, 2, info.error, error);
-        });
-        // if we previously had a then/catch block, destroy it
-        if (info.current !== info.pending) {
-            update(info.pending, 0);
-            return true;
-        }
-    }
-    else {
-        if (info.current !== info.then) {
-            update(info.then, 1, info.value, promise);
-            return true;
-        }
-        info.resolved = { [info.value]: promise };
     }
 }
 
@@ -1482,8 +1423,8 @@ class Order extends SvelteComponent {
 
 function add_css$3() {
 	var style = element("style");
-	style.id = 'svelte-17zr0bs-style';
-	style.textContent = ".app.svelte-17zr0bs{width:390px}.app.svelte-17zr0bs .svelte-17zr0bs{font-family:sans-serif}.app.svelte-17zr0bs .msg.svelte-17zr0bs{text-overflow:ellipsis}";
+	style.id = 'svelte-zg9ox9-style';
+	style.textContent = ".app.svelte-zg9ox9{width:390px}";
 	append(document.head, style);
 }
 
@@ -1493,119 +1434,7 @@ function get_each_context$2(ctx, list, i) {
 	return child_ctx;
 }
 
-// (47:4) {:catch error}
-function create_catch_block(ctx) {
-	var div, t0, t1_value = ctx.error, t1;
-
-	return {
-		c() {
-			div = element("div");
-			t0 = text("Error: ");
-			t1 = text(t1_value);
-			attr(div, "class", "svelte-17zr0bs");
-		},
-
-		m(target, anchor) {
-			insert(target, div, anchor);
-			append(div, t0);
-			append(div, t1);
-		},
-
-		p: noop,
-		i: noop,
-		o: noop,
-
-		d(detaching) {
-			if (detaching) {
-				detach(div);
-			}
-		}
-	};
-}
-
-// (43:4) {:then orders}
-function create_then_block(ctx) {
-	var each_1_anchor, current;
-
-	var each_value = ctx.orders;
-
-	var each_blocks = [];
-
-	for (var i = 0; i < each_value.length; i += 1) {
-		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
-	}
-
-	const out = i => transition_out(each_blocks[i], 1, () => {
-		each_blocks[i] = null;
-	});
-
-	return {
-		c() {
-			for (var i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].c();
-			}
-
-			each_1_anchor = empty();
-		},
-
-		m(target, anchor) {
-			for (var i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].m(target, anchor);
-			}
-
-			insert(target, each_1_anchor, anchor);
-			current = true;
-		},
-
-		p(changed, ctx) {
-			if (changed.get_orders) {
-				each_value = ctx.orders;
-
-				for (var i = 0; i < each_value.length; i += 1) {
-					const child_ctx = get_each_context$2(ctx, each_value, i);
-
-					if (each_blocks[i]) {
-						each_blocks[i].p(changed, child_ctx);
-						transition_in(each_blocks[i], 1);
-					} else {
-						each_blocks[i] = create_each_block$2(child_ctx);
-						each_blocks[i].c();
-						transition_in(each_blocks[i], 1);
-						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-					}
-				}
-
-				group_outros();
-				for (; i < each_blocks.length; i += 1) out(i);
-				check_outros();
-			}
-		},
-
-		i(local) {
-			if (current) return;
-			for (var i = 0; i < each_value.length; i += 1) transition_in(each_blocks[i]);
-
-			current = true;
-		},
-
-		o(local) {
-			each_blocks = each_blocks.filter(Boolean);
-			for (let i = 0; i < each_blocks.length; i += 1) transition_out(each_blocks[i]);
-
-			current = false;
-		},
-
-		d(detaching) {
-			destroy_each(each_blocks, detaching);
-
-			if (detaching) {
-				detach(each_1_anchor);
-			}
-		}
-	};
-}
-
-// (44:8) {#each orders as x}
+// (13:4) {#each orders as x}
 function create_each_block$2(ctx) {
 	var current;
 
@@ -1630,7 +1459,7 @@ function create_each_block$2(ctx) {
 		},
 
 		p(changed, ctx) {
-			var order_changes = changed.get_orders ? get_spread_update(order_spread_levels, [
+			var order_changes = changed.orders ? get_spread_update(order_spread_levels, [
 				ctx.x
 			]) : {};
 			order.$set(order_changes);
@@ -1654,88 +1483,75 @@ function create_each_block$2(ctx) {
 	};
 }
 
-// (41:23)       <div class="msg">{translate('order.message')}
-function create_pending_block(ctx) {
-	var div, t_value = ctx.translate('order.message'), t;
-
-	return {
-		c() {
-			div = element("div");
-			t = text(t_value);
-			attr(div, "class", "msg svelte-17zr0bs");
-		},
-
-		m(target, anchor) {
-			insert(target, div, anchor);
-			append(div, t);
-		},
-
-		p: noop,
-		i: noop,
-		o: noop,
-
-		d(detaching) {
-			if (detaching) {
-				detach(div);
-			}
-		}
-	};
-}
-
 function create_fragment$3(ctx) {
-	var div, promise, current;
+	var div, current;
 
-	let info = {
-		ctx,
-		current: null,
-		pending: create_pending_block,
-		then: create_then_block,
-		catch: create_catch_block,
-		value: 'orders',
-		error: 'error',
-		blocks: Array(3)
-	};
+	var each_value = ctx.orders;
 
-	handle_promise(promise = ctx.get_orders, info);
+	var each_blocks = [];
+
+	for (var i = 0; i < each_value.length; i += 1) {
+		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
+	}
+
+	const out = i => transition_out(each_blocks[i], 1, () => {
+		each_blocks[i] = null;
+	});
 
 	return {
 		c() {
 			div = element("div");
 
-			info.block.c();
-			attr(div, "class", "app svelte-17zr0bs");
+			for (var i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].c();
+			}
+			attr(div, "class", "app svelte-zg9ox9");
 		},
 
 		m(target, anchor) {
 			insert(target, div, anchor);
 
-			info.block.m(div, info.anchor = null);
-			info.mount = () => div;
-			info.anchor = null;
+			for (var i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].m(div, null);
+			}
 
 			current = true;
 		},
 
-		p(changed, new_ctx) {
-			ctx = new_ctx;
-			info.ctx = ctx;
+		p(changed, ctx) {
+			if (changed.orders) {
+				each_value = ctx.orders;
 
-			if (promise !== (promise = ctx.get_orders) && handle_promise(promise, info)) ; else {
-				info.block.p(changed, assign(assign({}, ctx), info.resolved));
+				for (var i = 0; i < each_value.length; i += 1) {
+					const child_ctx = get_each_context$2(ctx, each_value, i);
+
+					if (each_blocks[i]) {
+						each_blocks[i].p(changed, child_ctx);
+						transition_in(each_blocks[i], 1);
+					} else {
+						each_blocks[i] = create_each_block$2(child_ctx);
+						each_blocks[i].c();
+						transition_in(each_blocks[i], 1);
+						each_blocks[i].m(div, null);
+					}
+				}
+
+				group_outros();
+				for (; i < each_blocks.length; i += 1) out(i);
+				check_outros();
 			}
 		},
 
 		i(local) {
 			if (current) return;
-			transition_in(info.block);
+			for (var i = 0; i < each_value.length; i += 1) transition_in(each_blocks[i]);
+
 			current = true;
 		},
 
 		o(local) {
-			for (let i = 0; i < 3; i += 1) {
-				const block = info.blocks[i];
-				transition_out(block);
-			}
+			each_blocks = each_blocks.filter(Boolean);
+			for (let i = 0; i < each_blocks.length; i += 1) transition_out(each_blocks[i]);
 
 			current = false;
 		},
@@ -1745,48 +1561,26 @@ function create_fragment$3(ctx) {
 				detach(div);
 			}
 
-			info.block.d();
-			info = null;
+			destroy_each(each_blocks, detaching);
 		}
 	};
 }
 
 function instance$3($$self, $$props, $$invalidate) {
-	
-
-    scanexTranslations_cjs.addText('eng', {
-        order: {
-            message: 'Getting orders'
-        }        
-    });
-
-    scanexTranslations_cjs.addText('rus', {        
-        order: {
-            message: 'Получение заказов'
-        }        
-    });
-
-    const translate = scanexTranslations_cjs.getText.bind(scanexTranslations_cjs);
-
-    let { clientId = 0 } = $$props;
-
-    let get_orders =
-        fetch(`api/Customers/${clientId}`)
-        .then(response => response.json())
-        .then(json => json.orders);
+	let { orders = [] } = $$props;
 
 	$$self.$set = $$props => {
-		if ('clientId' in $$props) $$invalidate('clientId', clientId = $$props.clientId);
+		if ('orders' in $$props) $$invalidate('orders', orders = $$props.orders);
 	};
 
-	return { translate, clientId, get_orders };
+	return { orders };
 }
 
 class App extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-17zr0bs-style")) add_css$3();
-		init(this, options, instance$3, create_fragment$3, safe_not_equal, ["clientId"]);
+		if (!document.getElementById("svelte-zg9ox9-style")) add_css$3();
+		init(this, options, instance$3, create_fragment$3, safe_not_equal, ["orders"]);
 	}
 }
 
