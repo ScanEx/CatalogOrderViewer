@@ -1584,9 +1584,5 @@ class App extends SvelteComponent {
 	}
 }
 
-const app = new App ({
-    target: document.body
-});
-
-module.exports = app;
+module.exports = App;
 //# sourceMappingURL=catalog-order-viewer.cjs.js.map
