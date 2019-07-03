@@ -900,8 +900,8 @@ class Region extends SvelteComponent {
 
 function add_css$1() {
 	var style = element("style");
-	style.id = 'svelte-6av53v-style';
-	style.textContent = ".info.svelte-6av53v{position:absolute;background-color:#FFFFFF;width:580px}.info.svelte-6av53v .header.svelte-6av53v{border-top:1px solid #D8E1E8;border-left:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px;background-color:#F3F7FA}.info.svelte-6av53v .content.svelte-6av53v{border:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.info.svelte-6av53v .content th.svelte-6av53v,.info.svelte-6av53v .content td.svelte-6av53v{border-left:1px solid #D8E1E8}.info.svelte-6av53v .header td.svelte-6av53v:first-child,.info.svelte-6av53v .content th.svelte-6av53v:first-child,.info.svelte-6av53v .content td.svelte-6av53v:first-child{border-left:none}.info.svelte-6av53v .content th.svelte-6av53v{padding:5px 10px 5px 10px;color:#92A0AC;text-align:left}.info.svelte-6av53v .header td.svelte-6av53v,.info.svelte-6av53v .content td.svelte-6av53v{padding:8px 10px 8px 10px}.info.svelte-6av53v .content td.svelte-6av53v{border-top:1px solid #D8E1E8;color:#455467}.info.svelte-6av53v .header td.svelte-6av53v:first-child,.info.svelte-6av53v .content th.svelte-6av53v:last-child,.info.svelte-6av53v .content td.svelte-6av53v:last-child{width:100%}.info.svelte-6av53v .close.svelte-6av53v{padding:10px}.info.svelte-6av53v .close i.svelte-6av53v{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;background-image:url('close.png');width:10px;height:10px}";
+	style.id = 'svelte-1u0owdc-style';
+	style.textContent = ".scene-info.svelte-1u0owdc{position:absolute;background-color:#FFFFFF;width:580px}.scene-info.svelte-1u0owdc .header.svelte-1u0owdc{border-top:1px solid #D8E1E8;border-left:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px;background-color:#F3F7FA}.scene-info.svelte-1u0owdc .content.svelte-1u0owdc{border:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.scene-info.svelte-1u0owdc .content th.svelte-1u0owdc,.scene-info.svelte-1u0owdc .content td.svelte-1u0owdc{border-left:1px solid #D8E1E8}.scene-info.svelte-1u0owdc .header td.svelte-1u0owdc:first-child,.scene-info.svelte-1u0owdc .content th.svelte-1u0owdc:first-child,.scene-info.svelte-1u0owdc .content td.svelte-1u0owdc:first-child{border-left:none}.scene-info.svelte-1u0owdc .content th.svelte-1u0owdc{padding:5px 10px 5px 10px;color:#92A0AC;text-align:left}.scene-info.svelte-1u0owdc .header td.svelte-1u0owdc,.scene-info.svelte-1u0owdc .content td.svelte-1u0owdc{padding:8px 10px 8px 10px}.scene-info.svelte-1u0owdc .content td.svelte-1u0owdc{border-top:1px solid #D8E1E8;color:#455467}.scene-info.svelte-1u0owdc .header td.svelte-1u0owdc:first-child,.scene-info.svelte-1u0owdc .content th.svelte-1u0owdc:last-child,.scene-info.svelte-1u0owdc .content td.svelte-1u0owdc:last-child{width:100%}.scene-info.svelte-1u0owdc .close.svelte-1u0owdc{padding:10px}.scene-info.svelte-1u0owdc .close i.svelte-1u0owdc{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;background-image:url('close.png');width:10px;height:10px}";
 	append(document.head, style);
 }
 
@@ -920,7 +920,7 @@ function create_fragment$1(ctx) {
 			t2 = text(ctx.date);
 			t3 = space();
 			td2 = element("td");
-			td2.innerHTML = `<i class="svelte-6av53v"></i>`;
+			td2.innerHTML = `<i class="svelte-1u0owdc"></i>`;
 			t4 = space();
 			table1 = element("table");
 			tr1 = element("tr");
@@ -957,26 +957,26 @@ function create_fragment$1(ctx) {
 			t22 = space();
 			td10 = element("td");
 			t23 = text(ctx.time);
-			attr(td0, "class", "svelte-6av53v");
-			attr(td1, "class", "svelte-6av53v");
-			attr(td2, "class", "close svelte-6av53v");
-			attr(table0, "class", "header svelte-6av53v");
+			attr(td0, "class", "svelte-1u0owdc");
+			attr(td1, "class", "svelte-1u0owdc");
+			attr(td2, "class", "close svelte-1u0owdc");
+			attr(table0, "class", "header svelte-1u0owdc");
 			attr(table0, "cellpadding", "0");
 			attr(table0, "cellspacing", "0");
-			attr(th0, "class", "svelte-6av53v");
-			attr(th1, "class", "svelte-6av53v");
-			attr(td3, "class", "svelte-6av53v");
-			attr(td4, "class", "svelte-6av53v");
-			attr(td5, "class", "svelte-6av53v");
-			attr(td6, "class", "svelte-6av53v");
-			attr(td7, "class", "svelte-6av53v");
-			attr(td8, "class", "svelte-6av53v");
-			attr(td9, "class", "svelte-6av53v");
-			attr(td10, "class", "svelte-6av53v");
-			attr(table1, "class", "content svelte-6av53v");
+			attr(th0, "class", "svelte-1u0owdc");
+			attr(th1, "class", "svelte-1u0owdc");
+			attr(td3, "class", "svelte-1u0owdc");
+			attr(td4, "class", "svelte-1u0owdc");
+			attr(td5, "class", "svelte-1u0owdc");
+			attr(td6, "class", "svelte-1u0owdc");
+			attr(td7, "class", "svelte-1u0owdc");
+			attr(td8, "class", "svelte-1u0owdc");
+			attr(td9, "class", "svelte-1u0owdc");
+			attr(td10, "class", "svelte-1u0owdc");
+			attr(table1, "class", "content svelte-1u0owdc");
 			attr(table1, "cellpadding", "0");
 			attr(table1, "cellspacing", "0");
-			attr(div, "class", "info svelte-6av53v");
+			attr(div, "class", "scene-info svelte-1u0owdc");
 			dispose = listen(td2, "click", stop_propagation(ctx.click_handler));
 		},
 
@@ -1142,7 +1142,7 @@ function instance$1($$self, $$props, $$invalidate) {
 class Info extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-6av53v-style")) add_css$1();
+		if (!document.getElementById("svelte-1u0owdc-style")) add_css$1();
 		init(this, options, instance$1, create_fragment$1, safe_not_equal, ["sceneId", "platform", "date", "time", "adjustPosition"]);
 	}
 

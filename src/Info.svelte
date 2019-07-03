@@ -39,12 +39,12 @@
 </script>
 
 <style>
-    .info {
+    .scene-info {
         position: absolute;
         background-color: #FFFFFF;
         width: 580px;
     }
-    .info .header {
+    .scene-info .header {
         border-top: 1px solid #D8E1E8;
         border-left: 1px solid #D8E1E8;
         border-right: 1px solid #D8E1E8;
@@ -52,42 +52,42 @@
         border-top-right-radius: 5px;
         background-color: #F3F7FA;
     }
-    .info .content {
+    .scene-info .content {
         border: 1px solid #D8E1E8; 
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
     }    
-    .info .content th,
-    .info .content td {
+    .scene-info .content th,
+    .scene-info .content td {
         border-left: 1px solid #D8E1E8;
     }
-    .info .header td:first-child,
-    .info .content th:first-child,
-    .info .content td:first-child {        
+    .scene-info .header td:first-child,
+    .scene-info .content th:first-child,
+    .scene-info .content td:first-child {        
         border-left: none;
     }
-    .info .content th {
+    .scene-info .content th {
         padding: 5px 10px 5px 10px;
         color: #92A0AC;
         text-align: left;
     }
-    .info .header td,
-    .info .content td {
+    .scene-info .header td,
+    .scene-info .content td {
         padding: 8px 10px 8px 10px;
     }
-    .info .content td {
+    .scene-info .content td {
         border-top: 1px solid #D8E1E8;        
         color: #455467;
     }
-    .info .header td:first-child,
-    .info .content th:last-child,
-    .info .content td:last-child {
+    .scene-info .header td:first-child,
+    .scene-info .content th:last-child,
+    .scene-info .content td:last-child {
         width: 100%;
     }
-    .info .close {
+    .scene-info .close {
         padding: 10px;
     }
-    .info .close i {
+    .scene-info .close i {
         cursor: pointer;
         display: inline-block;
         background-position: center;
@@ -98,7 +98,7 @@
     }    
 </style>
 
-<div class="info" bind:this="{container}">
+<div class="scene-info" bind:this="{container}">
     <table class="header" cellpadding="0" cellspacing="0">
         <tr>
             <td>{platform}</td>
