@@ -51,6 +51,7 @@
     }
     .order .header {
         cursor: pointer;
+        padding: 10px;
     }
     .order .header .icon {
         cursor: pointer;

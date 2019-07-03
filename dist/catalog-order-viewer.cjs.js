@@ -1155,8 +1155,8 @@ class Info extends SvelteComponent {
 
 function add_css$2() {
 	var style = element("style");
-	style.id = 'svelte-21p7i4-style';
-	style.textContent = ".order.svelte-21p7i4 .header>.svelte-21p7i4{display:inline-block}.order.svelte-21p7i4 .header.svelte-21p7i4{cursor:pointer}.order.svelte-21p7i4 .header .icon.svelte-21p7i4{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;width:12px;height:12px}.order.svelte-21p7i4 .header .icon.expanded.svelte-21p7i4{background-image:url('arrow-down.png')}.order.svelte-21p7i4 .header .icon.collapsed.svelte-21p7i4{background-image:url('arrow-right.png')}.order.svelte-21p7i4 .content.svelte-21p7i4{padding-left:15px}.order.svelte-21p7i4 .content.hidden.svelte-21p7i4{display:none}";
+	style.id = 'svelte-1s3aug0-style';
+	style.textContent = ".order.svelte-1s3aug0 .header>.svelte-1s3aug0{display:inline-block}.order.svelte-1s3aug0 .header.svelte-1s3aug0{cursor:pointer;padding:10px}.order.svelte-1s3aug0 .header .icon.svelte-1s3aug0{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;width:12px;height:12px}.order.svelte-1s3aug0 .header .icon.expanded.svelte-1s3aug0{background-image:url('arrow-down.png')}.order.svelte-1s3aug0 .header .icon.collapsed.svelte-1s3aug0{background-image:url('arrow-right.png')}.order.svelte-1s3aug0 .content.svelte-1s3aug0{padding-left:15px}.order.svelte-1s3aug0 .content.hidden.svelte-1s3aug0{display:none}";
 	append(document.head, style);
 }
 
@@ -1166,7 +1166,7 @@ function get_each_context$1(ctx, list, i) {
 	return child_ctx;
 }
 
-// (83:8) {#each regions as r}
+// (84:8) {#each regions as r}
 function create_each_block$1(ctx) {
 	var current;
 
@@ -1245,14 +1245,14 @@ function create_fragment$2(ctx) {
 			for (var i_1 = 0; i_1 < each_blocks.length; i_1 += 1) {
 				each_blocks[i_1].c();
 			}
-			attr(i, "class", "icon svelte-21p7i4");
+			attr(i, "class", "icon svelte-1s3aug0");
 			toggle_class(i, "collapsed", !ctx.expanded);
 			toggle_class(i, "expanded", ctx.expanded);
-			attr(span, "class", "svelte-21p7i4");
-			attr(div0, "class", "header svelte-21p7i4");
-			attr(div1, "class", "content svelte-21p7i4");
+			attr(span, "class", "svelte-1s3aug0");
+			attr(div0, "class", "header svelte-1s3aug0");
+			attr(div1, "class", "content svelte-1s3aug0");
 			toggle_class(div1, "hidden", !ctx.expanded);
-			attr(div2, "class", "order svelte-21p7i4");
+			attr(div2, "class", "order svelte-1s3aug0");
 			dispose = listen(div0, "click", stop_propagation(ctx.toggle));
 		},
 
@@ -1414,7 +1414,7 @@ function instance$2($$self, $$props, $$invalidate) {
 class Order extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-21p7i4-style")) add_css$2();
+		if (!document.getElementById("svelte-1s3aug0-style")) add_css$2();
 		init(this, options, instance$2, create_fragment$2, safe_not_equal, ["contractId", "name", "id"]);
 	}
 }
