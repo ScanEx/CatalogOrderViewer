@@ -47,11 +47,10 @@
 
 <style>
     .order .header > * {
-        display: inline-block;
+        display: inline-block;        
     }
     .order .header {
-        cursor: pointer;
-        padding: 10px;
+        cursor: pointer;        
     }
     .order .header .icon {
         cursor: pointer;
