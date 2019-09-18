@@ -2,6 +2,7 @@
     import T from 'scanex-translations';
     import {createEventDispatcher} from 'svelte';
 
+    export let id = '';
     export let name = '';
     export let granules = [];
     let expanded = false;
@@ -51,6 +52,10 @@
 
     const translate = T.getText.bind(T);
 
+    const download = () => {
+        dispatch('download', id);
+    };
+
 </script>
 
 <style>    
@@ -93,10 +98,10 @@
     .roi .header .toggle.collapsed{
         background-image: url('arrow-right.png');
     }
+    /* .roi .content .check, */
     .roi .header .down,
     .roi .header .preview,
-    .roi .content .info,
-    .roi .content .check {
+    .roi .content .info {
         cursor: pointer;
         display: inline-block;
         background-position: center;
@@ -170,7 +175,7 @@
         width: 16px;
         height: 16px;
     }
-    .roi .content .check {        
+    /* .roi .content .check {        
         width: 14px;
         height: 14px;        
     }
@@ -182,7 +187,7 @@
     }
     .roi .content .check.undetermined {
         background-image: url('check_un.png');
-    }
+    } */
     .roi .content .selected td {
         border-top: 1px solid #00A2D3;
         border-bottom: 1px solid #00A2D3;
@@ -213,29 +218,29 @@
             <td>550 {translate('mb')}</td>
             {/if}
             <td>
-                <i class="down" class:active="{expanded && !unchecked}" class:inactive="{!expanded || unchecked}"></i>
+                <i class="down" on:click|stopPropagation="{download}" class:active="{expanded && !unchecked}" class:inactive="{!expanded || unchecked}"></i>
             </td>
         </tr>                                
     </table>
     <table class="content" class:hidden="{!expanded}" cellpadding="0" cellspacing="0">
         <tr>
             <th>{translate('product')}</th>
-            <th>{translate('size')}</th>
+            <!-- <th>{translate('size')}</th> -->
             <th></th>
-            <th on:click="{toggle}">
+            <!-- <th on:click="{toggle}">
                 <i class="check" class:checked="{checked}" class:unchecked="{unchecked}" class:undetermined="{undetermined}"></i>
-            </th>
+            </th> -->
         </tr>
         {#each granules as g, i}
         <tr class:selected="{i === selected}" on:click="{() => select(i)}">
             <td>{g.granule.product.name}</td>
-            <td>100 {translate('mb')}</td>
+            <!-- <td>100 {translate('mb')}</td> -->
             <td>
                 <i class="info"></i>
             </td>
-            <td on:click|stopPropagation="{() => granules[i].granule.product.checked = !granules[i].granule.product.checked}">
+            <!-- <td on:click|stopPropagation="{() => granules[i].granule.product.checked = !granules[i].granule.product.checked}">
                 <i class="check" class:checked="{g.granule.product.checked}" class:unchecked="{!g.granule.product.checked}"></i>
-            </td>
+            </td> -->
         </tr>
         {/each}
     </table>    

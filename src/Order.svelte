@@ -1,6 +1,7 @@
 <script>
     import Region from './Region.svelte';
     import Info from './Info.svelte';
+    import {createEventDispatcher} from 'svelte';
 
     export let contractId = '';
     export let name = '';
@@ -24,6 +25,8 @@
     let headerContainer;
     let info;
 
+    const dispatch = createEventDispatcher();
+
     const select = ({detail}) => {
         const {sceneId, product: {platform}, reset} = detail;
         if (!info) {
@@ -42,6 +45,9 @@
         else {
             info.$set({sceneId, platform});
         }        
+    };
+    const download = ({detail}) => {
+        dispatch('download', detail);
     };
 </script>
 
@@ -81,7 +87,7 @@
     </div>
     <div class="content" class:hidden="{!expanded}">
         {#each regions as r}
-        <Region {...r} on:select="{select}" />
+        <Region {...r} on:select="{select}" on:download="{download}" />
         {/each}
     </div>
 </div>
