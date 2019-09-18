@@ -214,9 +214,9 @@
                 <i class="preview"></i>
             </td>
             <td class="name" on:click|stopPropagation="{() => expanded = !expanded}">{name}</td>
-            {#if expanded}
+            <!-- {#if expanded}
             <td>550 {translate('mb')}</td>
-            {/if}
+            {/if} -->
             <td>
                 <i class="down" on:click|stopPropagation="{download}" class:active="{expanded}" class:inactive="{!expanded}"></i>
             </td>

@@ -472,34 +472,6 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (217:12) {#if expanded}
-function create_if_block(ctx) {
-	var td, t0, t1_value = ctx.translate('mb'), t1;
-
-	return {
-		c() {
-			td = element("td");
-			t0 = text("550 ");
-			t1 = text(t1_value);
-			attr(td, "class", "svelte-1n1ncy2");
-		},
-
-		m(target, anchor) {
-			insert(target, td, anchor);
-			append(td, t0);
-			append(td, t1);
-		},
-
-		p: noop,
-
-		d(detaching) {
-			if (detaching) {
-				detach(td);
-			}
-		}
-	};
-}
-
 // (234:8) {#each granules as g, i}
 function create_each_block(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.product.name, t0, t1, td1, t2, dispose;
@@ -554,9 +526,7 @@ function create_each_block(ctx) {
 }
 
 function create_fragment(ctx) {
-	var div, table0, tr0, td0, i0, t0, td1, t1, td2, t2, t3, t4, td3, i2, t5, table1, tr1, th0, t6_value = ctx.translate('product'), t6, t7, th1, t8, dispose;
-
-	var if_block = (ctx.expanded) && create_if_block(ctx);
+	var div, table0, tr0, td0, i0, t0, td1, t1, td2, t2, t3, td3, i2, t4, table1, tr1, th0, t5_value = ctx.translate('product'), t5, t6, th1, t7, dispose;
 
 	var each_value = ctx.granules;
 
@@ -580,18 +550,16 @@ function create_fragment(ctx) {
 			td2 = element("td");
 			t2 = text(ctx.name);
 			t3 = space();
-			if (if_block) if_block.c();
-			t4 = space();
 			td3 = element("td");
 			i2 = element("i");
-			t5 = space();
+			t4 = space();
 			table1 = element("table");
 			tr1 = element("tr");
 			th0 = element("th");
-			t6 = text(t6_value);
-			t7 = space();
+			t5 = text(t5_value);
+			t6 = space();
 			th1 = element("th");
-			t8 = space();
+			t7 = space();
 
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].c();
@@ -635,18 +603,16 @@ function create_fragment(ctx) {
 			append(tr0, td2);
 			append(td2, t2);
 			append(tr0, t3);
-			if (if_block) if_block.m(tr0, null);
-			append(tr0, t4);
 			append(tr0, td3);
 			append(td3, i2);
-			append(div, t5);
+			append(div, t4);
 			append(div, table1);
 			append(table1, tr1);
 			append(tr1, th0);
-			append(th0, t6);
-			append(tr1, t7);
+			append(th0, t5);
+			append(tr1, t6);
 			append(tr1, th1);
-			append(table1, t8);
+			append(table1, t7);
 
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].m(table1, null);
@@ -661,19 +627,6 @@ function create_fragment(ctx) {
 
 			if (changed.name) {
 				set_data(t2, ctx.name);
-			}
-
-			if (ctx.expanded) {
-				if (if_block) {
-					if_block.p(changed, ctx);
-				} else {
-					if_block = create_if_block(ctx);
-					if_block.c();
-					if_block.m(tr0, t4);
-				}
-			} else if (if_block) {
-				if_block.d(1);
-				if_block = null;
 			}
 
 			if (changed.expanded) {
@@ -715,8 +668,6 @@ function create_fragment(ctx) {
 			if (detaching) {
 				detach(div);
 			}
-
-			if (if_block) if_block.d();
 
 			destroy_each(each_blocks, detaching);
 
