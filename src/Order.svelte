@@ -1,6 +1,9 @@
 <script>
     import Region from './Region.svelte';
-    import Info from './Info.svelte';    
+    import Info from './Info.svelte';
+    import {createEventDispatcher} from 'svelte';
+
+    const dispatch = createEventDispatcher();
 
     export let contractId = '';
     export let name = '';
@@ -44,12 +47,8 @@
         }        
     };    
 
-    export let downloadHandler;
-
     const download = ({detail}) => {
-        if (typeof downloadHandler === 'function') {
-            downloadHandler(detail);
-        }
+        dispatch('download', detail);
     };
 
 </script>

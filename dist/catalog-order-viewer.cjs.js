@@ -1087,7 +1087,7 @@ function get_each_context$1(ctx, list, i) {
 	return child_ctx;
 }
 
-// (92:8) {#each regions as r}
+// (91:8) {#each regions as r}
 function create_each_block$1(ctx) {
 	var current;
 
@@ -1267,7 +1267,9 @@ function create_fragment$2(ctx) {
 }
 
 function instance$2($$self, $$props, $$invalidate) {
-	    
+	
+
+    const dispatch = createEventDispatcher();
 
     let { contractId = '', name = '', id } = $$props;
     let regions = [];
@@ -1309,12 +1311,8 @@ function instance$2($$self, $$props, $$invalidate) {
         }        
     };    
 
-    let { downloadHandler } = $$props;
-
     const download = ({detail}) => {
-        if (typeof downloadHandler === 'function') {
-            downloadHandler(detail);
-        }
+        dispatch('download', detail);
     };
 
 	function div0_binding($$node, check) {
@@ -1326,7 +1324,6 @@ function instance$2($$self, $$props, $$invalidate) {
 		if ('contractId' in $$props) $$invalidate('contractId', contractId = $$props.contractId);
 		if ('name' in $$props) $$invalidate('name', name = $$props.name);
 		if ('id' in $$props) $$invalidate('id', id = $$props.id);
-		if ('downloadHandler' in $$props) $$invalidate('downloadHandler', downloadHandler = $$props.downloadHandler);
 	};
 
 	return {
@@ -1338,7 +1335,6 @@ function instance$2($$self, $$props, $$invalidate) {
 		toggle,
 		headerContainer,
 		select,
-		downloadHandler,
 		download,
 		div0_binding
 	};
@@ -1348,7 +1344,7 @@ class Order extends SvelteComponent {
 	constructor(options) {
 		super();
 		if (!document.getElementById("svelte-1p65xks-style")) add_css$2();
-		init(this, options, instance$2, create_fragment$2, safe_not_equal, ["contractId", "name", "id", "downloadHandler"]);
+		init(this, options, instance$2, create_fragment$2, safe_not_equal, ["contractId", "name", "id"]);
 	}
 }
 
@@ -1367,7 +1363,7 @@ function get_each_context$2(ctx, list, i) {
 	return child_ctx;
 }
 
-// (13:4) {#each orders as x}
+// (21:4) {#each orders as x}
 function create_each_block$2(ctx) {
 	var current;
 
@@ -1380,6 +1376,7 @@ function create_each_block$2(ctx) {
 		order_props = assign(order_props, order_spread_levels[i]);
 	}
 	var order = new Order({ props: order_props });
+	order.$on("download", ctx.download);
 
 	return {
 		c() {
@@ -1452,7 +1449,7 @@ function create_fragment$3(ctx) {
 		},
 
 		p(changed, ctx) {
-			if (changed.orders) {
+			if (changed.orders || changed.download) {
 				each_value = ctx.orders;
 
 				for (var i = 0; i < each_value.length; i += 1) {
@@ -1500,13 +1497,21 @@ function create_fragment$3(ctx) {
 }
 
 function instance$3($$self, $$props, $$invalidate) {
-	let { orders = [] } = $$props;
+	
+
+    const dispatch = createEventDispatcher();
+
+    const download = ({detail}) => {
+        dispatch('download', detail);
+    };
+
+    let { orders = [] } = $$props;
 
 	$$self.$set = $$props => {
 		if ('orders' in $$props) $$invalidate('orders', orders = $$props.orders);
 	};
 
-	return { orders };
+	return { download, orders };
 }
 
 class App extends SvelteComponent {

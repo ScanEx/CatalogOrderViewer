@@ -1,5 +1,13 @@
 <script>
     import Order from './Order.svelte';
+    import {createEventDispatcher} from 'svelte';
+
+    const dispatch = createEventDispatcher();
+
+    const download = ({detail}) => {
+        dispatch('download', detail);
+    };
+
     export let orders = [];
 </script>
 
@@ -11,6 +19,6 @@
 
 <div class="app">    
     {#each orders as x}
-    <Order {...x} />
+    <Order on:download="{download}" {...x} />
     {/each}    
 </div>
