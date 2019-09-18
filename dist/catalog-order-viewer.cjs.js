@@ -603,8 +603,8 @@ function create_fragment(ctx) {
 			attr(td1, "class", "svelte-1n1ncy2");
 			attr(td2, "class", "name svelte-1n1ncy2");
 			attr(i2, "class", "down svelte-1n1ncy2");
-			toggle_class(i2, "active", ctx.expanded && !ctx.unchecked);
-			toggle_class(i2, "inactive", !ctx.expanded || ctx.unchecked);
+			toggle_class(i2, "active", ctx.expanded);
+			toggle_class(i2, "inactive", !ctx.expanded);
 			attr(td3, "class", "svelte-1n1ncy2");
 			attr(table0, "class", "header svelte-1n1ncy2");
 			toggle_class(table0, "collapsed", !ctx.expanded);
@@ -676,12 +676,9 @@ function create_fragment(ctx) {
 				if_block = null;
 			}
 
-			if ((changed.expanded || changed.unchecked)) {
-				toggle_class(i2, "active", ctx.expanded && !ctx.unchecked);
-				toggle_class(i2, "inactive", !ctx.expanded || ctx.unchecked);
-			}
-
 			if (changed.expanded) {
+				toggle_class(i2, "active", ctx.expanded);
+				toggle_class(i2, "inactive", !ctx.expanded);
 				toggle_class(table0, "collapsed", !ctx.expanded);
 			}
 
@@ -748,7 +745,6 @@ function instance($$self, $$props, $$invalidate) {
     });
 
     let checked = false;
-    let unchecked = true;
     let undetermined = false;
 
     const dispatch = createEventDispatcher();
@@ -795,7 +791,6 @@ function instance($$self, $$props, $$invalidate) {
 		if ($$dirty.granules || $$dirty.checked || $$dirty.undetermined) { {
                 $$invalidate('checked', checked = granules.every(({granule: {product}}) => product.checked));
                 $$invalidate('undetermined', undetermined = !checked && granules.some(({granule: {product}}) => product.checked));
-                $$invalidate('unchecked', unchecked = !checked && !undetermined);
             } }
 	};
 
@@ -805,7 +800,6 @@ function instance($$self, $$props, $$invalidate) {
 		granules,
 		expanded,
 		selected,
-		unchecked,
 		select,
 		translate,
 		download,

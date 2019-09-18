@@ -218,7 +218,7 @@
             <td>550 {translate('mb')}</td>
             {/if}
             <td>
-                <i class="down" on:click|stopPropagation="{download}" class:active="{expanded && !unchecked}" class:inactive="{!expanded || unchecked}"></i>
+                <i class="down" on:click|stopPropagation="{download}" class:active="{expanded}" class:inactive="{!expanded}"></i>
             </td>
         </tr>                                
     </table>
