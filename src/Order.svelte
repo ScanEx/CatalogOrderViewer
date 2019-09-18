@@ -1,7 +1,6 @@
 <script>
     import Region from './Region.svelte';
-    import Info from './Info.svelte';
-    import {createEventDispatcher} from 'svelte';
+    import Info from './Info.svelte';    
 
     export let contractId = '';
     export let name = '';
@@ -23,9 +22,7 @@
     };
 
     let headerContainer;
-    let info;
-
-    const dispatch = createEventDispatcher();
+    let info;    
 
     const select = ({detail}) => {
         const {sceneId, product: {platform}, reset} = detail;
@@ -45,10 +42,16 @@
         else {
             info.$set({sceneId, platform});
         }        
-    };
+    };    
+
+    export let downloadHandler;
+
     const download = ({detail}) => {
-        dispatch('download', detail);
+        if (typeof downloadHandler === 'function') {
+            downloadHandler(detail);
+        }
     };
+
 </script>
 
 <style>
