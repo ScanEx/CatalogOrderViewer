@@ -8,6 +8,10 @@
         dispatch('download', detail);
     };
 
+    const preview = ({detail}) => {
+        dispatch('preview', detail);
+    };
+
     export let orders = [];
 </script>
 
@@ -19,6 +23,6 @@
 
 <div class="app">    
     {#each orders as x}
-    <Order on:download="{download}" {...x} />
+    <Order on:download="{download}" on:preview="{preview}" {...x} />
     {/each}    
 </div>

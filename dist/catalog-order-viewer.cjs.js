@@ -1048,7 +1048,7 @@ function get_each_context$1(ctx, list, i) {
 	return child_ctx;
 }
 
-// (91:8) {#each regions as r}
+// (95:8) {#each regions as r}
 function create_each_block$1(ctx) {
 	var current;
 
@@ -1063,6 +1063,7 @@ function create_each_block$1(ctx) {
 	var region = new Region({ props: region_props });
 	region.$on("select", ctx.select);
 	region.$on("download", ctx.download);
+	region.$on("preview", ctx.preview);
 
 	return {
 		c() {
@@ -1172,7 +1173,7 @@ function create_fragment$2(ctx) {
 				ctx.div0_binding(div0, null);
 			}
 
-			if (changed.regions || changed.select || changed.download) {
+			if (changed.regions || changed.select || changed.download || changed.preview) {
 				each_value = ctx.regions;
 
 				for (var i_1 = 0; i_1 < each_value.length; i_1 += 1) {
@@ -1276,6 +1277,10 @@ function instance$2($$self, $$props, $$invalidate) {
         dispatch('download', detail);
     };
 
+    const preview = ({detail}) => {
+        dispatch('preview', detail);
+    };
+
 	function div0_binding($$node, check) {
 		headerContainer = $$node;
 		$$invalidate('headerContainer', headerContainer);
@@ -1297,6 +1302,7 @@ function instance$2($$self, $$props, $$invalidate) {
 		headerContainer,
 		select,
 		download,
+		preview,
 		div0_binding
 	};
 }
@@ -1324,7 +1330,7 @@ function get_each_context$2(ctx, list, i) {
 	return child_ctx;
 }
 
-// (21:4) {#each orders as x}
+// (25:4) {#each orders as x}
 function create_each_block$2(ctx) {
 	var current;
 
@@ -1338,6 +1344,7 @@ function create_each_block$2(ctx) {
 	}
 	var order = new Order({ props: order_props });
 	order.$on("download", ctx.download);
+	order.$on("preview", ctx.preview);
 
 	return {
 		c() {
@@ -1410,7 +1417,7 @@ function create_fragment$3(ctx) {
 		},
 
 		p(changed, ctx) {
-			if (changed.orders || changed.download) {
+			if (changed.orders || changed.download || changed.preview) {
 				each_value = ctx.orders;
 
 				for (var i = 0; i < each_value.length; i += 1) {
@@ -1466,13 +1473,17 @@ function instance$3($$self, $$props, $$invalidate) {
         dispatch('download', detail);
     };
 
+    const preview = ({detail}) => {
+        dispatch('preview', detail);
+    };
+
     let { orders = [] } = $$props;
 
 	$$self.$set = $$props => {
 		if ('orders' in $$props) $$invalidate('orders', orders = $$props.orders);
 	};
 
-	return { download, orders };
+	return { download, preview, orders };
 }
 
 class App extends SvelteComponent {

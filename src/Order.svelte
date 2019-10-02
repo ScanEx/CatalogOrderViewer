@@ -51,6 +51,10 @@
         dispatch('download', detail);
     };
 
+    const preview = ({detail}) => {
+        dispatch('preview', detail);
+    };
+
 </script>
 
 <style>
@@ -89,7 +93,7 @@
     </div>
     <div class="content" class:hidden="{!expanded}">
         {#each regions as r}
-        <Region {...r} on:select="{select}" on:download="{download}" />
+        <Region {...r} on:select="{select}" on:download="{download}" on:preview="{preview}" />
         {/each}
     </div>
 </div>
