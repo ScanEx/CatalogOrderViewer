@@ -472,7 +472,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (234:8) {#each granules as g, i}
+// (240:8) {#each granules as g, i}
 function create_each_block(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.product.name, t0, t1, td1, t2, dispose;
 
@@ -526,7 +526,7 @@ function create_each_block(ctx) {
 }
 
 function create_fragment(ctx) {
-	var div, table0, tr0, td0, i0, t0, td1, t1, td2, t2, t3, td3, i2, t4, table1, tr1, th0, t5_value = ctx.translate('product'), t5, t6, th1, t7, dispose;
+	var div, table0, tr0, td0, i0, t0, td1, i1, t1, td2, t2, t3, td3, i2, t4, table1, tr1, th0, t5_value = ctx.translate('product'), t5, t6, th1, t7, dispose;
 
 	var each_value = ctx.granules;
 
@@ -545,7 +545,7 @@ function create_fragment(ctx) {
 			i0 = element("i");
 			t0 = space();
 			td1 = element("td");
-			td1.innerHTML = `<i class="preview svelte-1n1ncy2"></i>`;
+			i1 = element("i");
 			t1 = space();
 			td2 = element("td");
 			t2 = text(ctx.name);
@@ -568,6 +568,7 @@ function create_fragment(ctx) {
 			toggle_class(i0, "collapsed", !ctx.expanded);
 			toggle_class(i0, "expanded", ctx.expanded);
 			attr(td0, "class", "svelte-1n1ncy2");
+			attr(i1, "class", "preview svelte-1n1ncy2");
 			attr(td1, "class", "svelte-1n1ncy2");
 			attr(td2, "class", "name svelte-1n1ncy2");
 			attr(i2, "class", "down svelte-1n1ncy2");
@@ -586,6 +587,7 @@ function create_fragment(ctx) {
 
 			dispose = [
 				listen(i0, "click", stop_propagation(ctx.click_handler)),
+				listen(i1, "click", stop_propagation(ctx.preview)),
 				listen(td2, "click", stop_propagation(ctx.click_handler_1)),
 				listen(i2, "click", stop_propagation(ctx.download))
 			];
@@ -599,6 +601,7 @@ function create_fragment(ctx) {
 			append(td0, i0);
 			append(tr0, t0);
 			append(tr0, td1);
+			append(td1, i1);
 			append(tr0, t1);
 			append(tr0, td2);
 			append(td2, t2);
@@ -681,6 +684,7 @@ function instance($$self, $$props, $$invalidate) {
 
     let { id = '', name = '', granules = [] } = $$props;
     let expanded = false;
+    let visible = false;
     let selected = -1;
 
     scanexTranslations_cjs.addText('eng', {
@@ -714,6 +718,11 @@ function instance($$self, $$props, $$invalidate) {
 
     const download = () => {
         dispatch('download', id);
+    };
+
+    const preview = () => {
+        visible = !visible;
+        dispatch('preview', visible);
     };
 
 	function click_handler() {
@@ -754,6 +763,7 @@ function instance($$self, $$props, $$invalidate) {
 		select,
 		translate,
 		download,
+		preview,
 		click_handler,
 		click_handler_1,
 		click_handler_2
@@ -772,8 +782,8 @@ class Region extends SvelteComponent {
 
 function add_css$1() {
 	var style = element("style");
-	style.id = 'svelte-1u0owdc-style';
-	style.textContent = ".scene-info.svelte-1u0owdc{position:absolute;background-color:#FFFFFF;width:580px}.scene-info.svelte-1u0owdc .header.svelte-1u0owdc{border-top:1px solid #D8E1E8;border-left:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px;background-color:#F3F7FA}.scene-info.svelte-1u0owdc .content.svelte-1u0owdc{border:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.scene-info.svelte-1u0owdc .content th.svelte-1u0owdc,.scene-info.svelte-1u0owdc .content td.svelte-1u0owdc{border-left:1px solid #D8E1E8}.scene-info.svelte-1u0owdc .header td.svelte-1u0owdc:first-child,.scene-info.svelte-1u0owdc .content th.svelte-1u0owdc:first-child,.scene-info.svelte-1u0owdc .content td.svelte-1u0owdc:first-child{border-left:none}.scene-info.svelte-1u0owdc .content th.svelte-1u0owdc{padding:5px 10px 5px 10px;color:#92A0AC;text-align:left}.scene-info.svelte-1u0owdc .header td.svelte-1u0owdc,.scene-info.svelte-1u0owdc .content td.svelte-1u0owdc{padding:8px 10px 8px 10px}.scene-info.svelte-1u0owdc .content td.svelte-1u0owdc{border-top:1px solid #D8E1E8;color:#455467}.scene-info.svelte-1u0owdc .header td.svelte-1u0owdc:first-child,.scene-info.svelte-1u0owdc .content th.svelte-1u0owdc:last-child,.scene-info.svelte-1u0owdc .content td.svelte-1u0owdc:last-child{width:100%}.scene-info.svelte-1u0owdc .close.svelte-1u0owdc{padding:10px}.scene-info.svelte-1u0owdc .close i.svelte-1u0owdc{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;background-image:url('close.png');width:10px;height:10px}";
+	style.id = 'svelte-1clauet-style';
+	style.textContent = ".scene-info.svelte-1clauet{position:absolute;background-color:#FFFFFF;width:580px}.scene-info.svelte-1clauet .header.svelte-1clauet{border-top:1px solid #D8E1E8;border-left:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px;background-color:#F3F7FA}.scene-info.svelte-1clauet .content.svelte-1clauet{border:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.scene-info.svelte-1clauet .content th.svelte-1clauet,.scene-info.svelte-1clauet .content td.svelte-1clauet{border-left:1px solid #D8E1E8}.scene-info.svelte-1clauet .header td.svelte-1clauet:first-child,.scene-info.svelte-1clauet .content th.svelte-1clauet:first-child,.scene-info.svelte-1clauet .content td.svelte-1clauet:first-child{border-left:none}.scene-info.svelte-1clauet .content th.svelte-1clauet{padding:5px 10px 5px 10px;color:#92A0AC;text-align:left}.scene-info.svelte-1clauet .header td.svelte-1clauet,.scene-info.svelte-1clauet .content td.svelte-1clauet{padding:8px 10px 8px 10px}.scene-info.svelte-1clauet .content td.svelte-1clauet{border-top:1px solid #D8E1E8;color:#455467}.scene-info.svelte-1clauet .header td.svelte-1clauet:first-child,.scene-info.svelte-1clauet .content th.svelte-1clauet:last-child,.scene-info.svelte-1clauet .content td.svelte-1clauet:last-child{width:100%;word-break:break-all}.scene-info.svelte-1clauet .close.svelte-1clauet{padding:10px}.scene-info.svelte-1clauet .close i.svelte-1clauet{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;background-image:url('close.png');width:10px;height:10px}";
 	append(document.head, style);
 }
 
@@ -792,7 +802,7 @@ function create_fragment$1(ctx) {
 			t2 = text(ctx.date);
 			t3 = space();
 			td2 = element("td");
-			td2.innerHTML = `<i class="svelte-1u0owdc"></i>`;
+			td2.innerHTML = `<i class="svelte-1clauet"></i>`;
 			t4 = space();
 			table1 = element("table");
 			tr1 = element("tr");
@@ -829,26 +839,26 @@ function create_fragment$1(ctx) {
 			t22 = space();
 			td10 = element("td");
 			t23 = text(ctx.time);
-			attr(td0, "class", "svelte-1u0owdc");
-			attr(td1, "class", "svelte-1u0owdc");
-			attr(td2, "class", "close svelte-1u0owdc");
-			attr(table0, "class", "header svelte-1u0owdc");
+			attr(td0, "class", "svelte-1clauet");
+			attr(td1, "class", "svelte-1clauet");
+			attr(td2, "class", "close svelte-1clauet");
+			attr(table0, "class", "header svelte-1clauet");
 			attr(table0, "cellpadding", "0");
 			attr(table0, "cellspacing", "0");
-			attr(th0, "class", "svelte-1u0owdc");
-			attr(th1, "class", "svelte-1u0owdc");
-			attr(td3, "class", "svelte-1u0owdc");
-			attr(td4, "class", "svelte-1u0owdc");
-			attr(td5, "class", "svelte-1u0owdc");
-			attr(td6, "class", "svelte-1u0owdc");
-			attr(td7, "class", "svelte-1u0owdc");
-			attr(td8, "class", "svelte-1u0owdc");
-			attr(td9, "class", "svelte-1u0owdc");
-			attr(td10, "class", "svelte-1u0owdc");
-			attr(table1, "class", "content svelte-1u0owdc");
+			attr(th0, "class", "svelte-1clauet");
+			attr(th1, "class", "svelte-1clauet");
+			attr(td3, "class", "svelte-1clauet");
+			attr(td4, "class", "svelte-1clauet");
+			attr(td5, "class", "svelte-1clauet");
+			attr(td6, "class", "svelte-1clauet");
+			attr(td7, "class", "svelte-1clauet");
+			attr(td8, "class", "svelte-1clauet");
+			attr(td9, "class", "svelte-1clauet");
+			attr(td10, "class", "svelte-1clauet");
+			attr(table1, "class", "content svelte-1clauet");
 			attr(table1, "cellpadding", "0");
 			attr(table1, "cellspacing", "0");
-			attr(div, "class", "scene-info svelte-1u0owdc");
+			attr(div, "class", "scene-info svelte-1clauet");
 			dispose = listen(td2, "click", stop_propagation(ctx.click_handler));
 		},
 
@@ -1014,7 +1024,7 @@ function instance$1($$self, $$props, $$invalidate) {
 class Info extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1u0owdc-style")) add_css$1();
+		if (!document.getElementById("svelte-1clauet-style")) add_css$1();
 		init(this, options, instance$1, create_fragment$1, safe_not_equal, ["sceneId", "platform", "date", "time", "adjustPosition"]);
 	}
 

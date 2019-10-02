@@ -6,6 +6,7 @@
     export let name = '';
     export let granules = [];
     let expanded = false;
+    let visible = false;
     let selected = -1;
 
     T.addText('eng', {
@@ -54,6 +55,11 @@
 
     const download = () => {
         dispatch('download', id);
+    };
+
+    const preview = () => {
+        visible = !visible;
+        dispatch('preview', visible);
     };
 
 </script>
@@ -211,7 +217,7 @@
                 <i class="toggle" on:click|stopPropagation="{() => expanded = !expanded}" class:collapsed="{!expanded}" class:expanded="{expanded}"></i>
             </td>
             <td>
-                <i class="preview"></i>
+                <i class="preview" on:click|stopPropagation="{preview}"></i>
             </td>
             <td class="name" on:click|stopPropagation="{() => expanded = !expanded}">{name}</td>
             <!-- {#if expanded}

@@ -83,6 +83,7 @@
     .scene-info .content th:last-child,
     .scene-info .content td:last-child {
         width: 100%;
+        word-break: break-all;   
     }
     .scene-info .close {
         padding: 10px;
