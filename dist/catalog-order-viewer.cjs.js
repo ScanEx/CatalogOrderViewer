@@ -472,7 +472,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (245:8) {#each granules as g, i}
+// (246:8) {#each granules as g, i}
 function create_each_block(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.product.name, t0, t1, td1, t2, dispose;
 
@@ -729,7 +729,8 @@ function instance($$self, $$props, $$invalidate) {
 
     const preview = () => {
         $$invalidate('visible', visible = !visible);
-        dispatch('preview', visible);
+        const sceneids = granules.map(({granule: sceneId}) => sceneId);
+        dispatch('preview', {id, visible, sceneids});
     };
 
 	function click_handler() {
