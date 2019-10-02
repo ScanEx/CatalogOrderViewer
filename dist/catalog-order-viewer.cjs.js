@@ -790,8 +790,8 @@ class Region extends SvelteComponent {
 
 function add_css$1() {
 	var style = element("style");
-	style.id = 'svelte-1clauet-style';
-	style.textContent = ".scene-info.svelte-1clauet{position:absolute;background-color:#FFFFFF;width:580px}.scene-info.svelte-1clauet .header.svelte-1clauet{border-top:1px solid #D8E1E8;border-left:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px;background-color:#F3F7FA}.scene-info.svelte-1clauet .content.svelte-1clauet{border:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.scene-info.svelte-1clauet .content th.svelte-1clauet,.scene-info.svelte-1clauet .content td.svelte-1clauet{border-left:1px solid #D8E1E8}.scene-info.svelte-1clauet .header td.svelte-1clauet:first-child,.scene-info.svelte-1clauet .content th.svelte-1clauet:first-child,.scene-info.svelte-1clauet .content td.svelte-1clauet:first-child{border-left:none}.scene-info.svelte-1clauet .content th.svelte-1clauet{padding:5px 10px 5px 10px;color:#92A0AC;text-align:left}.scene-info.svelte-1clauet .header td.svelte-1clauet,.scene-info.svelte-1clauet .content td.svelte-1clauet{padding:8px 10px 8px 10px}.scene-info.svelte-1clauet .content td.svelte-1clauet{border-top:1px solid #D8E1E8;color:#455467}.scene-info.svelte-1clauet .header td.svelte-1clauet:first-child,.scene-info.svelte-1clauet .content th.svelte-1clauet:last-child,.scene-info.svelte-1clauet .content td.svelte-1clauet:last-child{width:100%;word-break:break-all}.scene-info.svelte-1clauet .close.svelte-1clauet{padding:10px}.scene-info.svelte-1clauet .close i.svelte-1clauet{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;background-image:url('close.png');width:10px;height:10px}";
+	style.id = 'svelte-yxcc5c-style';
+	style.textContent = ".scene-info.svelte-yxcc5c{position:absolute;background-color:#FFFFFF;width:420px}.scene-info.svelte-yxcc5c .header.svelte-yxcc5c{border-top:1px solid #D8E1E8;border-left:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px;background-color:#F3F7FA}.scene-info.svelte-yxcc5c .content.svelte-yxcc5c{border:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.scene-info.svelte-yxcc5c .content th.svelte-yxcc5c,.scene-info.svelte-yxcc5c .content td.svelte-yxcc5c{border-left:1px solid #D8E1E8}.scene-info.svelte-yxcc5c .header td.svelte-yxcc5c:first-child,.scene-info.svelte-yxcc5c .content th.svelte-yxcc5c:first-child,.scene-info.svelte-yxcc5c .content td.svelte-yxcc5c:first-child{border-left:none}.scene-info.svelte-yxcc5c .content th.svelte-yxcc5c{padding:5px 10px 5px 10px;color:#92A0AC;text-align:left}.scene-info.svelte-yxcc5c .header td.svelte-yxcc5c,.scene-info.svelte-yxcc5c .content td.svelte-yxcc5c{padding:8px 10px 8px 10px}.scene-info.svelte-yxcc5c .content td.svelte-yxcc5c{border-top:1px solid #D8E1E8;color:#455467}.scene-info.svelte-yxcc5c .header td.svelte-yxcc5c:first-child,.scene-info.svelte-yxcc5c .content th.svelte-yxcc5c:last-child,.scene-info.svelte-yxcc5c .content td.svelte-yxcc5c:last-child{width:100%;word-break:break-all}.scene-info.svelte-yxcc5c .close.svelte-yxcc5c{padding:10px}.scene-info.svelte-yxcc5c .close i.svelte-yxcc5c{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;background-image:url('close.png');width:10px;height:10px}";
 	append(document.head, style);
 }
 
@@ -810,7 +810,7 @@ function create_fragment$1(ctx) {
 			t2 = text(ctx.date);
 			t3 = space();
 			td2 = element("td");
-			td2.innerHTML = `<i class="svelte-1clauet"></i>`;
+			td2.innerHTML = `<i class="svelte-yxcc5c"></i>`;
 			t4 = space();
 			table1 = element("table");
 			tr1 = element("tr");
@@ -847,26 +847,26 @@ function create_fragment$1(ctx) {
 			t22 = space();
 			td10 = element("td");
 			t23 = text(ctx.time);
-			attr(td0, "class", "svelte-1clauet");
-			attr(td1, "class", "svelte-1clauet");
-			attr(td2, "class", "close svelte-1clauet");
-			attr(table0, "class", "header svelte-1clauet");
+			attr(td0, "class", "svelte-yxcc5c");
+			attr(td1, "class", "svelte-yxcc5c");
+			attr(td2, "class", "close svelte-yxcc5c");
+			attr(table0, "class", "header svelte-yxcc5c");
 			attr(table0, "cellpadding", "0");
 			attr(table0, "cellspacing", "0");
-			attr(th0, "class", "svelte-1clauet");
-			attr(th1, "class", "svelte-1clauet");
-			attr(td3, "class", "svelte-1clauet");
-			attr(td4, "class", "svelte-1clauet");
-			attr(td5, "class", "svelte-1clauet");
-			attr(td6, "class", "svelte-1clauet");
-			attr(td7, "class", "svelte-1clauet");
-			attr(td8, "class", "svelte-1clauet");
-			attr(td9, "class", "svelte-1clauet");
-			attr(td10, "class", "svelte-1clauet");
-			attr(table1, "class", "content svelte-1clauet");
+			attr(th0, "class", "svelte-yxcc5c");
+			attr(th1, "class", "svelte-yxcc5c");
+			attr(td3, "class", "svelte-yxcc5c");
+			attr(td4, "class", "svelte-yxcc5c");
+			attr(td5, "class", "svelte-yxcc5c");
+			attr(td6, "class", "svelte-yxcc5c");
+			attr(td7, "class", "svelte-yxcc5c");
+			attr(td8, "class", "svelte-yxcc5c");
+			attr(td9, "class", "svelte-yxcc5c");
+			attr(td10, "class", "svelte-yxcc5c");
+			attr(table1, "class", "content svelte-yxcc5c");
 			attr(table1, "cellpadding", "0");
 			attr(table1, "cellspacing", "0");
-			attr(div, "class", "scene-info svelte-1clauet");
+			attr(div, "class", "scene-info svelte-yxcc5c");
 			dispose = listen(td2, "click", stop_propagation(ctx.click_handler));
 		},
 
@@ -1032,7 +1032,7 @@ function instance$1($$self, $$props, $$invalidate) {
 class Info extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1clauet-style")) add_css$1();
+		if (!document.getElementById("svelte-yxcc5c-style")) add_css$1();
 		init(this, options, instance$1, create_fragment$1, safe_not_equal, ["sceneId", "platform", "date", "time", "adjustPosition"]);
 	}
 

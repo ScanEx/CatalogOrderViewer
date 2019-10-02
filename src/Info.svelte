@@ -42,7 +42,7 @@
     .scene-info {
         position: absolute;
         background-color: #FFFFFF;
-        width: 580px;
+        width: 420px;
     }
     .scene-info .header {
         border-top: 1px solid #D8E1E8;
