@@ -59,7 +59,7 @@
 
     const preview = () => {
         visible = !visible;
-        const sceneids = granules.map(({granule: sceneId}) => sceneId);
+        const sceneids = granules.map(g => g.granule.sceneId);
         dispatch('preview', {id, visible, sceneids});
     };
 
