@@ -124,10 +124,15 @@
     .roi .header .down.inactive {
         background-image: url('down-inactive.png');
     }
-    .roi .header .preview {        
-        background-image: url('preview.png');        
+    .roi .header .preview {                
         width: 16px;
         height: 16px;
+    }
+    .roi .header .preview.active {
+        background-image: url('preview-active.png');
+    }
+    .roi .header .preview.inactive {
+        background-image: url('preview-inactive.png');
     }
     .roi .header .preview,
     .roi .header .name {
@@ -217,7 +222,7 @@
                 <i class="toggle" on:click|stopPropagation="{() => expanded = !expanded}" class:collapsed="{!expanded}" class:expanded="{expanded}"></i>
             </td>
             <td>
-                <i class="preview" on:click|stopPropagation="{preview}"></i>
+                <i class="preview" class:active="{visible}" class:inactive="{!visible}" on:click|stopPropagation="{preview}"></i>
             </td>
             <td class="name" on:click|stopPropagation="{() => expanded = !expanded}">{name}</td>
             <!-- {#if expanded}

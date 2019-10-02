@@ -460,8 +460,8 @@ var scanexTranslations_cjs = index;
 
 function add_css() {
 	var style = element("style");
-	style.id = 'svelte-1n1ncy2-style';
-	style.textContent = ".roi.svelte-1n1ncy2{margin-top:8px;font-family:'IBM Plex Sans'}.roi.svelte-1n1ncy2:last-child{margin-bottom:8px}.roi.svelte-1n1ncy2 .header.svelte-1n1ncy2{padding:17px 7px 17px 9px;cursor:pointer;background-color:#F3F7FA;border:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px;width:100%}.roi.svelte-1n1ncy2 .header td.svelte-1n1ncy2,.roi.svelte-1n1ncy2 .content th.svelte-1n1ncy2,.roi.svelte-1n1ncy2 .content td.svelte-1n1ncy2{white-space:nowrap}.roi.svelte-1n1ncy2 .header.collapsed.svelte-1n1ncy2{border-bottom-left-radius:5px;border-bottom-right-radius:5px}.roi.svelte-1n1ncy2 .header .toggle.svelte-1n1ncy2{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;width:12px;height:12px}.roi.svelte-1n1ncy2 .header .toggle.expanded.svelte-1n1ncy2{background-image:url('arrow-down.png')}.roi.svelte-1n1ncy2 .header .toggle.collapsed.svelte-1n1ncy2{background-image:url('arrow-right.png')}.roi.svelte-1n1ncy2 .header .down.svelte-1n1ncy2,.roi.svelte-1n1ncy2 .header .preview.svelte-1n1ncy2,.roi.svelte-1n1ncy2 .content .info.svelte-1n1ncy2{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat}.roi.svelte-1n1ncy2 .header .down.svelte-1n1ncy2{width:20px;height:20px;margin-left:5px}.roi.svelte-1n1ncy2 .header .down.active.svelte-1n1ncy2{background-image:url('down-active.png')}.roi.svelte-1n1ncy2 .header .down.inactive.svelte-1n1ncy2{background-image:url('down-inactive.png')}.roi.svelte-1n1ncy2 .header .preview.svelte-1n1ncy2{background-image:url('preview.png');width:16px;height:16px}.roi.svelte-1n1ncy2 .header .preview.svelte-1n1ncy2,.roi.svelte-1n1ncy2 .header .name.svelte-1n1ncy2{margin-left:10px}.roi.svelte-1n1ncy2 .content.svelte-1n1ncy2{border-left:1px solid #D8E1E8;border-bottom:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.roi.svelte-1n1ncy2 .content.hidden.svelte-1n1ncy2{display:none}.roi.svelte-1n1ncy2 .content th.svelte-1n1ncy2,.roi.svelte-1n1ncy2 .content td.svelte-1n1ncy2{text-align:left;border-left:1px solid #D8E1E8;padding-top:6px;padding-bottom:6px;padding-left:12px;padding-right:12px}.roi.svelte-1n1ncy2 .header .name.svelte-1n1ncy2,.roi.svelte-1n1ncy2 .content th.svelte-1n1ncy2:first-child{width:100%}.roi.svelte-1n1ncy2 .content th.svelte-1n1ncy2:first-child,.roi.svelte-1n1ncy2 .content td.svelte-1n1ncy2:first-child,.roi.svelte-1n1ncy2 .content th.svelte-1n1ncy2:last-child,.roi.svelte-1n1ncy2 .content td.svelte-1n1ncy2:last-child{border-left:none}.roi.svelte-1n1ncy2 .content th.svelte-1n1ncy2:first-child,.roi.svelte-1n1ncy2 .content td.svelte-1n1ncy2:first-child{padding-left:32px}.roi.svelte-1n1ncy2 .content th.svelte-1n1ncy2{color:#92A0AC;border-bottom:1px solid #D8E1E8}.roi.svelte-1n1ncy2 .content td.svelte-1n1ncy2{color:#455467;cursor:pointer;border-top:1px solid transparent;border-bottom:1px solid transparent}.roi.svelte-1n1ncy2 .content .info.svelte-1n1ncy2{background-image:url('info.png');width:16px;height:16px}.roi.svelte-1n1ncy2 .content .selected td.svelte-1n1ncy2{border-top:1px solid #00A2D3;border-bottom:1px solid #00A2D3}.roi.svelte-1n1ncy2 .content .selected td.svelte-1n1ncy2:first-child{border-left:1px solid #00A2D3;border-top-left-radius:3px;border-bottom-left-radius:3px}.roi.svelte-1n1ncy2 .content .selected td.svelte-1n1ncy2:last-child{border-right:1px solid #00A2D3;border-top-right-radius:3px;border-bottom-right-radius:3px}";
+	style.id = 'svelte-15ejp9x-style';
+	style.textContent = ".roi.svelte-15ejp9x{margin-top:8px;font-family:'IBM Plex Sans'}.roi.svelte-15ejp9x:last-child{margin-bottom:8px}.roi.svelte-15ejp9x .header.svelte-15ejp9x{padding:17px 7px 17px 9px;cursor:pointer;background-color:#F3F7FA;border:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px;width:100%}.roi.svelte-15ejp9x .header td.svelte-15ejp9x,.roi.svelte-15ejp9x .content th.svelte-15ejp9x,.roi.svelte-15ejp9x .content td.svelte-15ejp9x{white-space:nowrap}.roi.svelte-15ejp9x .header.collapsed.svelte-15ejp9x{border-bottom-left-radius:5px;border-bottom-right-radius:5px}.roi.svelte-15ejp9x .header .toggle.svelte-15ejp9x{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;width:12px;height:12px}.roi.svelte-15ejp9x .header .toggle.expanded.svelte-15ejp9x{background-image:url('arrow-down.png')}.roi.svelte-15ejp9x .header .toggle.collapsed.svelte-15ejp9x{background-image:url('arrow-right.png')}.roi.svelte-15ejp9x .header .down.svelte-15ejp9x,.roi.svelte-15ejp9x .header .preview.svelte-15ejp9x,.roi.svelte-15ejp9x .content .info.svelte-15ejp9x{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat}.roi.svelte-15ejp9x .header .down.svelte-15ejp9x{width:20px;height:20px;margin-left:5px}.roi.svelte-15ejp9x .header .down.active.svelte-15ejp9x{background-image:url('down-active.png')}.roi.svelte-15ejp9x .header .down.inactive.svelte-15ejp9x{background-image:url('down-inactive.png')}.roi.svelte-15ejp9x .header .preview.svelte-15ejp9x{width:16px;height:16px}.roi.svelte-15ejp9x .header .preview.active.svelte-15ejp9x{background-image:url('preview-active.png')}.roi.svelte-15ejp9x .header .preview.inactive.svelte-15ejp9x{background-image:url('preview-inactive.png')}.roi.svelte-15ejp9x .header .preview.svelte-15ejp9x,.roi.svelte-15ejp9x .header .name.svelte-15ejp9x{margin-left:10px}.roi.svelte-15ejp9x .content.svelte-15ejp9x{border-left:1px solid #D8E1E8;border-bottom:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.roi.svelte-15ejp9x .content.hidden.svelte-15ejp9x{display:none}.roi.svelte-15ejp9x .content th.svelte-15ejp9x,.roi.svelte-15ejp9x .content td.svelte-15ejp9x{text-align:left;border-left:1px solid #D8E1E8;padding-top:6px;padding-bottom:6px;padding-left:12px;padding-right:12px}.roi.svelte-15ejp9x .header .name.svelte-15ejp9x,.roi.svelte-15ejp9x .content th.svelte-15ejp9x:first-child{width:100%}.roi.svelte-15ejp9x .content th.svelte-15ejp9x:first-child,.roi.svelte-15ejp9x .content td.svelte-15ejp9x:first-child,.roi.svelte-15ejp9x .content th.svelte-15ejp9x:last-child,.roi.svelte-15ejp9x .content td.svelte-15ejp9x:last-child{border-left:none}.roi.svelte-15ejp9x .content th.svelte-15ejp9x:first-child,.roi.svelte-15ejp9x .content td.svelte-15ejp9x:first-child{padding-left:32px}.roi.svelte-15ejp9x .content th.svelte-15ejp9x{color:#92A0AC;border-bottom:1px solid #D8E1E8}.roi.svelte-15ejp9x .content td.svelte-15ejp9x{color:#455467;cursor:pointer;border-top:1px solid transparent;border-bottom:1px solid transparent}.roi.svelte-15ejp9x .content .info.svelte-15ejp9x{background-image:url('info.png');width:16px;height:16px}.roi.svelte-15ejp9x .content .selected td.svelte-15ejp9x{border-top:1px solid #00A2D3;border-bottom:1px solid #00A2D3}.roi.svelte-15ejp9x .content .selected td.svelte-15ejp9x:first-child{border-left:1px solid #00A2D3;border-top-left-radius:3px;border-bottom-left-radius:3px}.roi.svelte-15ejp9x .content .selected td.svelte-15ejp9x:last-child{border-right:1px solid #00A2D3;border-top-right-radius:3px;border-bottom-right-radius:3px}";
 	append(document.head, style);
 }
 
@@ -472,7 +472,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (240:8) {#each granules as g, i}
+// (245:8) {#each granules as g, i}
 function create_each_block(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.product.name, t0, t1, td1, t2, dispose;
 
@@ -487,10 +487,10 @@ function create_each_block(ctx) {
 			t0 = text(t0_value);
 			t1 = space();
 			td1 = element("td");
-			td1.innerHTML = `<i class="info svelte-1n1ncy2"></i>`;
+			td1.innerHTML = `<i class="info svelte-15ejp9x"></i>`;
 			t2 = space();
-			attr(td0, "class", "svelte-1n1ncy2");
-			attr(td1, "class", "svelte-1n1ncy2");
+			attr(td0, "class", "svelte-15ejp9x");
+			attr(td1, "class", "svelte-15ejp9x");
 			toggle_class(tr, "selected", ctx.i === ctx.selected);
 			dispose = listen(tr, "click", click_handler_2);
 		},
@@ -564,26 +564,28 @@ function create_fragment(ctx) {
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].c();
 			}
-			attr(i0, "class", "toggle svelte-1n1ncy2");
+			attr(i0, "class", "toggle svelte-15ejp9x");
 			toggle_class(i0, "collapsed", !ctx.expanded);
 			toggle_class(i0, "expanded", ctx.expanded);
-			attr(td0, "class", "svelte-1n1ncy2");
-			attr(i1, "class", "preview svelte-1n1ncy2");
-			attr(td1, "class", "svelte-1n1ncy2");
-			attr(td2, "class", "name svelte-1n1ncy2");
-			attr(i2, "class", "down svelte-1n1ncy2");
+			attr(td0, "class", "svelte-15ejp9x");
+			attr(i1, "class", "preview svelte-15ejp9x");
+			toggle_class(i1, "active", ctx.visible);
+			toggle_class(i1, "inactive", !ctx.visible);
+			attr(td1, "class", "svelte-15ejp9x");
+			attr(td2, "class", "name svelte-15ejp9x");
+			attr(i2, "class", "down svelte-15ejp9x");
 			toggle_class(i2, "active", ctx.expanded);
 			toggle_class(i2, "inactive", !ctx.expanded);
-			attr(td3, "class", "svelte-1n1ncy2");
-			attr(table0, "class", "header svelte-1n1ncy2");
+			attr(td3, "class", "svelte-15ejp9x");
+			attr(table0, "class", "header svelte-15ejp9x");
 			toggle_class(table0, "collapsed", !ctx.expanded);
-			attr(th0, "class", "svelte-1n1ncy2");
-			attr(th1, "class", "svelte-1n1ncy2");
-			attr(table1, "class", "content svelte-1n1ncy2");
+			attr(th0, "class", "svelte-15ejp9x");
+			attr(th1, "class", "svelte-15ejp9x");
+			attr(table1, "class", "content svelte-15ejp9x");
 			attr(table1, "cellpadding", "0");
 			attr(table1, "cellspacing", "0");
 			toggle_class(table1, "hidden", !ctx.expanded);
-			attr(div, "class", "roi svelte-1n1ncy2");
+			attr(div, "class", "roi svelte-15ejp9x");
 
 			dispose = [
 				listen(i0, "click", stop_propagation(ctx.click_handler)),
@@ -626,6 +628,11 @@ function create_fragment(ctx) {
 			if (changed.expanded) {
 				toggle_class(i0, "collapsed", !ctx.expanded);
 				toggle_class(i0, "expanded", ctx.expanded);
+			}
+
+			if (changed.visible) {
+				toggle_class(i1, "active", ctx.visible);
+				toggle_class(i1, "inactive", !ctx.visible);
 			}
 
 			if (changed.name) {
@@ -721,7 +728,7 @@ function instance($$self, $$props, $$invalidate) {
     };
 
     const preview = () => {
-        visible = !visible;
+        $$invalidate('visible', visible = !visible);
         dispatch('preview', visible);
     };
 
@@ -759,6 +766,7 @@ function instance($$self, $$props, $$invalidate) {
 		name,
 		granules,
 		expanded,
+		visible,
 		selected,
 		select,
 		translate,
@@ -773,7 +781,7 @@ function instance($$self, $$props, $$invalidate) {
 class Region extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1n1ncy2-style")) add_css();
+		if (!document.getElementById("svelte-15ejp9x-style")) add_css();
 		init(this, options, instance, create_fragment, safe_not_equal, ["id", "name", "granules"]);
 	}
 }
