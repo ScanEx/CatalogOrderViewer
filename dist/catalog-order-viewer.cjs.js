@@ -729,8 +729,8 @@ function instance($$self, $$props, $$invalidate) {
 
     const preview = () => {
         $$invalidate('visible', visible = !visible);
-        const sceneids = granules.map(g => g.granule.sceneId);
-        dispatch('preview', {id, visible, sceneids});
+        const gs = granules.map(g => g.granuleId);
+        dispatch('preview', {id, visible, granules: gs});
     };
 
 	function click_handler() {
