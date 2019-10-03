@@ -59,7 +59,10 @@
 
     const preview = () => {
         visible = !visible;
-        const gs = granules.map(({granuleId}) => granuleId);
+        const gs = granules.reduce((a, {granuleId}) => {
+            a[granuleId] = true;
+            return a;
+        }, {});
         dispatch('preview', {id, visible, granules: gs});
     };
 
