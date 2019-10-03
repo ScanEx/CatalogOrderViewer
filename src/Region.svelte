@@ -58,9 +58,8 @@
     };
 
     const preview = () => {
-        visible = !visible;
-        const gs = granules.map(g => g.granuleId);
-        dispatch('preview', {id, visible, granules: gs});
+        visible = !visible;        
+        dispatch('preview', {id, visible, granules});
     };
 
 </script>
