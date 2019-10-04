@@ -1,12 +1,13 @@
 <script>
     import T from 'scanex-translations';
-    import {createEventDispatcher} from 'svelte';
+    import { createEventDispatcher, onMount, onDestroy } from 'svelte';
+    import { visibility } from './store.js';    
 
     export let id = '';
     export let name = '';
     export let granules = [];
-    let expanded = false;
-    let visible = false;
+    export let visible = false;
+    let expanded = false;    
     let selected = -1;
 
     T.addText('eng', {
@@ -57,15 +58,27 @@
         dispatch('download', id);
     };
 
-    const preview = () => {
-        visible = !visible;
+    const preview = () => {        
+        visible = !visible;     
+        if (visible) {
+            visibility.set(true);
+        }
+                        
         const gs = granules.reduce((a, {granuleId}) => {
             a[granuleId] = true;
             return a;
         }, {});
-        dispatch('preview', {id, visible, granules: gs});
+        dispatch('preview', {id, visible, granules: gs});       
     };
 
+    let unsubscribe = visibility.subscribe(value => {
+        if (!value) {
+            visible = false;
+        }
+    });
+
+    onDestroy(() => unsubscribe());
+    
 </script>
 
 <style>    

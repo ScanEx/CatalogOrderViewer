@@ -1,6 +1,7 @@
 <script>
     import Order from './Order.svelte';
     import {createEventDispatcher} from 'svelte';
+    import {visibility} from './store.js';
 
     const dispatch = createEventDispatcher();
 
@@ -13,6 +14,10 @@
     };
 
     export let orders = [];
+
+    export function resetVisibility () {
+        visibility.set(false);
+    } 
 </script>
 
 <style>
