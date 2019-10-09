@@ -740,7 +740,7 @@ function create_fragment(ctx) {
 function instance($$self, $$props, $$invalidate) {
 	    
 
-    let { id = '', geoJson = null, name = '', granules = [], visible = false } = $$props;
+    let { id = '', geoJSON = null, name = '', granules = [], visible = false } = $$props;
     let expanded = false;    
     let selected = -1;
 
@@ -816,7 +816,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	$$self.$set = $$props => {
 		if ('id' in $$props) $$invalidate('id', id = $$props.id);
-		if ('geoJson' in $$props) $$invalidate('geoJson', geoJson = $$props.geoJson);
+		if ('geoJSON' in $$props) $$invalidate('geoJSON', geoJSON = $$props.geoJSON);
 		if ('name' in $$props) $$invalidate('name', name = $$props.name);
 		if ('granules' in $$props) $$invalidate('granules', granules = $$props.granules);
 		if ('visible' in $$props) $$invalidate('visible', visible = $$props.visible);
@@ -831,7 +831,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	return {
 		id,
-		geoJson,
+		geoJSON,
 		name,
 		granules,
 		visible,
@@ -851,7 +851,7 @@ class Region extends SvelteComponent {
 	constructor(options) {
 		super();
 		if (!document.getElementById("svelte-15ejp9x-style")) add_css();
-		init(this, options, instance, create_fragment, safe_not_equal, ["id", "geoJson", "name", "granules", "visible"]);
+		init(this, options, instance, create_fragment, safe_not_equal, ["id", "geoJSON", "name", "granules", "visible"]);
 	}
 }
 

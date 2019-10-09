@@ -4,7 +4,7 @@
     import { visibility } from './store.js';    
 
     export let id = '';
-    export let geoJson = null;
+    export let geoJSON = null;
     export let name = '';
     export let granules = [];
     export let visible = false;
