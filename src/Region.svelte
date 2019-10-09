@@ -69,7 +69,7 @@
             a[granuleId] = true;
             return a;
         }, {});
-        dispatch('preview', {id, visible, granules: gs, geoJson});
+        dispatch('preview', {id, visible, granules: gs, geoJSON});
     };
 
     let unsubscribe = visibility.subscribe(value => {
