@@ -4,6 +4,7 @@
     import { visibility } from './store.js';    
 
     export let id = '';
+    export let geoJson = null;
     export let name = '';
     export let granules = [];
     export let visible = false;
@@ -68,7 +69,7 @@
             a[granuleId] = true;
             return a;
         }, {});
-        dispatch('preview', {id, visible, granules: gs});       
+        dispatch('preview', {id, visible, granules: gs, geoJson});
     };
 
     let unsubscribe = visibility.subscribe(value => {

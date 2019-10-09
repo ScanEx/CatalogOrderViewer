@@ -523,7 +523,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (262:8) {#each granules as g, i}
+// (263:8) {#each granules as g, i}
 function create_each_block(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.product.name, t0, t1, td1, t2, dispose;
 
@@ -740,7 +740,7 @@ function create_fragment(ctx) {
 function instance($$self, $$props, $$invalidate) {
 	    
 
-    let { id = '', name = '', granules = [], visible = false } = $$props;
+    let { id = '', geoJson = null, name = '', granules = [], visible = false } = $$props;
     let expanded = false;    
     let selected = -1;
 
@@ -787,7 +787,7 @@ function instance($$self, $$props, $$invalidate) {
             a[granuleId] = true;
             return a;
         }, {});
-        dispatch('preview', {id, visible, granules: gs});       
+        dispatch('preview', {id, visible, granules: gs, geoJson});
     };
 
     let unsubscribe = visibility.subscribe(value => {
@@ -816,6 +816,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	$$self.$set = $$props => {
 		if ('id' in $$props) $$invalidate('id', id = $$props.id);
+		if ('geoJson' in $$props) $$invalidate('geoJson', geoJson = $$props.geoJson);
 		if ('name' in $$props) $$invalidate('name', name = $$props.name);
 		if ('granules' in $$props) $$invalidate('granules', granules = $$props.granules);
 		if ('visible' in $$props) $$invalidate('visible', visible = $$props.visible);
@@ -830,6 +831,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	return {
 		id,
+		geoJson,
 		name,
 		granules,
 		visible,
@@ -849,7 +851,7 @@ class Region extends SvelteComponent {
 	constructor(options) {
 		super();
 		if (!document.getElementById("svelte-15ejp9x-style")) add_css();
-		init(this, options, instance, create_fragment, safe_not_equal, ["id", "name", "granules", "visible"]);
+		init(this, options, instance, create_fragment, safe_not_equal, ["id", "geoJson", "name", "granules", "visible"]);
 	}
 }
 
