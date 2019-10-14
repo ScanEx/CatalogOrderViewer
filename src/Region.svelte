@@ -250,7 +250,7 @@
             </td>
             <td class="name" on:click|stopPropagation="{() => expanded = !expanded}">{name}</td>
             {#if expanded}
-            <td>{mBytes.toFixed(1)} {translate('mb')}</td>
+            <td>{mBytes.toFixed(3)} {translate('mb')}</td>
             {/if}
             <td>
                 <i class="down" on:click|stopPropagation="{download}" class:active="{expanded}" class:inactive="{!expanded}"></i>

@@ -525,7 +525,7 @@ function get_each_context(ctx, list, i) {
 
 // (252:12) {#if expanded}
 function create_if_block(ctx) {
-	var td, t0_value = ctx.mBytes.toFixed(1), t0, t1, t2_value = ctx.translate('mb'), t2;
+	var td, t0_value = ctx.mBytes.toFixed(3), t0, t1, t2_value = ctx.translate('mb'), t2;
 
 	return {
 		c() {
@@ -544,7 +544,7 @@ function create_if_block(ctx) {
 		},
 
 		p(changed, ctx) {
-			if ((changed.mBytes) && t0_value !== (t0_value = ctx.mBytes.toFixed(1))) {
+			if ((changed.mBytes) && t0_value !== (t0_value = ctx.mBytes.toFixed(3))) {
 				set_data(t0, t0_value);
 			}
 		},
