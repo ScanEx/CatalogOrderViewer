@@ -14,8 +14,8 @@
     let expanded = false;    
     let selected = -1;
 
-    $: kBytes = (size / 1024).toFixed(1);
-    $: mBytes = (kBytes / 1024).toFixed(1);
+    $: kBytes = size / 1024;
+    $: mBytes = kBytes / 1024;
 
     T.addText('eng', {
         product: 'Product',
@@ -250,7 +250,7 @@
             </td>
             <td class="name" on:click|stopPropagation="{() => expanded = !expanded}">{name}</td>
             {#if expanded}
-            <td>{mBytes} {translate('mb')}</td>
+            <td>{mBytes.toFixed(1)} {translate('mb')}</td>
             {/if}
             <td>
                 <i class="down" on:click|stopPropagation="{download}" class:active="{expanded}" class:inactive="{!expanded}"></i>

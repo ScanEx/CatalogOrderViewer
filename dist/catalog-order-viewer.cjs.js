@@ -525,12 +525,12 @@ function get_each_context(ctx, list, i) {
 
 // (252:12) {#if expanded}
 function create_if_block(ctx) {
-	var td, t0, t1, t2_value = ctx.translate('mb'), t2;
+	var td, t0_value = ctx.mBytes.toFixed(1), t0, t1, t2_value = ctx.translate('mb'), t2;
 
 	return {
 		c() {
 			td = element("td");
-			t0 = text(ctx.mBytes);
+			t0 = text(t0_value);
 			t1 = space();
 			t2 = text(t2_value);
 			attr(td, "class", "svelte-15ejp9x");
@@ -544,8 +544,8 @@ function create_if_block(ctx) {
 		},
 
 		p(changed, ctx) {
-			if (changed.mBytes) {
-				set_data(t0, ctx.mBytes);
+			if ((changed.mBytes) && t0_value !== (t0_value = ctx.mBytes.toFixed(1))) {
+				set_data(t0, t0_value);
 			}
 		},
 
@@ -883,8 +883,8 @@ function instance($$self, $$props, $$invalidate) {
 	let kBytes, mBytes;
 
 	$$self.$$.update = ($$dirty = { size: 1, kBytes: 1, granules: 1, checked: 1, undetermined: 1 }) => {
-		if ($$dirty.size) { $$invalidate('kBytes', kBytes = (size / 1024).toFixed(1)); }
-		if ($$dirty.kBytes) { $$invalidate('mBytes', mBytes = (kBytes / 1024).toFixed(1)); }
+		if ($$dirty.size) { $$invalidate('kBytes', kBytes = size / 1024); }
+		if ($$dirty.kBytes) { $$invalidate('mBytes', mBytes = kBytes / 1024); }
 		if ($$dirty.granules || $$dirty.checked || $$dirty.undetermined) { {
                 $$invalidate('checked', checked = granules.every(({granule: {product}}) => product.checked));
                 $$invalidate('undetermined', undetermined = !checked && granules.some(({granule: {product}}) => product.checked));
