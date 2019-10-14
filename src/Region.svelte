@@ -8,8 +8,14 @@
     export let name = '';
     export let granules = [];
     export let visible = false;
+    export let size = 0;
+
+
     let expanded = false;    
     let selected = -1;
+
+    $: kBytes = (size / 1024).toFixed(1);
+    $: mBytes = (kBytes / 1024).toFixed(1);
 
     T.addText('eng', {
         product: 'Product',
@@ -243,9 +249,9 @@
                 <i class="preview" class:active="{visible}" class:inactive="{!visible}" on:click|stopPropagation="{preview}"></i>
             </td>
             <td class="name" on:click|stopPropagation="{() => expanded = !expanded}">{name}</td>
-            <!-- {#if expanded}
-            <td>550 {translate('mb')}</td>
-            {/if} -->
+            {#if expanded}
+            <td>{mBytes} {translate('mb')}</td>
+            {/if}
             <td>
                 <i class="down" on:click|stopPropagation="{download}" class:active="{expanded}" class:inactive="{!expanded}"></i>
             </td>

@@ -523,7 +523,41 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (263:8) {#each granules as g, i}
+// (252:12) {#if expanded}
+function create_if_block(ctx) {
+	var td, t0, t1, t2_value = ctx.translate('mb'), t2;
+
+	return {
+		c() {
+			td = element("td");
+			t0 = text(ctx.mBytes);
+			t1 = space();
+			t2 = text(t2_value);
+			attr(td, "class", "svelte-15ejp9x");
+		},
+
+		m(target, anchor) {
+			insert(target, td, anchor);
+			append(td, t0);
+			append(td, t1);
+			append(td, t2);
+		},
+
+		p(changed, ctx) {
+			if (changed.mBytes) {
+				set_data(t0, ctx.mBytes);
+			}
+		},
+
+		d(detaching) {
+			if (detaching) {
+				detach(td);
+			}
+		}
+	};
+}
+
+// (269:8) {#each granules as g, i}
 function create_each_block(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.product.name, t0, t1, td1, t2, dispose;
 
@@ -577,7 +611,9 @@ function create_each_block(ctx) {
 }
 
 function create_fragment(ctx) {
-	var div, table0, tr0, td0, i0, t0, td1, i1, t1, td2, t2, t3, td3, i2, t4, table1, tr1, th0, t5_value = ctx.translate('product'), t5, t6, th1, t7, dispose;
+	var div, table0, tr0, td0, i0, t0, td1, i1, t1, td2, t2, t3, t4, td3, i2, t5, table1, tr1, th0, t6_value = ctx.translate('product'), t6, t7, th1, t8, dispose;
+
+	var if_block = (ctx.expanded) && create_if_block(ctx);
 
 	var each_value = ctx.granules;
 
@@ -601,16 +637,18 @@ function create_fragment(ctx) {
 			td2 = element("td");
 			t2 = text(ctx.name);
 			t3 = space();
+			if (if_block) if_block.c();
+			t4 = space();
 			td3 = element("td");
 			i2 = element("i");
-			t4 = space();
+			t5 = space();
 			table1 = element("table");
 			tr1 = element("tr");
 			th0 = element("th");
-			t5 = text(t5_value);
-			t6 = space();
-			th1 = element("th");
+			t6 = text(t6_value);
 			t7 = space();
+			th1 = element("th");
+			t8 = space();
 
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].c();
@@ -659,16 +697,18 @@ function create_fragment(ctx) {
 			append(tr0, td2);
 			append(td2, t2);
 			append(tr0, t3);
+			if (if_block) if_block.m(tr0, null);
+			append(tr0, t4);
 			append(tr0, td3);
 			append(td3, i2);
-			append(div, t4);
+			append(div, t5);
 			append(div, table1);
 			append(table1, tr1);
 			append(tr1, th0);
-			append(th0, t5);
-			append(tr1, t6);
+			append(th0, t6);
+			append(tr1, t7);
 			append(tr1, th1);
-			append(table1, t7);
+			append(table1, t8);
 
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].m(table1, null);
@@ -688,6 +728,19 @@ function create_fragment(ctx) {
 
 			if (changed.name) {
 				set_data(t2, ctx.name);
+			}
+
+			if (ctx.expanded) {
+				if (if_block) {
+					if_block.p(changed, ctx);
+				} else {
+					if_block = create_if_block(ctx);
+					if_block.c();
+					if_block.m(tr0, t4);
+				}
+			} else if (if_block) {
+				if_block.d(1);
+				if_block = null;
 			}
 
 			if (changed.expanded) {
@@ -730,6 +783,8 @@ function create_fragment(ctx) {
 				detach(div);
 			}
 
+			if (if_block) if_block.d();
+
 			destroy_each(each_blocks, detaching);
 
 			run_all(dispose);
@@ -740,7 +795,9 @@ function create_fragment(ctx) {
 function instance($$self, $$props, $$invalidate) {
 	    
 
-    let { id = '', geoJSON = null, name = '', granules = [], visible = false } = $$props;
+    let { id = '', geoJSON = null, name = '', granules = [], visible = false, size = 0 } = $$props;
+
+
     let expanded = false;    
     let selected = -1;
 
@@ -820,9 +877,14 @@ function instance($$self, $$props, $$invalidate) {
 		if ('name' in $$props) $$invalidate('name', name = $$props.name);
 		if ('granules' in $$props) $$invalidate('granules', granules = $$props.granules);
 		if ('visible' in $$props) $$invalidate('visible', visible = $$props.visible);
+		if ('size' in $$props) $$invalidate('size', size = $$props.size);
 	};
 
-	$$self.$$.update = ($$dirty = { granules: 1, checked: 1, undetermined: 1 }) => {
+	let kBytes, mBytes;
+
+	$$self.$$.update = ($$dirty = { size: 1, kBytes: 1, granules: 1, checked: 1, undetermined: 1 }) => {
+		if ($$dirty.size) { $$invalidate('kBytes', kBytes = (size / 1024).toFixed(1)); }
+		if ($$dirty.kBytes) { $$invalidate('mBytes', mBytes = (kBytes / 1024).toFixed(1)); }
 		if ($$dirty.granules || $$dirty.checked || $$dirty.undetermined) { {
                 $$invalidate('checked', checked = granules.every(({granule: {product}}) => product.checked));
                 $$invalidate('undetermined', undetermined = !checked && granules.some(({granule: {product}}) => product.checked));
@@ -835,12 +897,14 @@ function instance($$self, $$props, $$invalidate) {
 		name,
 		granules,
 		visible,
+		size,
 		expanded,
 		selected,
 		select,
 		translate,
 		download,
 		preview,
+		mBytes,
 		click_handler,
 		click_handler_1,
 		click_handler_2
@@ -851,7 +915,7 @@ class Region extends SvelteComponent {
 	constructor(options) {
 		super();
 		if (!document.getElementById("svelte-15ejp9x-style")) add_css();
-		init(this, options, instance, create_fragment, safe_not_equal, ["id", "geoJSON", "name", "granules", "visible"]);
+		init(this, options, instance, create_fragment, safe_not_equal, ["id", "geoJSON", "name", "granules", "visible", "size"]);
 	}
 }
 
