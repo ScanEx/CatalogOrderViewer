@@ -47,6 +47,9 @@ function text(data) {
 function space() {
     return text(' ');
 }
+function empty() {
+    return text('');
+}
 function listen(node, event, handler, options) {
     node.addEventListener(event, handler, options);
     return () => node.removeEventListener(event, handler, options);
@@ -523,9 +526,56 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (252:12) {#if expanded}
+// (256:12) {#if expanded}
 function create_if_block(ctx) {
-	var td, t0_value = ctx.mBytes.toFixed(3), t0, t1, t2_value = ctx.translate('mb'), t2;
+	var if_block_anchor;
+
+	function select_block_type(ctx) {
+		if (ctx.mBytes >= 1.0) return create_if_block_1;
+		if (ctx.kBytes >= 1.0) return create_if_block_2;
+		return create_else_block;
+	}
+
+	var current_block_type = select_block_type(ctx);
+	var if_block = current_block_type(ctx);
+
+	return {
+		c() {
+			if_block.c();
+			if_block_anchor = empty();
+		},
+
+		m(target, anchor) {
+			if_block.m(target, anchor);
+			insert(target, if_block_anchor, anchor);
+		},
+
+		p(changed, ctx) {
+			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+				if_block.p(changed, ctx);
+			} else {
+				if_block.d(1);
+				if_block = current_block_type(ctx);
+				if (if_block) {
+					if_block.c();
+					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+				}
+			}
+		},
+
+		d(detaching) {
+			if_block.d(detaching);
+
+			if (detaching) {
+				detach(if_block_anchor);
+			}
+		}
+	};
+}
+
+// (261:16) {:else}
+function create_else_block(ctx) {
+	var td, t0_value = ctx.size.toFixed(1), t0, t1, t2_value = ctx.translate('b'), t2;
 
 	return {
 		c() {
@@ -544,7 +594,7 @@ function create_if_block(ctx) {
 		},
 
 		p(changed, ctx) {
-			if ((changed.mBytes) && t0_value !== (t0_value = ctx.mBytes.toFixed(3))) {
+			if ((changed.size) && t0_value !== (t0_value = ctx.size.toFixed(1))) {
 				set_data(t0, t0_value);
 			}
 		},
@@ -557,7 +607,75 @@ function create_if_block(ctx) {
 	};
 }
 
-// (269:8) {#each granules as g, i}
+// (259:40) 
+function create_if_block_2(ctx) {
+	var td, t0_value = ctx.kBytes.toFixed(1), t0, t1, t2_value = ctx.translate('kb'), t2;
+
+	return {
+		c() {
+			td = element("td");
+			t0 = text(t0_value);
+			t1 = space();
+			t2 = text(t2_value);
+			attr(td, "class", "svelte-15ejp9x");
+		},
+
+		m(target, anchor) {
+			insert(target, td, anchor);
+			append(td, t0);
+			append(td, t1);
+			append(td, t2);
+		},
+
+		p(changed, ctx) {
+			if ((changed.kBytes) && t0_value !== (t0_value = ctx.kBytes.toFixed(1))) {
+				set_data(t0, t0_value);
+			}
+		},
+
+		d(detaching) {
+			if (detaching) {
+				detach(td);
+			}
+		}
+	};
+}
+
+// (257:16) {#if mBytes >= 1.0}
+function create_if_block_1(ctx) {
+	var td, t0_value = ctx.mBytes.toFixed(1), t0, t1, t2_value = ctx.translate('mb'), t2;
+
+	return {
+		c() {
+			td = element("td");
+			t0 = text(t0_value);
+			t1 = space();
+			t2 = text(t2_value);
+			attr(td, "class", "svelte-15ejp9x");
+		},
+
+		m(target, anchor) {
+			insert(target, td, anchor);
+			append(td, t0);
+			append(td, t1);
+			append(td, t2);
+		},
+
+		p(changed, ctx) {
+			if ((changed.mBytes) && t0_value !== (t0_value = ctx.mBytes.toFixed(1))) {
+				set_data(t0, t0_value);
+			}
+		},
+
+		d(detaching) {
+			if (detaching) {
+				detach(td);
+			}
+		}
+	};
+}
+
+// (279:8) {#each granules as g, i}
 function create_each_block(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.product.name, t0, t1, td1, t2, dispose;
 
@@ -804,12 +922,16 @@ function instance($$self, $$props, $$invalidate) {
     scanexTranslations_cjs.addText('eng', {
         product: 'Product',
         size: 'Size',
+        b: 'b',
+        kb: 'Kb',
         mb: 'Mb'
     });
 
     scanexTranslations_cjs.addText('rus', {
         product: 'Продукт',
         size: 'Размер',
+        b: 'б',
+        kb: 'Кб',
         mb: 'Мб'
     });
 
@@ -904,6 +1026,7 @@ function instance($$self, $$props, $$invalidate) {
 		translate,
 		download,
 		preview,
+		kBytes,
 		mBytes,
 		click_handler,
 		click_handler_1,

@@ -20,12 +20,16 @@
     T.addText('eng', {
         product: 'Product',
         size: 'Size',
+        b: 'b',
+        kb: 'Kb',
         mb: 'Mb'
     });
 
     T.addText('rus', {
         product: 'Продукт',
         size: 'Размер',
+        b: 'б',
+        kb: 'Кб',
         mb: 'Мб'
     });
 
@@ -250,7 +254,13 @@
             </td>
             <td class="name" on:click|stopPropagation="{() => expanded = !expanded}">{name}</td>
             {#if expanded}
-            <td>{mBytes.toFixed(3)} {translate('mb')}</td>
+                {#if mBytes >= 1.0}
+                    <td>{mBytes.toFixed(1)} {translate('mb')}</td>
+                {:else if kBytes >= 1.0}
+                    <td>{kBytes.toFixed(1)} {translate('kb')}</td>
+                {:else}
+                    <td>{size.toFixed(1)} {translate('b')}</td>
+                {/if}
             {/if}
             <td>
                 <i class="down" on:click|stopPropagation="{download}" class:active="{expanded}" class:inactive="{!expanded}"></i>
