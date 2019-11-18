@@ -55,6 +55,8 @@
         dispatch('preview', detail);
     };
 
+    export const expand = path => [];
+
 </script>
 
 <style>
@@ -93,7 +95,7 @@
     </div>
     <div class="content" class:hidden="{!expanded}">
         {#each regions as r}
-        <Region {...r} on:select="{select}" on:download="{download}" on:preview="{preview}" />
+        <Region {...r} on:select="{select}" on:download="{download}" on:preview="{preview}" expand="{expand}" />
         {/each}
     </div>
 </div>

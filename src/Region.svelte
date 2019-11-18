@@ -66,9 +66,15 @@
 
     const translate = T.getText.bind(T);
 
+    let fileBrowser;
+
     const download = () => {
         
-        
+        fileBrowser = new FileBrowser({target: document.body, props: {expand}});
+        fileBrowser.$on('close', () => {
+            fileBrowser.$destroy();
+        });
+
         // dispatch('download', id);
     };
 
@@ -92,6 +98,8 @@
     });
 
     onDestroy(() => unsubscribe());
+
+    export const expand = path => [];
     
 </script>
 
