@@ -48,7 +48,7 @@
         items.forEach(({granule: {product}}) => {
             product.checked = unchecked;
         });
-        granules = items.filter(({granule: {productType}}) => productType !== 1000000);
+        granules = items;
     };
 
     const dispatch = createEventDispatcher();
@@ -276,7 +276,7 @@
                 <i class="check" class:checked="{checked}" class:unchecked="{unchecked}" class:undetermined="{undetermined}"></i>
             </th> -->
         </tr>
-        {#each granules as g, i}
+        {#each granules.filter(({granule: {productType}}) => productType !== 1000000) as g, i}
         <tr class:selected="{i === selected}" on:click="{() => select(i)}">
             <td>{g.granule.sceneId}</td>
             <!-- <td>100 {translate('mb')}</td> -->

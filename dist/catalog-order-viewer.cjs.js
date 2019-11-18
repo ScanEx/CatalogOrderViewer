@@ -675,7 +675,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (279:8) {#each granules as g, i}
+// (279:8) {#each granules.filter(({granule: {productType}}) => productType !== 1000000) as g, i}
 function create_each_block(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.sceneId, t0, t1, td1, t2, dispose;
 
@@ -733,7 +733,7 @@ function create_fragment(ctx) {
 
 	var if_block = (ctx.expanded) && create_if_block(ctx);
 
-	var each_value = ctx.granules;
+	var each_value = ctx.granules.filter(func);
 
 	var each_blocks = [];
 
@@ -868,7 +868,7 @@ function create_fragment(ctx) {
 			}
 
 			if (changed.selected || changed.granules) {
-				each_value = ctx.granules;
+				each_value = ctx.granules.filter(func);
 
 				for (var i = 0; i < each_value.length; i += 1) {
 					const child_ctx = get_each_context(ctx, each_value, i);
@@ -908,6 +908,10 @@ function create_fragment(ctx) {
 			run_all(dispose);
 		}
 	};
+}
+
+function func({granule: {productType}}) {
+	return productType !== 1000000;
 }
 
 function instance($$self, $$props, $$invalidate) {
