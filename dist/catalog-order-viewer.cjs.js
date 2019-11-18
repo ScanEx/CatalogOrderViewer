@@ -677,7 +677,7 @@ function create_if_block_1(ctx) {
 
 // (279:8) {#each granules as g, i}
 function create_each_block(ctx) {
-	var tr, td0, t0_value = ctx.g.granule.product.name, t0, t1, td1, t2, dispose;
+	var tr, td0, t0_value = ctx.g.granule.sceneId, t0, t1, td1, t2, dispose;
 
 	function click_handler_2() {
 		return ctx.click_handler_2(ctx);
@@ -709,7 +709,7 @@ function create_each_block(ctx) {
 
 		p(changed, new_ctx) {
 			ctx = new_ctx;
-			if ((changed.granules) && t0_value !== (t0_value = ctx.g.granule.product.name)) {
+			if ((changed.granules) && t0_value !== (t0_value = ctx.g.granule.sceneId)) {
 				set_data(t0, t0_value);
 			}
 
@@ -1365,7 +1365,7 @@ function create_each_block$1(ctx) {
 }
 
 function create_fragment$2(ctx) {
-	var div2, div0, i, t0, span, t1, t2, div1, current, dispose;
+	var div2, div0, i, t0, span, t1_value = ctx.contractId || ctx.name, t1, t2, div1, current, dispose;
 
 	var each_value = ctx.regions;
 
@@ -1386,7 +1386,7 @@ function create_fragment$2(ctx) {
 			i = element("i");
 			t0 = space();
 			span = element("span");
-			t1 = text(ctx.name);
+			t1 = text(t1_value);
 			t2 = space();
 			div1 = element("div");
 
@@ -1428,8 +1428,8 @@ function create_fragment$2(ctx) {
 				toggle_class(i, "expanded", ctx.expanded);
 			}
 
-			if (!current || changed.name) {
-				set_data(t1, ctx.name);
+			if ((!current || changed.contractId || changed.name) && t1_value !== (t1_value = ctx.contractId || ctx.name)) {
+				set_data(t1, t1_value);
 			}
 
 			if (changed.items) {

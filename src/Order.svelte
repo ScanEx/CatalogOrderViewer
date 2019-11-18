@@ -89,7 +89,7 @@
 <div class="order">
     <div class="header" on:click|stopPropagation="{toggle}" bind:this="{headerContainer}">
         <i class="icon" class:collapsed="{!expanded}" class:expanded="{expanded}"></i>
-        <span>{name}</span>
+        <span>{contractId || name}</span>
     </div>
     <div class="content" class:hidden="{!expanded}">
         {#each regions as r}
