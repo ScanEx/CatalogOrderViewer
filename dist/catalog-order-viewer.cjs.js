@@ -526,7 +526,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (256:12) {#if expanded}
+// (259:12) {#if expanded}
 function create_if_block(ctx) {
 	var if_block_anchor;
 
@@ -573,7 +573,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (261:16) {:else}
+// (264:16) {:else}
 function create_else_block(ctx) {
 	var td, t0_value = ctx.size.toFixed(1), t0, t1, t2_value = ctx.translate('b'), t2;
 
@@ -607,7 +607,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (259:40) 
+// (262:40) 
 function create_if_block_2(ctx) {
 	var td, t0_value = ctx.kBytes.toFixed(1), t0, t1, t2_value = ctx.translate('kb'), t2;
 
@@ -641,7 +641,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (257:16) {#if mBytes >= 1.0}
+// (260:16) {#if mBytes >= 1.0}
 function create_if_block_1(ctx) {
 	var td, t0_value = ctx.mBytes.toFixed(1), t0, t1, t2_value = ctx.translate('mb'), t2;
 
@@ -675,7 +675,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (279:8) {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
+// (282:8) {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
 function create_each_block(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.sceneId, t0, t1, td1, t2, dispose;
 
@@ -915,7 +915,7 @@ function func({granule: {productType}}) {
 }
 
 function instance($$self, $$props, $$invalidate) {
-	    
+	
 
     let { id = '', geoJSON = null, name = '', granules = [], visible = false, size = 0 } = $$props;
 
@@ -957,7 +957,9 @@ function instance($$self, $$props, $$invalidate) {
     const translate = scanexTranslations_cjs.getText.bind(scanexTranslations_cjs);
 
     const download = () => {
-        dispatch('download', id);
+        
+        
+        // dispatch('download', id);
     };
 
     const preview = () => {        

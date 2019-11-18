@@ -1,7 +1,8 @@
 <script>
     import T from 'scanex-translations';
     import { createEventDispatcher, onMount, onDestroy } from 'svelte';
-    import { visibility } from './store.js';    
+    import { visibility } from './store.js';
+    import FileBrowser from './FileBrowser.svelte';
 
     export let id = '';
     export let geoJSON = null;
@@ -66,7 +67,9 @@
     const translate = T.getText.bind(T);
 
     const download = () => {
-        dispatch('download', id);
+        
+        
+        // dispatch('download', id);
     };
 
     const preview = () => {        
