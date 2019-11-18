@@ -675,7 +675,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (279:8) {#each granules.filter(({granule: {productType}}) => productType !== 1000000) as g, i}
+// (279:8) {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
 function create_each_block(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.sceneId, t0, t1, td1, t2, dispose;
 
@@ -911,7 +911,7 @@ function create_fragment(ctx) {
 }
 
 function func({granule: {productType}}) {
-	return productType !== 1000000;
+	return productType !== 100000;
 }
 
 function instance($$self, $$props, $$invalidate) {
