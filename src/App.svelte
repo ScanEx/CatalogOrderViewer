@@ -1,7 +1,7 @@
 <script>
     import Order from './Order.svelte';
     import {createEventDispatcher, onDestroy} from 'svelte';
-    import {visibility, selection} from './store.js';
+    import {visibility} from './store.js';
     import './App.css';
     import './icons.css';
 
@@ -17,12 +17,18 @@
         visibility.set(false);
     }
     
-    // const unsubscribe = selection.subscribe(value => {
-    //     console.log('selection=',value);
-    //     // dispatch('change', Object.keys(value));
-    // });
+    let files = {};
 
-    // onDestroy(unsubscribe);
+    function selection ({detail}) {
+        const {path, state} = detail;
+        if(state) {
+            files[path] = 1;
+        }
+        else {
+            delete files[path];
+        }
+        console.log(files);
+    }
 
 </script>
 
@@ -30,6 +36,7 @@
     {#each orders as x}
     <Order
         {...x}
+        on:selection="{selection}"
         on:download="{({detail}) => dispatch('download', detail)}"
         on:preview="{({detail}) => dispatch('preview', detail)}"
         on:expand="{({detail}) => dispatch('expand', detail)}" />

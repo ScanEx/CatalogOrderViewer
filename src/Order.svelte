@@ -59,6 +59,7 @@
         {#each regions as r}
         <Region {...r}
             on:select="{select}"
+            on:selection="{({detail}) => dispatch('selection', detail)}"
             on:download="{({detail}) => dispatch('download', detail)}"
             on:preview="{({detail}) => dispatch('preview', detail)}"
             on:expand="{({detail}) => dispatch('expand', detail)}" />

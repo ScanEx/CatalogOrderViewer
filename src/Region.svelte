@@ -84,6 +84,9 @@
             // dispatch('download', id);
             fileBrowser.$destroy();
         });
+        fileBrowser.$on('selection', ({detail}) => {
+            dispatch('selection', detail);
+        });
     };
 
     const preview = () => {        
@@ -136,23 +139,15 @@
     </table>
     <table class="content" class:hidden="{!expanded}" cellpadding="0" cellspacing="0">
         <tr>
-            <th>{translate('product')}</th>
-            <!-- <th>{translate('size')}</th> -->
-            <th></th>
-            <!-- <th on:click="{toggle}">
-                <i class="check" class:checked="{checked}" class:unchecked="{unchecked}" class:undetermined="{undetermined}"></i>
-            </th> -->
+            <th>{translate('product')}</th>            
+            <th></th>            
         </tr>
         {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
         <tr class:selected="{i === selected}" on:click="{() => select(i)}">
-            <td>{g.granule.sceneId}</td>
-            <!-- <td>100 {translate('mb')}</td> -->
+            <td>{g.granule.sceneId}</td>            
             <td>
                 <i class="icon info-circle"></i>
-            </td>
-            <!-- <td on:click|stopPropagation="{() => granules[i].granule.product.checked = !granules[i].granule.product.checked}">
-                <i class="check" class:checked="{g.granule.product.checked}" class:unchecked="{!g.granule.product.checked}"></i>
-            </td> -->
+            </td>            
         </tr>
         {/each}
     </table>    

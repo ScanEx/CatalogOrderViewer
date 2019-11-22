@@ -405,7 +405,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (90:8) {:else}
+// (82:8) {:else}
 function create_else_block(ctx) {
 	var i0, t, i1, dispose;
 
@@ -446,7 +446,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (80:8) {#if isDir}
+// (72:8) {#if isDir}
 function create_if_block(ctx) {
 	var i0, t, i1, dispose;
 
@@ -500,7 +500,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (100:8) {#each children as child, i}
+// (92:8) {#each children as child, i}
 function create_each_block(ctx) {
 	var current;
 
@@ -518,6 +518,7 @@ function create_each_block(ctx) {
 		file_props = assign(file_props, file_spread_levels[i_1]);
 	}
 	var file = new File({ props: file_props });
+	file.$on("selection", ctx.selection_handler);
 	file.$on("check", check_handler);
 
 	return {
@@ -691,7 +692,7 @@ function instance($$self, $$props, $$invalidate) {
 
     let { isDir = false, path = '', expanded = false, state = 0 } = $$props;
 
-    let dirty = false;
+    let initialized = false;
     let selected = [];
     let checked = 0;
 
@@ -706,9 +707,9 @@ function instance($$self, $$props, $$invalidate) {
     }
 
     function toggle () {
-        if(!dirty) {
+        if(!initialized) {
             dispatch('expand', {expand, filePath: path});
-            dirty = true;
+            initialized = true;
         }        
         $$invalidate('expanded', expanded = !expanded);
     }
@@ -717,15 +718,15 @@ function instance($$self, $$props, $$invalidate) {
         switch (state) {
             case -1:                
             case 0:
-                $$invalidate('state', state = 1);
+                $$invalidate('state', state = 1);                
                 break;
             case 1:
-                $$invalidate('state', state = 0);
+                $$invalidate('state', state = 0);                
                 break;
             default:
                 break;
         }        
-        dispatch('check', state);
+        dispatch('check', state);        
     }
 
     function select (i, s) {
@@ -740,6 +741,10 @@ function instance($$self, $$props, $$invalidate) {
         }        
         dispatch('check', state);
     }
+
+	function selection_handler({detail}) {
+		return dispatch('selection', detail);
+	}
 
 	function check_handler({ i }, {detail}) {
 		return select(i, detail);
@@ -756,16 +761,9 @@ function instance($$self, $$props, $$invalidate) {
 
 	$$self.$$.update = ($$dirty = { path: 1, state: 1 }) => {
 		if ($$dirty.path) { $$invalidate('name', name = path.substr(path.lastIndexOf('\\') + 1)); }
-		if ($$dirty.state) { if (state != -1) {
+		if ($$dirty.state || $$dirty.path) { if (state != -1) {
                 $$invalidate('checked', checked = state);
-                // let s = $selection;
-                // if (state === 1) {
-                //     s[path] = true;
-                // }
-                // else {
-                //     delete s[path];
-                // }        
-                // selection.set(s);
+                dispatch('selection', {path, state});
             } }
 	};
 
@@ -777,11 +775,13 @@ function instance($$self, $$props, $$invalidate) {
 		expanded,
 		state,
 		checked,
+		dispatch,
 		toggle,
 		check,
 		select,
 		name,
 		children,
+		selection_handler,
 		check_handler
 	};
 }
@@ -815,6 +815,7 @@ function create_each_block$1(ctx) {
 	}
 	var file = new File({ props: file_props });
 	file.$on("expand", ctx.expand_handler);
+	file.$on("selection", ctx.selection_handler);
 
 	return {
 		c() {
@@ -1023,6 +1024,10 @@ function instance$1($$self, $$props, $$invalidate) {
 		return dispatch('expand', detail);
 	}
 
+	function selection_handler({detail}) {
+		return dispatch('selection', detail);
+	}
+
 	function click_handler_1() {
 		return dispatch('download');
 	}
@@ -1046,6 +1051,7 @@ function instance$1($$self, $$props, $$invalidate) {
 		onwindowresize,
 		click_handler,
 		expand_handler,
+		selection_handler,
 		click_handler_1,
 		div4_binding
 	};
@@ -1071,7 +1077,7 @@ function get_each_context$2(ctx, list, i) {
 	return child_ctx;
 }
 
-// (123:12) {#if expanded}
+// (126:12) {#if expanded}
 function create_if_block$1(ctx) {
 	var if_block_anchor;
 
@@ -1118,7 +1124,7 @@ function create_if_block$1(ctx) {
 	};
 }
 
-// (128:16) {:else}
+// (131:16) {:else}
 function create_else_block$1(ctx) {
 	var td, t0_value = ctx.size.toFixed(1), t0, t1, t2_value = ctx.translate('b'), t2;
 
@@ -1151,7 +1157,7 @@ function create_else_block$1(ctx) {
 	};
 }
 
-// (126:40) 
+// (129:40) 
 function create_if_block_2(ctx) {
 	var td, t0_value = ctx.kBytes.toFixed(1), t0, t1, t2_value = ctx.translate('kb'), t2;
 
@@ -1184,7 +1190,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (124:16) {#if mBytes >= 1.0}
+// (127:16) {#if mBytes >= 1.0}
 function create_if_block_1(ctx) {
 	var td, t0_value = ctx.mBytes.toFixed(1), t0, t1, t2_value = ctx.translate('mb'), t2;
 
@@ -1217,7 +1223,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (146:8) {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
+// (145:8) {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
 function create_each_block$2(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.sceneId, t0, t1, td1, t2, dispose;
 
@@ -1506,6 +1512,9 @@ function instance$2($$self, $$props, $$invalidate) {
         fileBrowser.$on('download', () => {
             // dispatch('download', id);
             fileBrowser.$destroy();
+        });
+        fileBrowser.$on('selection', ({detail}) => {
+            dispatch('selection', detail);
         });
     };
 
@@ -1852,6 +1861,7 @@ function create_each_block$3(ctx) {
 	}
 	var region = new Region({ props: region_props });
 	region.$on("select", ctx.select);
+	region.$on("selection", ctx.selection_handler);
 	region.$on("download", ctx.download_handler);
 	region.$on("preview", ctx.preview_handler);
 	region.$on("expand", ctx.expand_handler);
@@ -2068,6 +2078,10 @@ function instance$4($$self, $$props, $$invalidate) {
 		$$invalidate('headerContainer', headerContainer);
 	}
 
+	function selection_handler({detail}) {
+		return dispatch('selection', detail);
+	}
+
 	function download_handler({detail}) {
 		return dispatch('download', detail);
 	}
@@ -2097,6 +2111,7 @@ function instance$4($$self, $$props, $$invalidate) {
 		headerContainer,
 		select,
 		div0_binding,
+		selection_handler,
 		download_handler,
 		preview_handler,
 		expand_handler
@@ -2118,7 +2133,7 @@ function get_each_context$4(ctx, list, i) {
 	return child_ctx;
 }
 
-// (30:4) {#each orders as x}
+// (36:4) {#each orders as x}
 function create_each_block$4(ctx) {
 	var current;
 
@@ -2131,6 +2146,7 @@ function create_each_block$4(ctx) {
 		order_props = assign(order_props, order_spread_levels[i]);
 	}
 	var order = new Order({ props: order_props });
+	order.$on("selection", ctx.selection);
 	order.$on("download", ctx.download_handler);
 	order.$on("preview", ctx.preview_handler);
 	order.$on("expand", ctx.expand_handler);
@@ -2206,7 +2222,7 @@ function create_fragment$5(ctx) {
 		},
 
 		p(changed, ctx) {
-			if (changed.orders) {
+			if (changed.orders || changed.selection) {
 				each_value = ctx.orders;
 
 				for (var i = 0; i < each_value.length; i += 1) {
@@ -2264,12 +2280,17 @@ function instance$5($$self, $$props, $$invalidate) {
 
     let { orders = [] } = $$props;
     
-    // const unsubscribe = selection.subscribe(value => {
-    //     console.log('selection=',value);
-    //     // dispatch('change', Object.keys(value));
-    // });
+    let files = {};
 
-    // onDestroy(unsubscribe);
+    function selection ({detail}) {
+        const {path, state} = detail;
+        if(state) {
+            files[path] = 1;        }
+        else {
+            delete files[path];
+        }
+        console.log(files);
+    }
 
 	function download_handler({detail}) {
 		return dispatch('download', detail);
@@ -2290,6 +2311,7 @@ function instance$5($$self, $$props, $$invalidate) {
 	return {
 		dispatch,
 		orders,
+		selection,
 		download_handler,
 		preview_handler,
 		expand_handler

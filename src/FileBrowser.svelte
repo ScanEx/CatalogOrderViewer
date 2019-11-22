@@ -43,7 +43,9 @@
     </div>
     <div class="content">
         {#each files as file}
-        <File {...file} on:expand="{({detail}) => dispatch('expand', detail)}" />
+        <File {...file}
+            on:expand="{({detail}) => dispatch('expand', detail)}"
+            on:selection="{({detail}) => dispatch('selection', detail)}" />
         {/each}
     </div>
     <div class="footer">

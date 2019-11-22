@@ -1,14 +1,13 @@
 <script>
     import './File.css';
     import {createEventDispatcher, getContext, setContext, onMount} from 'svelte';
-    import {selection} from './store.js';
 
     export let isDir = false;    
-    export let path = '';    
+    export let path = '';
     export let expanded = false;
     export let state = 0;
 
-    let dirty = false;
+    let initialized = false;
     let selected = [];
     let checked = 0;
 
@@ -18,14 +17,7 @@
     $: children = [];
     $: if (state != -1) {
         checked = state;
-        // let s = $selection;
-        // if (state === 1) {
-        //     s[path] = true;
-        // }
-        // else {
-        //     delete s[path];
-        // }        
-        // selection.set(s);
+        dispatch('selection', {path, state});
     }    
     
     function expand (items) {
@@ -37,9 +29,9 @@
     }
 
     function toggle () {
-        if(!dirty) {
+        if(!initialized) {
             dispatch('expand', {expand, filePath: path});
-            dirty = true;
+            initialized = true;
         }        
         expanded = !expanded;
     }
@@ -48,15 +40,15 @@
         switch (state) {
             case -1:                
             case 0:
-                state = 1;
+                state = 1;                
                 break;
             case 1:
-                state = 0;
+                state = 0;                
                 break;
             default:
                 break;
         }        
-        dispatch('check', state);
+        dispatch('check', state);        
     }
 
     function select (i, s) {
@@ -98,7 +90,10 @@
     </div>                   
     <div class="children" class:hidden="{!expanded}">        
         {#each children as child, i}
-        <svelte:self {...child} state="{checked}" on:check="{({detail}) => select(i, detail)}" />
+        <svelte:self {...child}
+            state="{checked}"
+            on:selection="{({detail}) => dispatch('selection', detail)}"
+            on:check="{({detail}) => select(i, detail)}" />
         {/each}        
     </div>    
 </div>    
