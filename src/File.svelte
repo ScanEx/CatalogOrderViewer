@@ -1,43 +1,104 @@
-<script>    
-    export let type = 'file';    
-    export let name = '';
-    export let path = '';
-    export let selected = false;
+<script>
+    import './File.css';
+    import {createEventDispatcher, getContext, setContext, onMount} from 'svelte';
+    import {selection} from './store.js';
+
+    export let isDir = false;    
+    export let path = '';    
     export let expanded = false;
+    export let state = 0;
+
+    let dirty = false;
+    let selected = [];
+    let checked = 0;
+
+    const dispatch = createEventDispatcher();
+
+    $: name = path.substr(path.lastIndexOf('\\') + 1);
     $: children = [];
-
-    const toggle = () => {
+    $: if (state != -1) {
+        checked = state;
+        // let s = $selection;
+        // if (state === 1) {
+        //     s[path] = true;
+        // }
+        // else {
+        //     delete s[path];
+        // }        
+        // selection.set(s);
+    }    
+    
+    function expand (items) {
         if (children.length === 0) {
-            children = expand (path);
-        }
-        expanded = !expanded;
-    };
+            children = items;
+            selected = children.map(() => 0);
+            expanded = true;
+        }              
+    }
 
-    export const expand = path => [];
+    function toggle () {
+        if(!dirty) {
+            dispatch('expand', {expand, filePath: path});
+            dirty = true;
+        }        
+        expanded = !expanded;
+    }
+
+    function check () {
+        switch (state) {
+            case -1:                
+            case 0:
+                state = 1;
+                break;
+            case 1:
+                state = 0;
+                break;
+            default:
+                break;
+        }        
+        dispatch('check', state);
+    }
+
+    function select (i, s) {
+        selected[i] = s;
+        if (selected.every(k => k === 1)) {
+            state = 1;
+        }
+        else if (selected.every(k => k === 0)) {
+            state = 0;            
+        }
+        else {
+            state = -1;
+        }        
+        dispatch('check', state);
+    }     
 
 </script>
 
-<style>
-    
-</style>
-
-<div>
-    <div class="entry">
-        {#if selected}
-        <input type="checkbox" checked on:click|stopPropagation="{() => selected = false}"/>
+<div class="entry">
+    <div class="header">        
+        {#if isDir}
+        <i  class="icon"
+            class:check-square="{state === 1}"
+            class:square="{state === 0}"
+            class:minus-square="{state === -1}"
+            on:click|stopPropagation="{check}"></i>
+        <i  class="icon"
+            class:folder="{!expanded}"
+            class:folder-open="{expanded}"
+            on:click|stopPropagation="{toggle}"></i>
         {:else}
-        <input type="checkbox" on:click|stopPropagation="{() => selected = true}"/>
+        <i  class="icon"
+            class:check-square="{state === 1}"
+            class:square="{state === 0}"
+            on:click|stopPropagation="{check}"></i>
+        <i class="icon file"></i>
         {/if}
-        {#if type === 'dir'}
-        <i class="dir"></i>
-        {:else}
-        <i class="file"></i>
-        {/if}
-        <span>{name}</span>
-    </div>
-    {#if Array.isArray (children) && children.length > 0 && expanded }
-        {#each children as child}
-        <svelte:self {...child} />
-        {/each}
-    {/if}
-</div>
+        <div>{name}</div> 
+    </div>                   
+    <div class="children" class:hidden="{!expanded}">        
+        {#each children as child, i}
+        <svelte:self {...child} state="{checked}" on:check="{({detail}) => select(i, detail)}" />
+        {/each}        
+    </div>    
+</div>    

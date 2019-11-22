@@ -1,5 +1,9 @@
 'use strict';
 
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var T = _interopDefault(require('scanex-translations'));
+
 function noop() { }
 function assign(tar, src) {
     // @ts-ignore
@@ -92,6 +96,9 @@ function get_current_component() {
     if (!current_component)
         throw new Error(`Function called outside component initialization`);
     return current_component;
+}
+function onMount(fn) {
+    get_current_component().$$.on_mount.push(fn);
 }
 function onDestroy(fn) {
     get_current_component().$$.on_destroy.push(fn);
@@ -346,127 +353,6 @@ class SvelteComponent {
     }
 }
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
-
-var classCallCheck = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
-
-var createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
-var copy = function copy(source) {
-    switch (typeof source === 'undefined' ? 'undefined' : _typeof(source)) {
-        case 'number':
-        case 'string':
-        case 'function':
-        default:
-            return source;
-        case 'object':
-            if (source === null) {
-                return null;
-            } else if (Array.isArray(source)) {
-                return source.map(function (item) {
-                    return copy(item);
-                });
-            } else if (source instanceof Date) {
-                return source;
-            } else {
-                return Object.keys(source).reduce(function (a, k) {
-                    a[k] = copy(source[k]);
-                    return a;
-                }, {});
-            }
-    }
-};
-
-var extend = function extend(target, source) {
-    if (target === source) {
-        return target;
-    } else {
-        return Object.keys(source).reduce(function (a, k) {
-            var value = source[k];
-            if (_typeof(a[k]) === 'object' && k in a) {
-                a[k] = extend(a[k], value);
-            } else {
-                a[k] = copy(value);
-            }
-            return a;
-        }, copy(target));
-    }
-};
-
-var DEFAULT_LANGUAGE = 'rus';
-
-var Translations = function () {
-    function Translations() {
-        classCallCheck(this, Translations);
-
-        this._hash = {};
-    }
-
-    createClass(Translations, [{
-        key: 'setLanguage',
-        value: function setLanguage(lang) {
-            this._language = lang;
-        }
-    }, {
-        key: 'getLanguage',
-        value: function getLanguage() {
-            return window.language || this._language || DEFAULT_LANGUAGE;
-        }
-    }, {
-        key: 'addText',
-        value: function addText(lang, tran) {
-            this._hash[lang] = extend(this._hash[lang] || {}, tran);
-            return this;
-        }
-    }, {
-        key: 'getText',
-        value: function getText(key) {
-            if (key && typeof key === 'string') {
-                var locale = this._hash[this.getLanguage()];
-                if (locale) {
-                    return key.split('.').reduce(function (a, k) {
-                        return a[k];
-                    }, locale);
-                }
-            }
-            return null;
-        }
-    }]);
-    return Translations;
-}();
-
-window.Scanex = window.Scanex || {};
-window.Scanex.Translations = window.Scanex.Translations || {};
-window.Scanex.translations = window.Scanex.translations || new Translations();
-
-var index = window.Scanex.translations;
-
-var scanexTranslations_cjs = index;
-
 /**
  * Create a `Writable` store that allows both updating and reading by subscription.
  * @param {*=}value initial value
@@ -515,199 +401,124 @@ const visibility = writable(false);
 function get_each_context(ctx, list, i) {
 	const child_ctx = Object.create(ctx);
 	child_ctx.child = list[i];
+	child_ctx.i = i;
 	return child_ctx;
 }
 
-// (28:8) {:else}
-function create_else_block_1(ctx) {
-	var input, dispose;
-
-	return {
-		c() {
-			input = element("input");
-			attr(input, "type", "checkbox");
-			dispose = listen(input, "click", stop_propagation(ctx.click_handler_1));
-		},
-
-		m(target, anchor) {
-			insert(target, input, anchor);
-		},
-
-		d(detaching) {
-			if (detaching) {
-				detach(input);
-			}
-
-			dispose();
-		}
-	};
-}
-
-// (26:8) {#if selected}
-function create_if_block_2(ctx) {
-	var input, dispose;
-
-	return {
-		c() {
-			input = element("input");
-			attr(input, "type", "checkbox");
-			input.checked = true;
-			dispose = listen(input, "click", stop_propagation(ctx.click_handler));
-		},
-
-		m(target, anchor) {
-			insert(target, input, anchor);
-		},
-
-		d(detaching) {
-			if (detaching) {
-				detach(input);
-			}
-
-			dispose();
-		}
-	};
-}
-
-// (33:8) {:else}
+// (90:8) {:else}
 function create_else_block(ctx) {
-	var i;
+	var i0, t, i1, dispose;
 
 	return {
 		c() {
-			i = element("i");
-			attr(i, "class", "file");
+			i0 = element("i");
+			t = space();
+			i1 = element("i");
+			attr(i0, "class", "icon");
+			toggle_class(i0, "check-square", ctx.state === 1);
+			toggle_class(i0, "square", ctx.state === 0);
+			attr(i1, "class", "icon file");
+			dispose = listen(i0, "click", stop_propagation(ctx.check));
 		},
 
 		m(target, anchor) {
-			insert(target, i, anchor);
-		},
-
-		d(detaching) {
-			if (detaching) {
-				detach(i);
-			}
-		}
-	};
-}
-
-// (31:8) {#if type === 'dir'}
-function create_if_block_1(ctx) {
-	var i;
-
-	return {
-		c() {
-			i = element("i");
-			attr(i, "class", "dir");
-		},
-
-		m(target, anchor) {
-			insert(target, i, anchor);
-		},
-
-		d(detaching) {
-			if (detaching) {
-				detach(i);
-			}
-		}
-	};
-}
-
-// (38:4) {#if Array.isArray (children) && children.length > 0 && expanded }
-function create_if_block(ctx) {
-	var each_1_anchor, current;
-
-	var each_value = ctx.children;
-
-	var each_blocks = [];
-
-	for (var i = 0; i < each_value.length; i += 1) {
-		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
-	}
-
-	const out = i => transition_out(each_blocks[i], 1, () => {
-		each_blocks[i] = null;
-	});
-
-	return {
-		c() {
-			for (var i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].c();
-			}
-
-			each_1_anchor = empty();
-		},
-
-		m(target, anchor) {
-			for (var i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].m(target, anchor);
-			}
-
-			insert(target, each_1_anchor, anchor);
-			current = true;
+			insert(target, i0, anchor);
+			insert(target, t, anchor);
+			insert(target, i1, anchor);
 		},
 
 		p(changed, ctx) {
-			if (changed.children) {
-				each_value = ctx.children;
-
-				for (var i = 0; i < each_value.length; i += 1) {
-					const child_ctx = get_each_context(ctx, each_value, i);
-
-					if (each_blocks[i]) {
-						each_blocks[i].p(changed, child_ctx);
-						transition_in(each_blocks[i], 1);
-					} else {
-						each_blocks[i] = create_each_block(child_ctx);
-						each_blocks[i].c();
-						transition_in(each_blocks[i], 1);
-						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-					}
-				}
-
-				group_outros();
-				for (; i < each_blocks.length; i += 1) out(i);
-				check_outros();
+			if (changed.state) {
+				toggle_class(i0, "check-square", ctx.state === 1);
+				toggle_class(i0, "square", ctx.state === 0);
 			}
-		},
-
-		i(local) {
-			if (current) return;
-			for (var i = 0; i < each_value.length; i += 1) transition_in(each_blocks[i]);
-
-			current = true;
-		},
-
-		o(local) {
-			each_blocks = each_blocks.filter(Boolean);
-			for (let i = 0; i < each_blocks.length; i += 1) transition_out(each_blocks[i]);
-
-			current = false;
 		},
 
 		d(detaching) {
-			destroy_each(each_blocks, detaching);
-
 			if (detaching) {
-				detach(each_1_anchor);
+				detach(i0);
+				detach(t);
+				detach(i1);
 			}
+
+			dispose();
 		}
 	};
 }
 
-// (39:8) {#each children as child}
+// (80:8) {#if isDir}
+function create_if_block(ctx) {
+	var i0, t, i1, dispose;
+
+	return {
+		c() {
+			i0 = element("i");
+			t = space();
+			i1 = element("i");
+			attr(i0, "class", "icon");
+			toggle_class(i0, "check-square", ctx.state === 1);
+			toggle_class(i0, "square", ctx.state === 0);
+			toggle_class(i0, "minus-square", ctx.state === -1);
+			attr(i1, "class", "icon");
+			toggle_class(i1, "folder", !ctx.expanded);
+			toggle_class(i1, "folder-open", ctx.expanded);
+
+			dispose = [
+				listen(i0, "click", stop_propagation(ctx.check)),
+				listen(i1, "click", stop_propagation(ctx.toggle))
+			];
+		},
+
+		m(target, anchor) {
+			insert(target, i0, anchor);
+			insert(target, t, anchor);
+			insert(target, i1, anchor);
+		},
+
+		p(changed, ctx) {
+			if (changed.state) {
+				toggle_class(i0, "check-square", ctx.state === 1);
+				toggle_class(i0, "square", ctx.state === 0);
+				toggle_class(i0, "minus-square", ctx.state === -1);
+			}
+
+			if (changed.expanded) {
+				toggle_class(i1, "folder", !ctx.expanded);
+				toggle_class(i1, "folder-open", ctx.expanded);
+			}
+		},
+
+		d(detaching) {
+			if (detaching) {
+				detach(i0);
+				detach(t);
+				detach(i1);
+			}
+
+			run_all(dispose);
+		}
+	};
+}
+
+// (100:8) {#each children as child, i}
 function create_each_block(ctx) {
 	var current;
 
 	var file_spread_levels = [
-		ctx.child
+		ctx.child,
+		{ state: ctx.checked }
 	];
 
+	function check_handler(...args) {
+		return ctx.check_handler(ctx, ...args);
+	}
+
 	let file_props = {};
-	for (var i = 0; i < file_spread_levels.length; i += 1) {
-		file_props = assign(file_props, file_spread_levels[i]);
+	for (var i_1 = 0; i_1 < file_spread_levels.length; i_1 += 1) {
+		file_props = assign(file_props, file_spread_levels[i_1]);
 	}
 	var file = new File({ props: file_props });
+	file.$on("check", check_handler);
 
 	return {
 		c() {
@@ -719,9 +530,11 @@ function create_each_block(ctx) {
 			current = true;
 		},
 
-		p(changed, ctx) {
-			var file_changes = changed.children ? get_spread_update(file_spread_levels, [
-				ctx.child
+		p(changed, new_ctx) {
+			ctx = new_ctx;
+			var file_changes = (changed.children || changed.checked) ? get_spread_update(file_spread_levels, [
+				(changed.children) && ctx.child,
+				(changed.checked) && { state: ctx.checked }
 			]) : {};
 			file.$set(file_changes);
 		},
@@ -745,181 +558,242 @@ function create_each_block(ctx) {
 }
 
 function create_fragment(ctx) {
-	var div1, div0, t0, t1, span, t2, t3, current;
+	var div3, div1, t0, div0, t1, t2, div2, current;
 
 	function select_block_type(ctx) {
-		if (ctx.selected) return create_if_block_2;
-		return create_else_block_1;
-	}
-
-	var current_block_type = select_block_type(ctx);
-	var if_block0 = current_block_type(ctx);
-
-	function select_block_type_1(ctx) {
-		if (ctx.type === 'dir') return create_if_block_1;
+		if (ctx.isDir) return create_if_block;
 		return create_else_block;
 	}
 
-	var current_block_type_1 = select_block_type_1(ctx);
-	var if_block1 = current_block_type_1(ctx);
+	var current_block_type = select_block_type(ctx);
+	var if_block = current_block_type(ctx);
 
-	var if_block2 = (Array.isArray (ctx.children) && ctx.children.length > 0 && ctx.expanded) && create_if_block(ctx);
+	var each_value = ctx.children;
+
+	var each_blocks = [];
+
+	for (var i = 0; i < each_value.length; i += 1) {
+		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+	}
+
+	const out = i => transition_out(each_blocks[i], 1, () => {
+		each_blocks[i] = null;
+	});
 
 	return {
 		c() {
+			div3 = element("div");
 			div1 = element("div");
-			div0 = element("div");
-			if_block0.c();
+			if_block.c();
 			t0 = space();
-			if_block1.c();
-			t1 = space();
-			span = element("span");
-			t2 = text(ctx.name);
-			t3 = space();
-			if (if_block2) if_block2.c();
-			attr(div0, "class", "entry");
+			div0 = element("div");
+			t1 = text(ctx.name);
+			t2 = space();
+			div2 = element("div");
+
+			for (var i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].c();
+			}
+			attr(div1, "class", "header");
+			attr(div2, "class", "children");
+			toggle_class(div2, "hidden", !ctx.expanded);
+			attr(div3, "class", "entry");
 		},
 
 		m(target, anchor) {
-			insert(target, div1, anchor);
+			insert(target, div3, anchor);
+			append(div3, div1);
+			if_block.m(div1, null);
+			append(div1, t0);
 			append(div1, div0);
-			if_block0.m(div0, null);
-			append(div0, t0);
-			if_block1.m(div0, null);
 			append(div0, t1);
-			append(div0, span);
-			append(span, t2);
-			append(div1, t3);
-			if (if_block2) if_block2.m(div1, null);
+			append(div3, t2);
+			append(div3, div2);
+
+			for (var i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].m(div2, null);
+			}
+
 			current = true;
 		},
 
 		p(changed, ctx) {
-			if (current_block_type !== (current_block_type = select_block_type(ctx))) {
-				if_block0.d(1);
-				if_block0 = current_block_type(ctx);
-				if (if_block0) {
-					if_block0.c();
-					if_block0.m(div0, t0);
-				}
-			}
-
-			if (current_block_type_1 !== (current_block_type_1 = select_block_type_1(ctx))) {
-				if_block1.d(1);
-				if_block1 = current_block_type_1(ctx);
-				if (if_block1) {
-					if_block1.c();
-					if_block1.m(div0, t1);
+			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+				if_block.p(changed, ctx);
+			} else {
+				if_block.d(1);
+				if_block = current_block_type(ctx);
+				if (if_block) {
+					if_block.c();
+					if_block.m(div1, t0);
 				}
 			}
 
 			if (!current || changed.name) {
-				set_data(t2, ctx.name);
+				set_data(t1, ctx.name);
 			}
 
-			if (Array.isArray (ctx.children) && ctx.children.length > 0 && ctx.expanded) {
-				if (if_block2) {
-					if_block2.p(changed, ctx);
-					transition_in(if_block2, 1);
-				} else {
-					if_block2 = create_if_block(ctx);
-					if_block2.c();
-					transition_in(if_block2, 1);
-					if_block2.m(div1, null);
+			if (changed.children || changed.checked) {
+				each_value = ctx.children;
+
+				for (var i = 0; i < each_value.length; i += 1) {
+					const child_ctx = get_each_context(ctx, each_value, i);
+
+					if (each_blocks[i]) {
+						each_blocks[i].p(changed, child_ctx);
+						transition_in(each_blocks[i], 1);
+					} else {
+						each_blocks[i] = create_each_block(child_ctx);
+						each_blocks[i].c();
+						transition_in(each_blocks[i], 1);
+						each_blocks[i].m(div2, null);
+					}
 				}
-			} else if (if_block2) {
+
 				group_outros();
-				transition_out(if_block2, 1, () => {
-					if_block2 = null;
-				});
+				for (; i < each_blocks.length; i += 1) out(i);
 				check_outros();
+			}
+
+			if (changed.expanded) {
+				toggle_class(div2, "hidden", !ctx.expanded);
 			}
 		},
 
 		i(local) {
 			if (current) return;
-			transition_in(if_block2);
+			for (var i = 0; i < each_value.length; i += 1) transition_in(each_blocks[i]);
+
 			current = true;
 		},
 
 		o(local) {
-			transition_out(if_block2);
+			each_blocks = each_blocks.filter(Boolean);
+			for (let i = 0; i < each_blocks.length; i += 1) transition_out(each_blocks[i]);
+
 			current = false;
 		},
 
 		d(detaching) {
 			if (detaching) {
-				detach(div1);
+				detach(div3);
 			}
 
-			if_block0.d();
-			if_block1.d();
-			if (if_block2) if_block2.d();
+			if_block.d();
+
+			destroy_each(each_blocks, detaching);
 		}
 	};
 }
 
 function instance($$self, $$props, $$invalidate) {
-	let { type = 'file', name = '', path = '', selected = false, expanded = false } = $$props;
+	
 
-    const expand = path => [];
+    let { isDir = false, path = '', expanded = false, state = 0 } = $$props;
 
-	function click_handler() {
-		const $$result = selected = false;
-		$$invalidate('selected', selected);
-		return $$result;
-	}
+    let dirty = false;
+    let selected = [];
+    let checked = 0;
 
-	function click_handler_1() {
-		const $$result = selected = true;
-		$$invalidate('selected', selected);
-		return $$result;
+    const dispatch = createEventDispatcher();    
+    
+    function expand (items) {
+        if (children.length === 0) {
+            $$invalidate('children', children = items);
+            selected = children.map(() => 0);
+            $$invalidate('expanded', expanded = true);
+        }              
+    }
+
+    function toggle () {
+        if(!dirty) {
+            dispatch('expand', {expand, filePath: path});
+            dirty = true;
+        }        
+        $$invalidate('expanded', expanded = !expanded);
+    }
+
+    function check () {
+        switch (state) {
+            case -1:                
+            case 0:
+                $$invalidate('state', state = 1);
+                break;
+            case 1:
+                $$invalidate('state', state = 0);
+                break;
+            default:
+                break;
+        }        
+        dispatch('check', state);
+    }
+
+    function select (i, s) {
+        selected[i] = s;        if (selected.every(k => k === 1)) {
+            $$invalidate('state', state = 1);
+        }
+        else if (selected.every(k => k === 0)) {
+            $$invalidate('state', state = 0);            
+        }
+        else {
+            $$invalidate('state', state = -1);
+        }        
+        dispatch('check', state);
+    }
+
+	function check_handler({ i }, {detail}) {
+		return select(i, detail);
 	}
 
 	$$self.$set = $$props => {
-		if ('type' in $$props) $$invalidate('type', type = $$props.type);
-		if ('name' in $$props) $$invalidate('name', name = $$props.name);
+		if ('isDir' in $$props) $$invalidate('isDir', isDir = $$props.isDir);
 		if ('path' in $$props) $$invalidate('path', path = $$props.path);
-		if ('selected' in $$props) $$invalidate('selected', selected = $$props.selected);
 		if ('expanded' in $$props) $$invalidate('expanded', expanded = $$props.expanded);
+		if ('state' in $$props) $$invalidate('state', state = $$props.state);
 	};
 
-	let children;
+	let name, children;
+
+	$$self.$$.update = ($$dirty = { path: 1, state: 1 }) => {
+		if ($$dirty.path) { $$invalidate('name', name = path.substr(path.lastIndexOf('\\') + 1)); }
+		if ($$dirty.state) { if (state != -1) {
+                $$invalidate('checked', checked = state);
+                // let s = $selection;
+                // if (state === 1) {
+                //     s[path] = true;
+                // }
+                // else {
+                //     delete s[path];
+                // }        
+                // selection.set(s);
+            } }
+	};
 
 	$$invalidate('children', children = []);
 
 	return {
-		type,
-		name,
+		isDir,
 		path,
-		selected,
 		expanded,
-		expand,
+		state,
+		checked,
+		toggle,
+		check,
+		select,
+		name,
 		children,
-		click_handler,
-		click_handler_1
+		check_handler
 	};
 }
 
 class File extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance, create_fragment, safe_not_equal, ["type", "name", "path", "selected", "expanded", "expand"]);
-	}
-
-	get expand() {
-		return this.$$.ctx.expand;
+		init(this, options, instance, create_fragment, safe_not_equal, ["isDir", "path", "expanded", "state"]);
 	}
 }
 
 /* src\FileBrowser.svelte generated by Svelte v3.5.2 */
-
-function add_css() {
-	var style = element("style");
-	style.id = 'svelte-1j2scww-style';
-	style.textContent = ".files.svelte-1j2scww{position:absolute;width:400px}.files.svelte-1j2scww .header i.svelte-1j2scww{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;background-image:url('close.png');width:10px;height:10px}";
-	append(document.head, style);
-}
 
 function get_each_context$1(ctx, list, i) {
 	const child_ctx = Object.create(ctx);
@@ -927,13 +801,12 @@ function get_each_context$1(ctx, list, i) {
 	return child_ctx;
 }
 
-// (40:8) {#each files as file}
+// (45:8) {#each files as file}
 function create_each_block$1(ctx) {
 	var current;
 
 	var file_spread_levels = [
-		ctx.file,
-		{ expand: ctx.expand }
+		ctx.file
 	];
 
 	let file_props = {};
@@ -941,6 +814,7 @@ function create_each_block$1(ctx) {
 		file_props = assign(file_props, file_spread_levels[i]);
 	}
 	var file = new File({ props: file_props });
+	file.$on("expand", ctx.expand_handler);
 
 	return {
 		c() {
@@ -953,9 +827,8 @@ function create_each_block$1(ctx) {
 		},
 
 		p(changed, ctx) {
-			var file_changes = (changed.files || changed.expand) ? get_spread_update(file_spread_levels, [
-				(changed.files) && ctx.file,
-				(changed.expand) && { expand: ctx.expand }
+			var file_changes = changed.files ? get_spread_update(file_spread_levels, [
+				ctx.file
 			]) : {};
 			file.$set(file_changes);
 		},
@@ -979,7 +852,9 @@ function create_each_block$1(ctx) {
 }
 
 function create_fragment$1(ctx) {
-	var div2, div0, i, t, div1, current, dispose;
+	var div4, div1, div0, t0_value = T.getText('filebrowser.title'), t0, t1, i, t2, div2, t3, div3, button, t4_value = T.getText('filebrowser.download'), t4, current, dispose;
+
+	add_render_callback(ctx.onwindowresize);
 
 	var each_value = ctx.files;
 
@@ -995,39 +870,60 @@ function create_fragment$1(ctx) {
 
 	return {
 		c() {
-			div2 = element("div");
-			div0 = element("div");
-			i = element("i");
-			t = space();
+			div4 = element("div");
 			div1 = element("div");
+			div0 = element("div");
+			t0 = text(t0_value);
+			t1 = space();
+			i = element("i");
+			t2 = space();
+			div2 = element("div");
 
 			for (var i_1 = 0; i_1 < each_blocks.length; i_1 += 1) {
 				each_blocks[i_1].c();
 			}
-			attr(i, "class", "svelte-1j2scww");
-			attr(div0, "class", "header");
-			attr(div1, "class", "content");
-			attr(div2, "class", "files svelte-1j2scww");
-			dispose = listen(i, "click", ctx.click_handler);
+
+			t3 = space();
+			div3 = element("div");
+			button = element("button");
+			t4 = text(t4_value);
+			attr(i, "class", "icon close");
+			attr(div1, "class", "header");
+			attr(div2, "class", "content");
+			attr(div3, "class", "footer");
+			attr(div4, "class", "files");
+
+			dispose = [
+				listen(window, "resize", ctx.onwindowresize),
+				listen(i, "click", ctx.click_handler),
+				listen(button, "click", ctx.click_handler_1)
+			];
 		},
 
 		m(target, anchor) {
-			insert(target, div2, anchor);
-			append(div2, div0);
-			append(div0, i);
-			append(div2, t);
-			append(div2, div1);
+			insert(target, div4, anchor);
+			append(div4, div1);
+			append(div1, div0);
+			append(div0, t0);
+			append(div1, t1);
+			append(div1, i);
+			append(div4, t2);
+			append(div4, div2);
 
 			for (var i_1 = 0; i_1 < each_blocks.length; i_1 += 1) {
-				each_blocks[i_1].m(div1, null);
+				each_blocks[i_1].m(div2, null);
 			}
 
-			add_binding_callback(() => ctx.div2_binding(div2, null));
+			append(div4, t3);
+			append(div4, div3);
+			append(div3, button);
+			append(button, t4);
+			add_binding_callback(() => ctx.div4_binding(div4, null));
 			current = true;
 		},
 
 		p(changed, ctx) {
-			if (changed.files || changed.expand) {
+			if (changed.files) {
 				each_value = ctx.files;
 
 				for (var i_1 = 0; i_1 < each_value.length; i_1 += 1) {
@@ -1040,7 +936,7 @@ function create_fragment$1(ctx) {
 						each_blocks[i_1] = create_each_block$1(child_ctx);
 						each_blocks[i_1].c();
 						transition_in(each_blocks[i_1], 1);
-						each_blocks[i_1].m(div1, null);
+						each_blocks[i_1].m(div2, null);
 					}
 				}
 
@@ -1050,8 +946,8 @@ function create_fragment$1(ctx) {
 			}
 
 			if (changed.items) {
-				ctx.div2_binding(null, div2);
-				ctx.div2_binding(div2, null);
+				ctx.div4_binding(null, div4);
+				ctx.div4_binding(div4, null);
 			}
 		},
 
@@ -1071,13 +967,13 @@ function create_fragment$1(ctx) {
 
 		d(detaching) {
 			if (detaching) {
-				detach(div2);
+				detach(div4);
 			}
 
 			destroy_each(each_blocks, detaching);
 
-			ctx.div2_binding(null, div2);
-			dispose();
+			ctx.div4_binding(null, div4);
+			run_all(dispose);
 		}
 	};
 }
@@ -1087,21 +983,51 @@ function instance$1($$self, $$props, $$invalidate) {
     
     let { files = [] } = $$props;
     let container;
+    let outerHeight;
+    let outerWidth;
+
+    T.addText('rus', {
+        filebrowser: {
+            title: 'Выберите файлы для скачивания',
+            download: 'Скачать'
+        },        
+    });
+
+    T.addText('eng', {
+        filebrowser: {
+            title: 'Select files to download',
+            download: 'Download'
+        },
+        
+    });
 
     const adjustPosition = ({top, left}) => {
         container.style.top = `${top}px`; $$invalidate('container', container);
         container.style.left = `${left}px`; $$invalidate('container', container);
     };
 
-    const expand = path => [];
-
     const dispatch = createEventDispatcher();
+
+    onMount(() => adjustPosition({top: 100, left: 300}));
+
+	function onwindowresize() {
+		outerHeight = window.outerHeight; $$invalidate('outerHeight', outerHeight);
+		outerWidth = window.outerWidth; $$invalidate('outerWidth', outerWidth);
+	}
 
 	function click_handler() {
 		return dispatch('close');
 	}
 
-	function div2_binding($$node, check) {
+	function expand_handler({detail}) {
+		return dispatch('expand', detail);
+	}
+
+	function click_handler_1() {
+		return dispatch('download');
+	}
+
+	function div4_binding($$node, check) {
 		container = $$node;
 		$$invalidate('container', container);
 	}
@@ -1113,38 +1039,30 @@ function instance$1($$self, $$props, $$invalidate) {
 	return {
 		files,
 		container,
+		outerHeight,
+		outerWidth,
 		adjustPosition,
-		expand,
 		dispatch,
+		onwindowresize,
 		click_handler,
-		div2_binding
+		expand_handler,
+		click_handler_1,
+		div4_binding
 	};
 }
 
 class FileBrowser extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1j2scww-style")) add_css();
-		init(this, options, instance$1, create_fragment$1, safe_not_equal, ["files", "adjustPosition", "expand"]);
+		init(this, options, instance$1, create_fragment$1, safe_not_equal, ["files", "adjustPosition"]);
 	}
 
 	get adjustPosition() {
 		return this.$$.ctx.adjustPosition;
 	}
-
-	get expand() {
-		return this.$$.ctx.expand;
-	}
 }
 
 /* src\Region.svelte generated by Svelte v3.5.2 */
-
-function add_css$1() {
-	var style = element("style");
-	style.id = 'svelte-15ejp9x-style';
-	style.textContent = ".roi.svelte-15ejp9x{margin-top:8px;font-family:'IBM Plex Sans'}.roi.svelte-15ejp9x:last-child{margin-bottom:8px}.roi.svelte-15ejp9x .header.svelte-15ejp9x{padding:17px 7px 17px 9px;cursor:pointer;background-color:#F3F7FA;border:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px;width:100%}.roi.svelte-15ejp9x .header td.svelte-15ejp9x,.roi.svelte-15ejp9x .content th.svelte-15ejp9x,.roi.svelte-15ejp9x .content td.svelte-15ejp9x{white-space:nowrap}.roi.svelte-15ejp9x .header.collapsed.svelte-15ejp9x{border-bottom-left-radius:5px;border-bottom-right-radius:5px}.roi.svelte-15ejp9x .header .toggle.svelte-15ejp9x{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;width:12px;height:12px}.roi.svelte-15ejp9x .header .toggle.expanded.svelte-15ejp9x{background-image:url('arrow-down.png')}.roi.svelte-15ejp9x .header .toggle.collapsed.svelte-15ejp9x{background-image:url('arrow-right.png')}.roi.svelte-15ejp9x .header .down.svelte-15ejp9x,.roi.svelte-15ejp9x .header .preview.svelte-15ejp9x,.roi.svelte-15ejp9x .content .info.svelte-15ejp9x{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat}.roi.svelte-15ejp9x .header .down.svelte-15ejp9x{width:20px;height:20px;margin-left:5px}.roi.svelte-15ejp9x .header .down.active.svelte-15ejp9x{background-image:url('down-active.png')}.roi.svelte-15ejp9x .header .down.inactive.svelte-15ejp9x{background-image:url('down-inactive.png')}.roi.svelte-15ejp9x .header .preview.svelte-15ejp9x{width:16px;height:16px}.roi.svelte-15ejp9x .header .preview.active.svelte-15ejp9x{background-image:url('preview-active.png')}.roi.svelte-15ejp9x .header .preview.inactive.svelte-15ejp9x{background-image:url('preview-inactive.png')}.roi.svelte-15ejp9x .header .preview.svelte-15ejp9x,.roi.svelte-15ejp9x .header .name.svelte-15ejp9x{margin-left:10px}.roi.svelte-15ejp9x .content.svelte-15ejp9x{border-left:1px solid #D8E1E8;border-bottom:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.roi.svelte-15ejp9x .content.hidden.svelte-15ejp9x{display:none}.roi.svelte-15ejp9x .content th.svelte-15ejp9x,.roi.svelte-15ejp9x .content td.svelte-15ejp9x{text-align:left;border-left:1px solid #D8E1E8;padding-top:6px;padding-bottom:6px;padding-left:12px;padding-right:12px}.roi.svelte-15ejp9x .header .name.svelte-15ejp9x,.roi.svelte-15ejp9x .content th.svelte-15ejp9x:first-child{width:100%}.roi.svelte-15ejp9x .content th.svelte-15ejp9x:first-child,.roi.svelte-15ejp9x .content td.svelte-15ejp9x:first-child,.roi.svelte-15ejp9x .content th.svelte-15ejp9x:last-child,.roi.svelte-15ejp9x .content td.svelte-15ejp9x:last-child{border-left:none}.roi.svelte-15ejp9x .content th.svelte-15ejp9x:first-child,.roi.svelte-15ejp9x .content td.svelte-15ejp9x:first-child{padding-left:32px}.roi.svelte-15ejp9x .content th.svelte-15ejp9x{color:#92A0AC;border-bottom:1px solid #D8E1E8}.roi.svelte-15ejp9x .content td.svelte-15ejp9x{color:#455467;cursor:pointer;border-top:1px solid transparent;border-bottom:1px solid transparent}.roi.svelte-15ejp9x .content .info.svelte-15ejp9x{background-image:url('info.png');width:16px;height:16px}.roi.svelte-15ejp9x .content .selected td.svelte-15ejp9x{border-top:1px solid #00A2D3;border-bottom:1px solid #00A2D3}.roi.svelte-15ejp9x .content .selected td.svelte-15ejp9x:first-child{border-left:1px solid #00A2D3;border-top-left-radius:3px;border-bottom-left-radius:3px}.roi.svelte-15ejp9x .content .selected td.svelte-15ejp9x:last-child{border-right:1px solid #00A2D3;border-top-right-radius:3px;border-bottom-right-radius:3px}";
-	append(document.head, style);
-}
 
 function get_each_context$2(ctx, list, i) {
 	const child_ctx = Object.create(ctx);
@@ -1153,13 +1071,13 @@ function get_each_context$2(ctx, list, i) {
 	return child_ctx;
 }
 
-// (267:12) {#if expanded}
+// (123:12) {#if expanded}
 function create_if_block$1(ctx) {
 	var if_block_anchor;
 
 	function select_block_type(ctx) {
-		if (ctx.mBytes >= 1.0) return create_if_block_1$1;
-		if (ctx.kBytes >= 1.0) return create_if_block_2$1;
+		if (ctx.mBytes >= 1.0) return create_if_block_1;
+		if (ctx.kBytes >= 1.0) return create_if_block_2;
 		return create_else_block$1;
 	}
 
@@ -1200,7 +1118,7 @@ function create_if_block$1(ctx) {
 	};
 }
 
-// (272:16) {:else}
+// (128:16) {:else}
 function create_else_block$1(ctx) {
 	var td, t0_value = ctx.size.toFixed(1), t0, t1, t2_value = ctx.translate('b'), t2;
 
@@ -1210,7 +1128,6 @@ function create_else_block$1(ctx) {
 			t0 = text(t0_value);
 			t1 = space();
 			t2 = text(t2_value);
-			attr(td, "class", "svelte-15ejp9x");
 		},
 
 		m(target, anchor) {
@@ -1234,8 +1151,8 @@ function create_else_block$1(ctx) {
 	};
 }
 
-// (270:40) 
-function create_if_block_2$1(ctx) {
+// (126:40) 
+function create_if_block_2(ctx) {
 	var td, t0_value = ctx.kBytes.toFixed(1), t0, t1, t2_value = ctx.translate('kb'), t2;
 
 	return {
@@ -1244,7 +1161,6 @@ function create_if_block_2$1(ctx) {
 			t0 = text(t0_value);
 			t1 = space();
 			t2 = text(t2_value);
-			attr(td, "class", "svelte-15ejp9x");
 		},
 
 		m(target, anchor) {
@@ -1268,8 +1184,8 @@ function create_if_block_2$1(ctx) {
 	};
 }
 
-// (268:16) {#if mBytes >= 1.0}
-function create_if_block_1$1(ctx) {
+// (124:16) {#if mBytes >= 1.0}
+function create_if_block_1(ctx) {
 	var td, t0_value = ctx.mBytes.toFixed(1), t0, t1, t2_value = ctx.translate('mb'), t2;
 
 	return {
@@ -1278,7 +1194,6 @@ function create_if_block_1$1(ctx) {
 			t0 = text(t0_value);
 			t1 = space();
 			t2 = text(t2_value);
-			attr(td, "class", "svelte-15ejp9x");
 		},
 
 		m(target, anchor) {
@@ -1302,7 +1217,7 @@ function create_if_block_1$1(ctx) {
 	};
 }
 
-// (290:8) {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
+// (146:8) {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
 function create_each_block$2(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.sceneId, t0, t1, td1, t2, dispose;
 
@@ -1317,10 +1232,8 @@ function create_each_block$2(ctx) {
 			t0 = text(t0_value);
 			t1 = space();
 			td1 = element("td");
-			td1.innerHTML = `<i class="info svelte-15ejp9x"></i>`;
+			td1.innerHTML = `<i class="icon info-circle"></i>`;
 			t2 = space();
-			attr(td0, "class", "svelte-15ejp9x");
-			attr(td1, "class", "svelte-15ejp9x");
 			toggle_class(tr, "selected", ctx.i === ctx.selected);
 			dispose = listen(tr, "click", click_handler_2);
 		},
@@ -1398,34 +1311,29 @@ function create_fragment$2(ctx) {
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].c();
 			}
-			attr(i0, "class", "toggle svelte-15ejp9x");
-			toggle_class(i0, "collapsed", !ctx.expanded);
-			toggle_class(i0, "expanded", ctx.expanded);
-			attr(td0, "class", "svelte-15ejp9x");
-			attr(i1, "class", "preview svelte-15ejp9x");
-			toggle_class(i1, "active", ctx.visible);
-			toggle_class(i1, "inactive", !ctx.visible);
-			attr(td1, "class", "svelte-15ejp9x");
-			attr(td2, "class", "name svelte-15ejp9x");
-			attr(i2, "class", "down svelte-15ejp9x");
-			toggle_class(i2, "active", ctx.expanded);
-			toggle_class(i2, "inactive", !ctx.expanded);
-			attr(td3, "class", "svelte-15ejp9x");
-			attr(table0, "class", "header svelte-15ejp9x");
+			attr(i0, "class", "toggle icon");
+			toggle_class(i0, "caret-right", !ctx.expanded);
+			toggle_class(i0, "caret-down", ctx.expanded);
+			attr(i1, "class", "preview icon");
+			toggle_class(i1, "eye", ctx.visible);
+			toggle_class(i1, "eye-invisible", !ctx.visible);
+			attr(td2, "class", "name");
+			attr(i2, "class", "icon download");
+			toggle_class(i2, "caret-down", ctx.expanded);
+			toggle_class(i2, "caret-right", !ctx.expanded);
+			attr(table0, "class", "header");
 			toggle_class(table0, "collapsed", !ctx.expanded);
-			attr(th0, "class", "svelte-15ejp9x");
-			attr(th1, "class", "svelte-15ejp9x");
-			attr(table1, "class", "content svelte-15ejp9x");
+			attr(table1, "class", "content");
 			attr(table1, "cellpadding", "0");
 			attr(table1, "cellspacing", "0");
 			toggle_class(table1, "hidden", !ctx.expanded);
-			attr(div, "class", "roi svelte-15ejp9x");
+			attr(div, "class", "roi");
 
 			dispose = [
-				listen(i0, "click", stop_propagation(ctx.click_handler)),
-				listen(i1, "click", stop_propagation(ctx.preview)),
+				listen(td0, "click", stop_propagation(ctx.click_handler)),
+				listen(td1, "click", stop_propagation(ctx.preview)),
 				listen(td2, "click", stop_propagation(ctx.click_handler_1)),
-				listen(i2, "click", stop_propagation(ctx.download))
+				listen(td3, "click", stop_propagation(ctx.download))
 			];
 		},
 
@@ -1462,13 +1370,13 @@ function create_fragment$2(ctx) {
 
 		p(changed, ctx) {
 			if (changed.expanded) {
-				toggle_class(i0, "collapsed", !ctx.expanded);
-				toggle_class(i0, "expanded", ctx.expanded);
+				toggle_class(i0, "caret-right", !ctx.expanded);
+				toggle_class(i0, "caret-down", ctx.expanded);
 			}
 
 			if (changed.visible) {
-				toggle_class(i1, "active", ctx.visible);
-				toggle_class(i1, "inactive", !ctx.visible);
+				toggle_class(i1, "eye", ctx.visible);
+				toggle_class(i1, "eye-invisible", !ctx.visible);
 			}
 
 			if (changed.name) {
@@ -1489,8 +1397,8 @@ function create_fragment$2(ctx) {
 			}
 
 			if (changed.expanded) {
-				toggle_class(i2, "active", ctx.expanded);
-				toggle_class(i2, "inactive", !ctx.expanded);
+				toggle_class(i2, "caret-down", ctx.expanded);
+				toggle_class(i2, "caret-right", !ctx.expanded);
 				toggle_class(table0, "collapsed", !ctx.expanded);
 			}
 
@@ -1544,13 +1452,12 @@ function func({granule: {productType}}) {
 function instance$2($$self, $$props, $$invalidate) {
 	
 
-    let { id = '', geoJSON = null, name = '', granules = [], visible = false, size = 0 } = $$props;
-
+    let { id = '', geoJSON = null, name = '', granules = [], visible = false, size = 0, filePath = '' } = $$props;
 
     let expanded = false;    
     let selected = -1;
 
-    scanexTranslations_cjs.addText('eng', {
+    T.addText('eng', {
         product: 'Product',
         size: 'Size',
         b: 'b',
@@ -1558,7 +1465,7 @@ function instance$2($$self, $$props, $$invalidate) {
         mb: 'Mb'
     });
 
-    scanexTranslations_cjs.addText('rus', {
+    T.addText('rus', {
         product: 'Продукт',
         size: 'Размер',
         b: 'б',
@@ -1581,18 +1488,25 @@ function instance$2($$self, $$props, $$invalidate) {
         dispatch('select', {...granule, reset});
     };
 
-    const translate = scanexTranslations_cjs.getText.bind(scanexTranslations_cjs);
-
-    let fileBrowser;
-
-    const download = () => {
-        
-        fileBrowser = new FileBrowser({target: document.body, props: {expand}});
-        fileBrowser.$on('close', () => {
+    const translate = T.getText.bind(T);
+    
+    const download = () => {        
+        let fileBrowser = new FileBrowser({target: document.body});
+        let p = filePath.replace('\\', '/');    
+        const i = p.lastIndexOf('/');    
+        const path = i < 0 ? p : p.substr(0, i);
+        dispatch('expand', {
+            expand: files => fileBrowser.$set({files}),
+            filePath: path,
+        });
+        fileBrowser.$on('expand', ({detail}) => dispatch('expand', detail));
+        fileBrowser.$on('close', () => {            
             fileBrowser.$destroy();
         });
-
-        // dispatch('download', id);
+        fileBrowser.$on('download', () => {
+            // dispatch('download', id);
+            fileBrowser.$destroy();
+        });
     };
 
     const preview = () => {        
@@ -1615,8 +1529,6 @@ function instance$2($$self, $$props, $$invalidate) {
     });
 
     onDestroy(() => unsubscribe());
-
-    const expand = path => [];
 
 	function click_handler() {
 		const $$result = expanded = !expanded;
@@ -1641,6 +1553,7 @@ function instance$2($$self, $$props, $$invalidate) {
 		if ('granules' in $$props) $$invalidate('granules', granules = $$props.granules);
 		if ('visible' in $$props) $$invalidate('visible', visible = $$props.visible);
 		if ('size' in $$props) $$invalidate('size', size = $$props.size);
+		if ('filePath' in $$props) $$invalidate('filePath', filePath = $$props.filePath);
 	};
 
 	let kBytes, mBytes;
@@ -1661,13 +1574,13 @@ function instance$2($$self, $$props, $$invalidate) {
 		granules,
 		visible,
 		size,
+		filePath,
 		expanded,
 		selected,
 		select,
 		translate,
 		download,
 		preview,
-		expand,
 		kBytes,
 		mBytes,
 		click_handler,
@@ -1679,23 +1592,11 @@ function instance$2($$self, $$props, $$invalidate) {
 class Region extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-15ejp9x-style")) add_css$1();
-		init(this, options, instance$2, create_fragment$2, safe_not_equal, ["id", "geoJSON", "name", "granules", "visible", "size", "expand"]);
-	}
-
-	get expand() {
-		return this.$$.ctx.expand;
+		init(this, options, instance$2, create_fragment$2, safe_not_equal, ["id", "geoJSON", "name", "granules", "visible", "size", "filePath"]);
 	}
 }
 
 /* src\Info.svelte generated by Svelte v3.5.2 */
-
-function add_css$2() {
-	var style = element("style");
-	style.id = 'svelte-yxcc5c-style';
-	style.textContent = ".scene-info.svelte-yxcc5c{position:absolute;background-color:#FFFFFF;width:420px}.scene-info.svelte-yxcc5c .header.svelte-yxcc5c{border-top:1px solid #D8E1E8;border-left:1px solid #D8E1E8;border-right:1px solid #D8E1E8;border-top-left-radius:5px;border-top-right-radius:5px;background-color:#F3F7FA}.scene-info.svelte-yxcc5c .content.svelte-yxcc5c{border:1px solid #D8E1E8;border-bottom-left-radius:5px;border-bottom-right-radius:5px}.scene-info.svelte-yxcc5c .content th.svelte-yxcc5c,.scene-info.svelte-yxcc5c .content td.svelte-yxcc5c{border-left:1px solid #D8E1E8}.scene-info.svelte-yxcc5c .header td.svelte-yxcc5c:first-child,.scene-info.svelte-yxcc5c .content th.svelte-yxcc5c:first-child,.scene-info.svelte-yxcc5c .content td.svelte-yxcc5c:first-child{border-left:none}.scene-info.svelte-yxcc5c .content th.svelte-yxcc5c{padding:5px 10px 5px 10px;color:#92A0AC;text-align:left}.scene-info.svelte-yxcc5c .header td.svelte-yxcc5c,.scene-info.svelte-yxcc5c .content td.svelte-yxcc5c{padding:8px 10px 8px 10px}.scene-info.svelte-yxcc5c .content td.svelte-yxcc5c{border-top:1px solid #D8E1E8;color:#455467}.scene-info.svelte-yxcc5c .header td.svelte-yxcc5c:first-child,.scene-info.svelte-yxcc5c .content th.svelte-yxcc5c:last-child,.scene-info.svelte-yxcc5c .content td.svelte-yxcc5c:last-child{width:100%;word-break:break-all}.scene-info.svelte-yxcc5c .close.svelte-yxcc5c{padding:10px}.scene-info.svelte-yxcc5c .close i.svelte-yxcc5c{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;background-image:url('close.png');width:10px;height:10px}";
-	append(document.head, style);
-}
 
 function create_fragment$3(ctx) {
 	var div, table0, tr0, td0, t0, t1, td1, t2, t3, td2, t4, table1, tr1, th0, t5_value = ctx.translate('parameter'), t5, t6, th1, t7_value = ctx.translate('value'), t7, t8, tr2, td3, t9_value = ctx.translate('sceneId'), t9, t10, td4, t11, t12, tr3, td5, t13_value = ctx.translate('platform'), t13, t14, td6, t15, t16, tr4, td7, t17_value = ctx.translate('date'), t17, t18, td8, t19, t20, tr5, td9, t21_value = ctx.translate('time'), t21, t22, td10, t23, dispose;
@@ -1712,7 +1613,7 @@ function create_fragment$3(ctx) {
 			t2 = text(ctx.date);
 			t3 = space();
 			td2 = element("td");
-			td2.innerHTML = `<i class="svelte-yxcc5c"></i>`;
+			td2.innerHTML = `<i class="icon close"></i>`;
 			t4 = space();
 			table1 = element("table");
 			tr1 = element("tr");
@@ -1749,26 +1650,13 @@ function create_fragment$3(ctx) {
 			t22 = space();
 			td10 = element("td");
 			t23 = text(ctx.time);
-			attr(td0, "class", "svelte-yxcc5c");
-			attr(td1, "class", "svelte-yxcc5c");
-			attr(td2, "class", "close svelte-yxcc5c");
-			attr(table0, "class", "header svelte-yxcc5c");
+			attr(table0, "class", "header");
 			attr(table0, "cellpadding", "0");
 			attr(table0, "cellspacing", "0");
-			attr(th0, "class", "svelte-yxcc5c");
-			attr(th1, "class", "svelte-yxcc5c");
-			attr(td3, "class", "svelte-yxcc5c");
-			attr(td4, "class", "svelte-yxcc5c");
-			attr(td5, "class", "svelte-yxcc5c");
-			attr(td6, "class", "svelte-yxcc5c");
-			attr(td7, "class", "svelte-yxcc5c");
-			attr(td8, "class", "svelte-yxcc5c");
-			attr(td9, "class", "svelte-yxcc5c");
-			attr(td10, "class", "svelte-yxcc5c");
-			attr(table1, "class", "content svelte-yxcc5c");
+			attr(table1, "class", "content");
 			attr(table1, "cellpadding", "0");
 			attr(table1, "cellspacing", "0");
-			attr(div, "class", "scene-info svelte-yxcc5c");
+			attr(div, "class", "scene-info");
 			dispose = listen(td2, "click", stop_propagation(ctx.click_handler));
 		},
 
@@ -1872,7 +1760,7 @@ function instance$3($$self, $$props, $$invalidate) {
 
     let { sceneId = '', platform = '', date = '', time = '' } = $$props;
 
-    scanexTranslations_cjs.addText('eng', {
+    T.addText('eng', {
         sceneId: 'Scene ID',
         platform: 'Platform',
         date: 'Acquisition Date',
@@ -1881,7 +1769,7 @@ function instance$3($$self, $$props, $$invalidate) {
         value: 'Value'
     });
 
-    scanexTranslations_cjs.addText('rus', {
+    T.addText('rus', {
         sceneId: 'Идентификатор сцены',
         platform: 'Платформа',
         date: 'Дата съемки',
@@ -1890,16 +1778,16 @@ function instance$3($$self, $$props, $$invalidate) {
         value: 'Значение',
     });
 
-    const translate = scanexTranslations_cjs.getText.bind(scanexTranslations_cjs);
+    const translate = T.getText.bind(T);
     
     const dispatch = createEventDispatcher();
 
     let container;
 
-    const adjustPosition = ({top, left}) => {
+    function adjustPosition ({top, left}) {
         container.style.top = `${top}px`; $$invalidate('container', container);
         container.style.left = `${left}px`; $$invalidate('container', container);
-    };
+    }
 
 	function click_handler() {
 		return dispatch('close');
@@ -1934,7 +1822,6 @@ function instance$3($$self, $$props, $$invalidate) {
 class Info extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-yxcc5c-style")) add_css$2();
 		init(this, options, instance$3, create_fragment$3, safe_not_equal, ["sceneId", "platform", "date", "time", "adjustPosition"]);
 	}
 
@@ -1945,26 +1832,18 @@ class Info extends SvelteComponent {
 
 /* src\Order.svelte generated by Svelte v3.5.2 */
 
-function add_css$3() {
-	var style = element("style");
-	style.id = 'svelte-1p65xks-style';
-	style.textContent = ".order.svelte-1p65xks .header>.svelte-1p65xks{display:inline-block}.order.svelte-1p65xks .header.svelte-1p65xks{cursor:pointer}.order.svelte-1p65xks .header .icon.svelte-1p65xks{cursor:pointer;display:inline-block;background-position:center;background-repeat:no-repeat;width:12px;height:12px}.order.svelte-1p65xks .header .icon.expanded.svelte-1p65xks{background-image:url('arrow-down.png')}.order.svelte-1p65xks .header .icon.collapsed.svelte-1p65xks{background-image:url('arrow-right.png')}.order.svelte-1p65xks .content.svelte-1p65xks{padding-left:15px}.order.svelte-1p65xks .content.hidden.svelte-1p65xks{display:none}";
-	append(document.head, style);
-}
-
 function get_each_context$3(ctx, list, i) {
 	const child_ctx = Object.create(ctx);
 	child_ctx.r = list[i];
 	return child_ctx;
 }
 
-// (97:8) {#each regions as r}
+// (59:8) {#each regions as r}
 function create_each_block$3(ctx) {
 	var current;
 
 	var region_spread_levels = [
-		ctx.r,
-		{ expand: ctx.expand }
+		ctx.r
 	];
 
 	let region_props = {};
@@ -1973,8 +1852,9 @@ function create_each_block$3(ctx) {
 	}
 	var region = new Region({ props: region_props });
 	region.$on("select", ctx.select);
-	region.$on("download", ctx.download);
-	region.$on("preview", ctx.preview);
+	region.$on("download", ctx.download_handler);
+	region.$on("preview", ctx.preview_handler);
+	region.$on("expand", ctx.expand_handler);
 
 	return {
 		c() {
@@ -1987,9 +1867,8 @@ function create_each_block$3(ctx) {
 		},
 
 		p(changed, ctx) {
-			var region_changes = (changed.regions || changed.expand) ? get_spread_update(region_spread_levels, [
-				(changed.regions) && ctx.r,
-				(changed.expand) && { expand: ctx.expand }
+			var region_changes = changed.regions ? get_spread_update(region_spread_levels, [
+				ctx.r
 			]) : {};
 			region.$set(region_changes);
 		},
@@ -2041,14 +1920,13 @@ function create_fragment$4(ctx) {
 			for (var i_1 = 0; i_1 < each_blocks.length; i_1 += 1) {
 				each_blocks[i_1].c();
 			}
-			attr(i, "class", "icon svelte-1p65xks");
-			toggle_class(i, "collapsed", !ctx.expanded);
-			toggle_class(i, "expanded", ctx.expanded);
-			attr(span, "class", "svelte-1p65xks");
-			attr(div0, "class", "header svelte-1p65xks");
-			attr(div1, "class", "content svelte-1p65xks");
+			attr(i, "class", "icon");
+			toggle_class(i, "caret-right", !ctx.expanded);
+			toggle_class(i, "caret-down", ctx.expanded);
+			attr(div0, "class", "header");
+			attr(div1, "class", "content");
 			toggle_class(div1, "hidden", !ctx.expanded);
-			attr(div2, "class", "order svelte-1p65xks");
+			attr(div2, "class", "order");
 			dispose = listen(div0, "click", stop_propagation(ctx.toggle));
 		},
 
@@ -2072,8 +1950,8 @@ function create_fragment$4(ctx) {
 
 		p(changed, ctx) {
 			if (changed.expanded) {
-				toggle_class(i, "collapsed", !ctx.expanded);
-				toggle_class(i, "expanded", ctx.expanded);
+				toggle_class(i, "caret-right", !ctx.expanded);
+				toggle_class(i, "caret-down", ctx.expanded);
 			}
 
 			if ((!current || changed.contractId || changed.name) && t1_value !== (t1_value = ctx.contractId || ctx.name)) {
@@ -2085,7 +1963,7 @@ function create_fragment$4(ctx) {
 				ctx.div0_binding(div0, null);
 			}
 
-			if (changed.regions || changed.expand || changed.select || changed.download || changed.preview) {
+			if (changed.regions || changed.select) {
 				each_value = ctx.regions;
 
 				for (var i_1 = 0; i_1 < each_value.length; i_1 += 1) {
@@ -2183,21 +2061,23 @@ function instance$4($$self, $$props, $$invalidate) {
         else {
             info.$set({sceneId, platform});
         }        
-    };    
-
-    const download = ({detail}) => {
-        dispatch('download', detail);
     };
-
-    const preview = ({detail}) => {
-        dispatch('preview', detail);
-    };
-
-    const expand = path => [];
 
 	function div0_binding($$node, check) {
 		headerContainer = $$node;
 		$$invalidate('headerContainer', headerContainer);
+	}
+
+	function download_handler({detail}) {
+		return dispatch('download', detail);
+	}
+
+	function preview_handler({detail}) {
+		return dispatch('preview', detail);
+	}
+
+	function expand_handler({detail}) {
+		return dispatch('expand', detail);
 	}
 
 	$$self.$set = $$props => {
@@ -2207,6 +2087,7 @@ function instance$4($$self, $$props, $$invalidate) {
 	};
 
 	return {
+		dispatch,
 		contractId,
 		name,
 		id,
@@ -2215,33 +2096,21 @@ function instance$4($$self, $$props, $$invalidate) {
 		toggle,
 		headerContainer,
 		select,
-		download,
-		preview,
-		expand,
-		div0_binding
+		div0_binding,
+		download_handler,
+		preview_handler,
+		expand_handler
 	};
 }
 
 class Order extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-1p65xks-style")) add_css$3();
-		init(this, options, instance$4, create_fragment$4, safe_not_equal, ["contractId", "name", "id", "expand"]);
-	}
-
-	get expand() {
-		return this.$$.ctx.expand;
+		init(this, options, instance$4, create_fragment$4, safe_not_equal, ["contractId", "name", "id"]);
 	}
 }
 
 /* src\App.svelte generated by Svelte v3.5.2 */
-
-function add_css$4() {
-	var style = element("style");
-	style.id = 'svelte-zg9ox9-style';
-	style.textContent = ".app.svelte-zg9ox9{width:390px}";
-	append(document.head, style);
-}
 
 function get_each_context$4(ctx, list, i) {
 	const child_ctx = Object.create(ctx);
@@ -2262,8 +2131,9 @@ function create_each_block$4(ctx) {
 		order_props = assign(order_props, order_spread_levels[i]);
 	}
 	var order = new Order({ props: order_props });
-	order.$on("download", ctx.download);
-	order.$on("preview", ctx.preview);
+	order.$on("download", ctx.download_handler);
+	order.$on("preview", ctx.preview_handler);
+	order.$on("expand", ctx.expand_handler);
 
 	return {
 		c() {
@@ -2322,7 +2192,7 @@ function create_fragment$5(ctx) {
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].c();
 			}
-			attr(div, "class", "app svelte-zg9ox9");
+			attr(div, "class", "app");
 		},
 
 		m(target, anchor) {
@@ -2336,7 +2206,7 @@ function create_fragment$5(ctx) {
 		},
 
 		p(changed, ctx) {
-			if (changed.orders || changed.download || changed.preview) {
+			if (changed.orders) {
 				each_value = ctx.orders;
 
 				for (var i = 0; i < each_value.length; i += 1) {
@@ -2392,27 +2262,43 @@ function instance$5($$self, $$props, $$invalidate) {
 
     const dispatch = createEventDispatcher();
 
-    const download = ({detail}) => {
-        dispatch('download', detail);
-    };
-
-    const preview = ({detail}) => {
-        dispatch('preview', detail);
-    };
-
     let { orders = [] } = $$props;
+    
+    // const unsubscribe = selection.subscribe(value => {
+    //     console.log('selection=',value);
+    //     // dispatch('change', Object.keys(value));
+    // });
+
+    // onDestroy(unsubscribe);
+
+	function download_handler({detail}) {
+		return dispatch('download', detail);
+	}
+
+	function preview_handler({detail}) {
+		return dispatch('preview', detail);
+	}
+
+	function expand_handler({detail}) {
+		return dispatch('expand', detail);
+	}
 
 	$$self.$set = $$props => {
 		if ('orders' in $$props) $$invalidate('orders', orders = $$props.orders);
 	};
 
-	return { download, preview, orders };
+	return {
+		dispatch,
+		orders,
+		download_handler,
+		preview_handler,
+		expand_handler
+	};
 }
 
 class App extends SvelteComponent {
 	constructor(options) {
 		super();
-		if (!document.getElementById("svelte-zg9ox9-style")) add_css$4();
 		init(this, options, instance$5, create_fragment$5, safe_not_equal, ["orders", "resetVisibility"]);
 	}
 

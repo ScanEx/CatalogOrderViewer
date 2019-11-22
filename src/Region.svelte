@@ -3,6 +3,7 @@
     import { createEventDispatcher, onMount, onDestroy } from 'svelte';
     import { visibility } from './store.js';
     import FileBrowser from './FileBrowser.svelte';
+    import './Region.css';
 
     export let id = '';
     export let geoJSON = null;
@@ -10,7 +11,7 @@
     export let granules = [];
     export let visible = false;
     export let size = 0;
-
+    export let filePath = '';
 
     let expanded = false;    
     let selected = -1;
@@ -65,17 +66,24 @@
     };
 
     const translate = T.getText.bind(T);
-
-    let fileBrowser;
-
-    const download = () => {
-        
-        fileBrowser = new FileBrowser({target: document.body, props: {expand}});
-        fileBrowser.$on('close', () => {
+    
+    const download = () => {        
+        let fileBrowser = new FileBrowser({target: document.body});
+        let p = filePath.replace('\\', '/');    
+        const i = p.lastIndexOf('/');    
+        const path = i < 0 ? p : p.substr(0, i);
+        dispatch('expand', {
+            expand: files => fileBrowser.$set({files}),
+            filePath: path,
+        });
+        fileBrowser.$on('expand', ({detail}) => dispatch('expand', detail));
+        fileBrowser.$on('close', () => {            
             fileBrowser.$destroy();
         });
-
-        // dispatch('download', id);
+        fileBrowser.$on('download', () => {
+            // dispatch('download', id);
+            fileBrowser.$destroy();
+        });
     };
 
     const preview = () => {        
@@ -98,170 +106,18 @@
     });
 
     onDestroy(() => unsubscribe());
-
-    export const expand = path => [];
     
 </script>
 
-<style>    
-    .roi {
-        margin-top: 8px;
-        font-family: 'IBM Plex Sans';
-    }
-    .roi:last-child {
-        margin-bottom: 8px;
-    }
-    .roi .header {
-        padding: 17px 7px 17px 9px;
-        cursor: pointer;        
-        background-color: #F3F7FA;
-        border: 1px solid #D8E1E8;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        width: 100%;
-    }     
-    .roi .header td,
-    .roi .content th,
-    .roi .content td {
-        white-space: nowrap;
-    }
-    .roi .header.collapsed {
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-    }      
-    .roi .header .toggle {
-        cursor: pointer;
-        display: inline-block;
-        background-position: center;
-        background-repeat: no-repeat;
-        width: 12px;
-        height: 12px;
-    }
-    .roi .header .toggle.expanded {
-        background-image: url('arrow-down.png');
-    }
-    .roi .header .toggle.collapsed{
-        background-image: url('arrow-right.png');
-    }
-    /* .roi .content .check, */
-    .roi .header .down,
-    .roi .header .preview,
-    .roi .content .info {
-        cursor: pointer;
-        display: inline-block;
-        background-position: center;
-        background-repeat: no-repeat;        
-    }
-    .roi .header .down {                
-        width: 20px;
-        height: 20px;
-        margin-left: 5px;
-    }
-    .roi .header .down.active {
-        background-image: url('down-active.png');
-    }
-    .roi .header .down.inactive {
-        background-image: url('down-inactive.png');
-    }
-    .roi .header .preview {                
-        width: 16px;
-        height: 16px;
-    }
-    .roi .header .preview.active {
-        background-image: url('preview-active.png');
-    }
-    .roi .header .preview.inactive {
-        background-image: url('preview-inactive.png');
-    }
-    .roi .header .preview,
-    .roi .header .name {
-        margin-left: 10px;
-    }
-    .roi .content {        
-        border-left: 1px solid #D8E1E8;
-        border-bottom: 1px solid #D8E1E8;
-        border-right: 1px solid #D8E1E8;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;        
-    }
-    .roi .content.hidden {
-        display: none;
-    }
-    .roi .content th,
-    .roi .content td {
-        text-align: left;
-        border-left: 1px solid #D8E1E8;
-        padding-top: 6px;
-        padding-bottom: 6px;
-        padding-left: 12px;
-        padding-right: 12px;        
-    }
-    .roi .header .name,
-    .roi .content th:first-child {
-        width: 100%;
-    }
-    .roi .content th:first-child,
-    .roi .content td:first-child,
-    .roi .content th:last-child,
-    .roi .content td:last-child {        
-        border-left: none;
-    }         
-    .roi .content th:first-child,
-    .roi .content td:first-child {
-        padding-left: 32px;            
-    }    
-    .roi .content th {        
-        color: #92A0AC;
-        border-bottom: 1px solid #D8E1E8;
-    }
-    .roi .content td {
-        color: #455467;
-        cursor: pointer;
-        border-top: 1px solid transparent;
-        border-bottom: 1px solid transparent;
-    }
-    .roi .content .info {        
-        background-image: url('info.png');        
-        width: 16px;
-        height: 16px;
-    }
-    /* .roi .content .check {        
-        width: 14px;
-        height: 14px;        
-    }
-    .roi .content .check.checked {
-        background-image: url('check_on.png');
-    }
-    .roi .content .check.unchecked {
-        background-image: url('check_off.png');
-    }
-    .roi .content .check.undetermined {
-        background-image: url('check_un.png');
-    } */
-    .roi .content .selected td {
-        border-top: 1px solid #00A2D3;
-        border-bottom: 1px solid #00A2D3;
-    }
-    .roi .content .selected td:first-child {
-        border-left: 1px solid #00A2D3;
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
-    }
-    .roi .content .selected td:last-child {
-        border-right: 1px solid #00A2D3;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-    }
-</style>
 
 <div class="roi">
     <table class="header" class:collapsed="{!expanded}">
         <tr>
-            <td>
-                <i class="toggle" on:click|stopPropagation="{() => expanded = !expanded}" class:collapsed="{!expanded}" class:expanded="{expanded}"></i>
+            <td on:click|stopPropagation="{() => expanded = !expanded}">
+                <i class="toggle icon" class:caret-right="{!expanded}" class:caret-down="{expanded}"></i>
             </td>
-            <td>
-                <i class="preview" class:active="{visible}" class:inactive="{!visible}" on:click|stopPropagation="{preview}"></i>
+            <td on:click|stopPropagation="{preview}">
+                <i class="preview icon" class:eye="{visible}" class:eye-invisible="{!visible}"></i>
             </td>
             <td class="name" on:click|stopPropagation="{() => expanded = !expanded}">{name}</td>
             {#if expanded}
@@ -273,8 +129,8 @@
                     <td>{size.toFixed(1)} {translate('b')}</td>
                 {/if}
             {/if}
-            <td>
-                <i class="down" on:click|stopPropagation="{download}" class:active="{expanded}" class:inactive="{!expanded}"></i>
+            <td on:click|stopPropagation="{download}">
+                <i class="icon download" class:caret-down="{expanded}" class:caret-right="{!expanded}"></i>
             </td>
         </tr>                                
     </table>
@@ -292,7 +148,7 @@
             <td>{g.granule.sceneId}</td>
             <!-- <td>100 {translate('mb')}</td> -->
             <td>
-                <i class="info"></i>
+                <i class="icon info-circle"></i>
             </td>
             <!-- <td on:click|stopPropagation="{() => granules[i].granule.product.checked = !granules[i].granule.product.checked}">
                 <i class="check" class:checked="{g.granule.product.checked}" class:unchecked="{!g.granule.product.checked}"></i>

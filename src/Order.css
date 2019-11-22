@@ -1,0 +1,13 @@
+.order > .header > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+.order > .header {
+    cursor: pointer;        
+}
+.order > .content {
+    padding-left: 15px;
+}
+.order > .content.hidden {
+    display: none;
+}

@@ -1,6 +1,7 @@
 <script>
     import T from 'scanex-translations';
     import {createEventDispatcher} from 'svelte';
+    import './Info.css';
 
     export let sceneId = '';
     export let platform = '';
@@ -31,81 +32,20 @@
 
     let container;
 
-    export const adjustPosition = ({top, left}) => {
+    export function adjustPosition ({top, left}) {
         container.style.top = `${top}px`;
         container.style.left = `${left}px`;
-    };
+    }
 
 </script>
-
-<style>
-    .scene-info {
-        position: absolute;
-        background-color: #FFFFFF;
-        width: 420px;
-    }
-    .scene-info .header {
-        border-top: 1px solid #D8E1E8;
-        border-left: 1px solid #D8E1E8;
-        border-right: 1px solid #D8E1E8;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        background-color: #F3F7FA;
-    }
-    .scene-info .content {
-        border: 1px solid #D8E1E8; 
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-    }    
-    .scene-info .content th,
-    .scene-info .content td {
-        border-left: 1px solid #D8E1E8;
-    }
-    .scene-info .header td:first-child,
-    .scene-info .content th:first-child,
-    .scene-info .content td:first-child {        
-        border-left: none;
-    }
-    .scene-info .content th {
-        padding: 5px 10px 5px 10px;
-        color: #92A0AC;
-        text-align: left;
-    }
-    .scene-info .header td,
-    .scene-info .content td {
-        padding: 8px 10px 8px 10px;
-    }
-    .scene-info .content td {
-        border-top: 1px solid #D8E1E8;        
-        color: #455467;
-    }
-    .scene-info .header td:first-child,
-    .scene-info .content th:last-child,
-    .scene-info .content td:last-child {
-        width: 100%;
-        word-break: break-all;   
-    }
-    .scene-info .close {
-        padding: 10px;
-    }
-    .scene-info .close i {
-        cursor: pointer;
-        display: inline-block;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-image: url('close.png');
-        width: 10px;
-        height: 10px;
-    }    
-</style>
 
 <div class="scene-info" bind:this="{container}">
     <table class="header" cellpadding="0" cellspacing="0">
         <tr>
             <td>{platform}</td>
             <td>{date}</td>
-            <td class="close" on:click|stopPropagation="{() => dispatch('close')}">
-                <i></i>
+            <td on:click|stopPropagation="{() => dispatch('close')}">
+                <i class="icon close"></i>
             </td>
         </tr>        
     </table>

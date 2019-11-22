@@ -1,0 +1,10 @@
+.entry > .header > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+.entry > .children {
+    margin-left: 23px;
+}
+.entry > .children.hidden {
+    display: none;
+}

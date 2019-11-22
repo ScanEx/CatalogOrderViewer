@@ -1,0 +1,11 @@
+.app {
+    width: 390px;
+}
+.icon {
+    cursor: pointer;
+    display: inline-block;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 18px;
+}

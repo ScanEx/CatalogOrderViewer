@@ -1,0 +1,43 @@
+.files {
+    position: absolute;            
+    z-index: 2000;
+}
+.files > .header {    
+    background-color: #F3F7FA;
+    border: 1px solid #D8E1E8;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.files > .header > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+.files > .header,
+.files > .content,
+.files > .footer {
+    padding: 9px;    
+}
+.files > .content,
+.files > .footer,
+.files > .footer > button {
+    background-color: #FFFFFF;
+}
+.files > .content {
+    border-left: 1px solid #D8E1E8;
+    border-right: 1px solid #D8E1E8;
+}
+.files > .footer {
+    text-align: center;    
+    border: 1px solid #D8E1E8;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.files > .header > i,
+.files > .footer > button {
+    cursor: pointer;
+}
+.files > .footer > button {    
+    border: 1px solid #D8E1E8;
+    padding: 5px;
+    border-radius: 4px;
+}

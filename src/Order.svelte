@@ -2,6 +2,7 @@
     import Region from './Region.svelte';
     import Info from './Info.svelte';
     import {createEventDispatcher} from 'svelte';
+    import './Order.css';
 
     const dispatch = createEventDispatcher();
 
@@ -45,57 +46,22 @@
         else {
             info.$set({sceneId, platform});
         }        
-    };    
-
-    const download = ({detail}) => {
-        dispatch('download', detail);
-    };
-
-    const preview = ({detail}) => {
-        dispatch('preview', detail);
-    };
-
-    export const expand = path => [];
+    };       
 
 </script>
 
-<style>
-    .order .header > * {
-        display: inline-block;        
-    }
-    .order .header {
-        cursor: pointer;        
-    }
-    .order .header .icon {
-        cursor: pointer;
-        display: inline-block;
-        background-position: center;
-        background-repeat: no-repeat;
-        width: 12px;
-        height: 12px;
-    }
-    .order .header .icon.expanded {
-        background-image: url('arrow-down.png');
-    }
-    .order .header .icon.collapsed{
-        background-image: url('arrow-right.png');
-    }
-    .order .content {
-        padding-left: 15px;
-    }
-    .order .content.hidden {
-        display: none;
-    }
-</style>
-
 <div class="order">
     <div class="header" on:click|stopPropagation="{toggle}" bind:this="{headerContainer}">
-        <i class="icon" class:collapsed="{!expanded}" class:expanded="{expanded}"></i>
+        <i class="icon" class:caret-right="{!expanded}" class:caret-down="{expanded}"></i>
         <span>{contractId || name}</span>
     </div>
     <div class="content" class:hidden="{!expanded}">
         {#each regions as r}
-        <Region {...r} on:select="{select}" on:download="{download}" on:preview="{preview}" expand="{expand}" />
+        <Region {...r}
+            on:select="{select}"
+            on:download="{({detail}) => dispatch('download', detail)}"
+            on:preview="{({detail}) => dispatch('preview', detail)}"
+            on:expand="{({detail}) => dispatch('expand', detail)}" />
         {/each}
     </div>
 </div>

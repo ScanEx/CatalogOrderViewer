@@ -1,0 +1,102 @@
+.roi {
+    margin-top: 8px;
+    font-family: 'IBM Plex Sans';
+}
+.roi:last-child {
+    margin-bottom: 8px;
+}
+.roi > .header {
+    padding: 17px 7px 17px 9px;
+    cursor: pointer;        
+    background-color: #F3F7FA;
+    border: 1px solid #D8E1E8;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 100%;
+}     
+.roi > .header td,
+.roi > .content th,
+.roi > .content td {
+    white-space: nowrap;
+}
+.roi > .header.collapsed {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}      
+.roi > .header .toggle {
+    cursor: pointer;
+    display: inline-block;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 12px;
+    height: 12px;
+}
+.roi > .header .down {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+}
+.roi > .header .preview,
+.roi > .header .name {
+    margin-left: 10px;
+}
+.roi > .content {
+    border-left: 1px solid #D8E1E8;
+    border-bottom: 1px solid #D8E1E8;
+    border-right: 1px solid #D8E1E8;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;        
+}
+.roi > .content.hidden {
+    display: none;
+}
+.roi > .content th,
+.roi > .content td {
+    text-align: left;
+    border-left: 1px solid #D8E1E8;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 12px;
+    padding-right: 12px;        
+}
+.roi > .header .name,
+.roi > .content th:first-child {
+    width: 100%;
+}
+.roi > .content th:first-child,
+.roi > .content td:first-child,
+.roi > .content th:last-child,
+.roi > .content td:last-child {
+    border-left: none;
+}         
+.roi > .content th:first-child,
+.roi > .content td:first-child {
+    padding-left: 32px;            
+}    
+.roi > .content th {        
+    color: #92A0AC;
+    border-bottom: 1px solid #D8E1E8;
+}
+.roi > .content td {
+    color: #455467;
+    cursor: pointer;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+}
+.roi > .content td > * {
+    vertical-align: middle;
+}
+.roi > .content .selected td {
+    border-top: 1px solid #00A2D3;
+    border-bottom: 1px solid #00A2D3;
+}
+.roi > .content .selected td:first-child {
+    border-left: 1px solid #00A2D3;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.roi > .content .selected td:last-child {
+    border-right: 1px solid #00A2D3;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}

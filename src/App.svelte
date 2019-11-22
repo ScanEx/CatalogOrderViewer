@@ -1,33 +1,37 @@
 <script>
     import Order from './Order.svelte';
-    import {createEventDispatcher} from 'svelte';
-    import {visibility} from './store.js';
+    import {createEventDispatcher, onDestroy} from 'svelte';
+    import {visibility, selection} from './store.js';
+    import './App.css';
+    import './icons.css';
 
     const dispatch = createEventDispatcher();
 
     const download = ({detail}) => {
         dispatch('download', detail);
-    };
-
-    const preview = ({detail}) => {
-        dispatch('preview', detail);
-    };
+    };    
 
     export let orders = [];
 
     export function resetVisibility () {
         visibility.set(false);
-    } 
-</script>
+    }
+    
+    // const unsubscribe = selection.subscribe(value => {
+    //     console.log('selection=',value);
+    //     // dispatch('change', Object.keys(value));
+    // });
 
-<style>
-    .app {
-        width: 390px;
-    }    
-</style>
+    // onDestroy(unsubscribe);
+
+</script>
 
 <div class="app">    
     {#each orders as x}
-    <Order on:download="{download}" on:preview="{preview}" {...x} />
+    <Order
+        {...x}
+        on:download="{({detail}) => dispatch('download', detail)}"
+        on:preview="{({detail}) => dispatch('preview', detail)}"
+        on:expand="{({detail}) => dispatch('expand', detail)}" />
     {/each}    
 </div>
