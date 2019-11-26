@@ -7,9 +7,9 @@
 
     const dispatch = createEventDispatcher();
 
-    const download = ({detail}) => {
-        dispatch('download', detail);
-    };    
+    const download = () => {
+        dispatch('download', Object.keys(files));
+    };
 
     export let orders = [];
 
@@ -21,13 +21,12 @@
 
     function selection ({detail}) {
         const {path, state} = detail;
-        if(state) {
+        if(state === 1) {
             files[path] = 1;
         }
         else {
             delete files[path];
-        }
-        console.log(files);
+        }    
     }
 
 </script>
@@ -37,7 +36,7 @@
     <Order
         {...x}
         on:selection="{selection}"
-        on:download="{({detail}) => dispatch('download', detail)}"
+        on:download="{download}"
         on:preview="{({detail}) => dispatch('preview', detail)}"
         on:expand="{({detail}) => dispatch('expand', detail)}" />
     {/each}    

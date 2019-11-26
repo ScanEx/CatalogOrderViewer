@@ -1,6 +1,6 @@
 <script>
     import './File.css';
-    import {createEventDispatcher, getContext, setContext, onMount} from 'svelte';
+    import {createEventDispatcher, afterUpdate} from 'svelte';
 
     export let isDir = false;    
     export let path = '';
@@ -17,7 +17,6 @@
     $: children = [];
     $: if (state != -1) {
         checked = state;
-        dispatch('selection', {path, state});
     }    
     
     function expand (items) {
@@ -47,8 +46,7 @@
                 break;
             default:
                 break;
-        }        
-        dispatch('check', state);        
+        }           
     }
 
     function select (i, s) {
@@ -62,8 +60,12 @@
         else {
             state = -1;
         }        
+    }
+
+    afterUpdate(() => {                
         dispatch('check', state);
-    }     
+        dispatch('selection', {path, state});
+    });     
 
 </script>
 
@@ -91,9 +93,10 @@
     <div class="children" class:hidden="{!expanded}">        
         {#each children as child, i}
         <svelte:self {...child}
-            state="{checked}"
-            on:selection="{({detail}) => dispatch('selection', detail)}"
-            on:check="{({detail}) => select(i, detail)}" />
+            state="{checked}"            
+            on:check="{({detail}) => select(i, detail)}"
+            on:expand="{({detail}) => dispatch('expand', detail)}"
+            on:selection="{({detail}) => dispatch('selection', detail)}" />
         {/each}        
     </div>    
 </div>    

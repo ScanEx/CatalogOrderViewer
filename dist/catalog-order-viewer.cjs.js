@@ -100,6 +100,9 @@ function get_current_component() {
 function onMount(fn) {
     get_current_component().$$.on_mount.push(fn);
 }
+function afterUpdate(fn) {
+    get_current_component().$$.after_render.push(fn);
+}
 function onDestroy(fn) {
     get_current_component().$$.on_destroy.push(fn);
 }
@@ -405,7 +408,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (82:8) {:else}
+// (84:8) {:else}
 function create_else_block(ctx) {
 	var i0, t, i1, dispose;
 
@@ -446,7 +449,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (72:8) {#if isDir}
+// (74:8) {#if isDir}
 function create_if_block(ctx) {
 	var i0, t, i1, dispose;
 
@@ -500,7 +503,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (92:8) {#each children as child, i}
+// (94:8) {#each children as child, i}
 function create_each_block(ctx) {
 	var current;
 
@@ -518,8 +521,9 @@ function create_each_block(ctx) {
 		file_props = assign(file_props, file_spread_levels[i_1]);
 	}
 	var file = new File({ props: file_props });
-	file.$on("selection", ctx.selection_handler);
 	file.$on("check", check_handler);
+	file.$on("expand", ctx.expand_handler);
+	file.$on("selection", ctx.selection_handler);
 
 	return {
 		c() {
@@ -725,8 +729,7 @@ function instance($$self, $$props, $$invalidate) {
                 break;
             default:
                 break;
-        }        
-        dispatch('check', state);        
+        }           
     }
 
     function select (i, s) {
@@ -739,15 +742,23 @@ function instance($$self, $$props, $$invalidate) {
         else {
             $$invalidate('state', state = -1);
         }        
-        dispatch('check', state);
     }
 
-	function selection_handler({detail}) {
-		return dispatch('selection', detail);
-	}
+    afterUpdate(() => {                
+        dispatch('check', state);
+        dispatch('selection', {path, state});
+    });
 
 	function check_handler({ i }, {detail}) {
 		return select(i, detail);
+	}
+
+	function expand_handler({detail}) {
+		return dispatch('expand', detail);
+	}
+
+	function selection_handler({detail}) {
+		return dispatch('selection', detail);
 	}
 
 	$$self.$set = $$props => {
@@ -761,9 +772,8 @@ function instance($$self, $$props, $$invalidate) {
 
 	$$self.$$.update = ($$dirty = { path: 1, state: 1 }) => {
 		if ($$dirty.path) { $$invalidate('name', name = path.substr(path.lastIndexOf('\\') + 1)); }
-		if ($$dirty.state || $$dirty.path) { if (state != -1) {
+		if ($$dirty.state) { if (state != -1) {
                 $$invalidate('checked', checked = state);
-                dispatch('selection', {path, state});
             } }
 	};
 
@@ -781,8 +791,9 @@ function instance($$self, $$props, $$invalidate) {
 		select,
 		name,
 		children,
-		selection_handler,
-		check_handler
+		check_handler,
+		expand_handler,
+		selection_handler
 	};
 }
 
@@ -1509,9 +1520,9 @@ function instance$2($$self, $$props, $$invalidate) {
         fileBrowser.$on('close', () => {            
             fileBrowser.$destroy();
         });
-        fileBrowser.$on('download', () => {
-            // dispatch('download', id);
+        fileBrowser.$on('download', () => {            
             fileBrowser.$destroy();
+            dispatch('download');
         });
         fileBrowser.$on('selection', ({detail}) => {
             dispatch('selection', detail);
@@ -2082,8 +2093,8 @@ function instance$4($$self, $$props, $$invalidate) {
 		return dispatch('selection', detail);
 	}
 
-	function download_handler({detail}) {
-		return dispatch('download', detail);
+	function download_handler() {
+		return dispatch('download');
 	}
 
 	function preview_handler({detail}) {
@@ -2133,7 +2144,7 @@ function get_each_context$4(ctx, list, i) {
 	return child_ctx;
 }
 
-// (36:4) {#each orders as x}
+// (35:4) {#each orders as x}
 function create_each_block$4(ctx) {
 	var current;
 
@@ -2147,7 +2158,7 @@ function create_each_block$4(ctx) {
 	}
 	var order = new Order({ props: order_props });
 	order.$on("selection", ctx.selection);
-	order.$on("download", ctx.download_handler);
+	order.$on("download", ctx.download);
 	order.$on("preview", ctx.preview_handler);
 	order.$on("expand", ctx.expand_handler);
 
@@ -2222,7 +2233,7 @@ function create_fragment$5(ctx) {
 		},
 
 		p(changed, ctx) {
-			if (changed.orders || changed.selection) {
+			if (changed.orders || changed.selection || changed.download) {
 				each_value = ctx.orders;
 
 				for (var i = 0; i < each_value.length; i += 1) {
@@ -2278,23 +2289,22 @@ function instance$5($$self, $$props, $$invalidate) {
 
     const dispatch = createEventDispatcher();
 
+    const download = () => {
+        dispatch('download', Object.keys(files));
+    };
+
     let { orders = [] } = $$props;
     
     let files = {};
 
     function selection ({detail}) {
         const {path, state} = detail;
-        if(state) {
+        if(state === 1) {
             files[path] = 1;        }
         else {
             delete files[path];
-        }
-        console.log(files);
+        }    
     }
-
-	function download_handler({detail}) {
-		return dispatch('download', detail);
-	}
 
 	function preview_handler({detail}) {
 		return dispatch('preview', detail);
@@ -2310,9 +2320,9 @@ function instance$5($$self, $$props, $$invalidate) {
 
 	return {
 		dispatch,
+		download,
 		orders,
 		selection,
-		download_handler,
 		preview_handler,
 		expand_handler
 	};

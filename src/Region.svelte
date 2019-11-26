@@ -80,9 +80,9 @@
         fileBrowser.$on('close', () => {            
             fileBrowser.$destroy();
         });
-        fileBrowser.$on('download', () => {
-            // dispatch('download', id);
+        fileBrowser.$on('download', () => {            
             fileBrowser.$destroy();
+            dispatch('download');
         });
         fileBrowser.$on('selection', ({detail}) => {
             dispatch('selection', detail);
