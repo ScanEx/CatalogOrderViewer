@@ -58,6 +58,12 @@
         dispatch('selection', detail);
     }
 
+    function download () {
+        if(Object.keys(selected).length > 0) {
+            dispatch('download');
+        }
+    }
+
 </script>
 
 <svelte:window bind:outerHeight="{outerHeight}" bind:outerWidth="{outerWidth}" />
@@ -81,6 +87,6 @@
         {/each}
     </div>
     <div class="footer">
-        <button on:click="{() => dispatch('download')}">{T.getText('filebrowser.download')}</button>
+        <button on:click="{download}">{T.getText('filebrowser.download')}</button>
     </div>
 </div>

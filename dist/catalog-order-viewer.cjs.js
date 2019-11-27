@@ -811,7 +811,7 @@ function get_each_context$1(ctx, list, i) {
 	return child_ctx;
 }
 
-// (71:8) {:else}
+// (77:8) {:else}
 function create_else_block$1(ctx) {
 	var div, t0_value = ctx.size.toFixed(1), t0, t1, t2_value = T.getText('b'), t2;
 
@@ -845,7 +845,7 @@ function create_else_block$1(ctx) {
 	};
 }
 
-// (69:32) 
+// (75:32) 
 function create_if_block_1(ctx) {
 	var div, t0_value = ctx.kBytes.toFixed(1), t0, t1, t2_value = T.getText('kb'), t2;
 
@@ -879,7 +879,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (67:8) {#if mBytes >= 1.0}
+// (73:8) {#if mBytes >= 1.0}
 function create_if_block$1(ctx) {
 	var div, t0_value = ctx.mBytes.toFixed(1), t0, t1, t2_value = T.getText('mb'), t2;
 
@@ -913,7 +913,7 @@ function create_if_block$1(ctx) {
 	};
 }
 
-// (77:8) {#each files as file}
+// (83:8) {#each files as file}
 function create_each_block$1(ctx) {
 	var current;
 
@@ -1020,7 +1020,7 @@ function create_fragment$1(ctx) {
 			dispose = [
 				listen(window, "resize", ctx.onwindowresize),
 				listen(i, "click", ctx.click_handler),
-				listen(button, "click", ctx.click_handler_1)
+				listen(button, "click", ctx.download)
 			];
 		},
 
@@ -1170,6 +1170,12 @@ function instance$1($$self, $$props, $$invalidate) {
         dispatch('selection', detail);
     }
 
+    function download () {
+        if(Object.keys(selected).length > 0) {
+            dispatch('download');
+        }
+    }
+
 	function onwindowresize() {
 		outerHeight = window.outerHeight; $$invalidate('outerHeight', outerHeight);
 		outerWidth = window.outerWidth; $$invalidate('outerWidth', outerWidth);
@@ -1181,10 +1187,6 @@ function instance$1($$self, $$props, $$invalidate) {
 
 	function expand_handler({detail}) {
 		return dispatch('expand', detail);
-	}
-
-	function click_handler_1() {
-		return dispatch('download');
 	}
 
 	function div4_binding($$node, check) {
@@ -1212,12 +1214,12 @@ function instance$1($$self, $$props, $$invalidate) {
 		adjustPosition,
 		dispatch,
 		selection,
+		download,
 		kBytes,
 		mBytes,
 		onwindowresize,
 		click_handler,
 		expand_handler,
-		click_handler_1,
 		div4_binding
 	};
 }
