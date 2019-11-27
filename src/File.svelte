@@ -6,6 +6,7 @@
     export let path = '';
     export let expanded = false;
     export let state = 0;
+    export let size = 0;
 
     let initialized = false;
     let selected = [];
@@ -64,7 +65,7 @@
 
     afterUpdate(() => {                
         dispatch('check', state);
-        dispatch('selection', {path, state});
+        dispatch('selection', {path, state, size});
     });     
 
 </script>

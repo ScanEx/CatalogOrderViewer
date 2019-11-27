@@ -8,7 +8,15 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
-.files > .header > * {
+.files > .header > .size {
+    width: 70px;
+    text-align: right;
+}
+.files > .header > i {
+    float: right;
+}
+.files > .header > *,
+.files > .size > * {
     display: inline-block;
     vertical-align: middle;
 }
@@ -35,6 +43,10 @@
 .files > .header > i,
 .files > .footer > button {
     cursor: pointer;
+}
+.files > .header > .size,
+.files > .header > i {
+    margin-left: 9px;
 }
 .files > .footer > button {    
     border: 1px solid #D8E1E8;

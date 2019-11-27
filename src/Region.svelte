@@ -9,30 +9,18 @@
     export let geoJSON = null;
     export let name = '';
     export let granules = [];
-    export let visible = false;
-    export let size = 0;
+    export let visible = false;    
     export let filePath = '';
 
     let expanded = false;    
-    let selected = -1;
-
-    $: kBytes = size / 1024;
-    $: mBytes = kBytes / 1024;
+    let selected = -1;    
 
     T.addText('eng', {
-        product: 'Product',
-        size: 'Size',
-        b: 'b',
-        kb: 'Kb',
-        mb: 'Mb'
+        product: 'Product',        
     });
 
     T.addText('rus', {
-        product: 'Продукт',
-        size: 'Размер',
-        b: 'б',
-        kb: 'Кб',
-        mb: 'Мб'
+        product: 'Продукт',        
     });
 
     let checked = false;
@@ -123,15 +111,6 @@
                 <i class="preview icon" class:eye="{visible}" class:eye-invisible="{!visible}"></i>
             </td>
             <td class="name" on:click|stopPropagation="{() => expanded = !expanded}">{name}</td>
-            {#if expanded}
-                {#if mBytes >= 1.0}
-                    <td>{mBytes.toFixed(1)} {translate('mb')}</td>
-                {:else if kBytes >= 1.0}
-                    <td>{kBytes.toFixed(1)} {translate('kb')}</td>
-                {:else}
-                    <td>{size.toFixed(1)} {translate('b')}</td>
-                {/if}
-            {/if}
             <td on:click|stopPropagation="{download}">
                 <i class="icon download" class:caret-down="{expanded}" class:caret-right="{!expanded}"></i>
             </td>

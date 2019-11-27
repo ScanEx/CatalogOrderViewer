@@ -51,9 +51,6 @@ function text(data) {
 function space() {
     return text(' ');
 }
-function empty() {
-    return text('');
-}
 function listen(node, event, handler, options) {
     node.addEventListener(event, handler, options);
     return () => node.removeEventListener(event, handler, options);
@@ -408,7 +405,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (84:8) {:else}
+// (85:8) {:else}
 function create_else_block(ctx) {
 	var i0, t, i1, dispose;
 
@@ -449,7 +446,7 @@ function create_else_block(ctx) {
 	};
 }
 
-// (74:8) {#if isDir}
+// (75:8) {#if isDir}
 function create_if_block(ctx) {
 	var i0, t, i1, dispose;
 
@@ -503,7 +500,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (94:8) {#each children as child, i}
+// (95:8) {#each children as child, i}
 function create_each_block(ctx) {
 	var current;
 
@@ -694,7 +691,7 @@ function create_fragment(ctx) {
 function instance($$self, $$props, $$invalidate) {
 	
 
-    let { isDir = false, path = '', expanded = false, state = 0 } = $$props;
+    let { isDir = false, path = '', expanded = false, state = 0, size = 0 } = $$props;
 
     let initialized = false;
     let selected = [];
@@ -746,7 +743,7 @@ function instance($$self, $$props, $$invalidate) {
 
     afterUpdate(() => {                
         dispatch('check', state);
-        dispatch('selection', {path, state});
+        dispatch('selection', {path, state, size});
     });
 
 	function check_handler({ i }, {detail}) {
@@ -766,6 +763,7 @@ function instance($$self, $$props, $$invalidate) {
 		if ('path' in $$props) $$invalidate('path', path = $$props.path);
 		if ('expanded' in $$props) $$invalidate('expanded', expanded = $$props.expanded);
 		if ('state' in $$props) $$invalidate('state', state = $$props.state);
+		if ('size' in $$props) $$invalidate('size', size = $$props.size);
 	};
 
 	let name, children;
@@ -784,6 +782,7 @@ function instance($$self, $$props, $$invalidate) {
 		path,
 		expanded,
 		state,
+		size,
 		checked,
 		dispatch,
 		toggle,
@@ -800,7 +799,7 @@ function instance($$self, $$props, $$invalidate) {
 class File extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance, create_fragment, safe_not_equal, ["isDir", "path", "expanded", "state"]);
+		init(this, options, instance, create_fragment, safe_not_equal, ["isDir", "path", "expanded", "state", "size"]);
 	}
 }
 
@@ -812,7 +811,109 @@ function get_each_context$1(ctx, list, i) {
 	return child_ctx;
 }
 
-// (45:8) {#each files as file}
+// (71:8) {:else}
+function create_else_block$1(ctx) {
+	var div, t0_value = ctx.size.toFixed(1), t0, t1, t2_value = T.getText('b'), t2;
+
+	return {
+		c() {
+			div = element("div");
+			t0 = text(t0_value);
+			t1 = space();
+			t2 = text(t2_value);
+			attr(div, "class", "size");
+		},
+
+		m(target, anchor) {
+			insert(target, div, anchor);
+			append(div, t0);
+			append(div, t1);
+			append(div, t2);
+		},
+
+		p(changed, ctx) {
+			if ((changed.size) && t0_value !== (t0_value = ctx.size.toFixed(1))) {
+				set_data(t0, t0_value);
+			}
+		},
+
+		d(detaching) {
+			if (detaching) {
+				detach(div);
+			}
+		}
+	};
+}
+
+// (69:32) 
+function create_if_block_1(ctx) {
+	var div, t0_value = ctx.kBytes.toFixed(1), t0, t1, t2_value = T.getText('kb'), t2;
+
+	return {
+		c() {
+			div = element("div");
+			t0 = text(t0_value);
+			t1 = space();
+			t2 = text(t2_value);
+			attr(div, "class", "size");
+		},
+
+		m(target, anchor) {
+			insert(target, div, anchor);
+			append(div, t0);
+			append(div, t1);
+			append(div, t2);
+		},
+
+		p(changed, ctx) {
+			if ((changed.kBytes) && t0_value !== (t0_value = ctx.kBytes.toFixed(1))) {
+				set_data(t0, t0_value);
+			}
+		},
+
+		d(detaching) {
+			if (detaching) {
+				detach(div);
+			}
+		}
+	};
+}
+
+// (67:8) {#if mBytes >= 1.0}
+function create_if_block$1(ctx) {
+	var div, t0_value = ctx.mBytes.toFixed(1), t0, t1, t2_value = T.getText('mb'), t2;
+
+	return {
+		c() {
+			div = element("div");
+			t0 = text(t0_value);
+			t1 = space();
+			t2 = text(t2_value);
+			attr(div, "class", "size");
+		},
+
+		m(target, anchor) {
+			insert(target, div, anchor);
+			append(div, t0);
+			append(div, t1);
+			append(div, t2);
+		},
+
+		p(changed, ctx) {
+			if ((changed.mBytes) && t0_value !== (t0_value = ctx.mBytes.toFixed(1))) {
+				set_data(t0, t0_value);
+			}
+		},
+
+		d(detaching) {
+			if (detaching) {
+				detach(div);
+			}
+		}
+	};
+}
+
+// (77:8) {#each files as file}
 function create_each_block$1(ctx) {
 	var current;
 
@@ -826,7 +927,7 @@ function create_each_block$1(ctx) {
 	}
 	var file = new File({ props: file_props });
 	file.$on("expand", ctx.expand_handler);
-	file.$on("selection", ctx.selection_handler);
+	file.$on("selection", ctx.selection);
 
 	return {
 		c() {
@@ -864,9 +965,18 @@ function create_each_block$1(ctx) {
 }
 
 function create_fragment$1(ctx) {
-	var div4, div1, div0, t0_value = T.getText('filebrowser.title'), t0, t1, i, t2, div2, t3, div3, button, t4_value = T.getText('filebrowser.download'), t4, current, dispose;
+	var div4, div1, div0, t0_value = T.getText('filebrowser.title'), t0, t1, t2, i, t3, div2, t4, div3, button, t5_value = T.getText('filebrowser.download'), t5, current, dispose;
 
 	add_render_callback(ctx.onwindowresize);
+
+	function select_block_type(ctx) {
+		if (ctx.mBytes >= 1.0) return create_if_block$1;
+		if (ctx.kBytes >= 1.0) return create_if_block_1;
+		return create_else_block$1;
+	}
+
+	var current_block_type = select_block_type(ctx);
+	var if_block = current_block_type(ctx);
 
 	var each_value = ctx.files;
 
@@ -887,18 +997,20 @@ function create_fragment$1(ctx) {
 			div0 = element("div");
 			t0 = text(t0_value);
 			t1 = space();
-			i = element("i");
+			if_block.c();
 			t2 = space();
+			i = element("i");
+			t3 = space();
 			div2 = element("div");
 
 			for (var i_1 = 0; i_1 < each_blocks.length; i_1 += 1) {
 				each_blocks[i_1].c();
 			}
 
-			t3 = space();
+			t4 = space();
 			div3 = element("div");
 			button = element("button");
-			t4 = text(t4_value);
+			t5 = text(t5_value);
 			attr(i, "class", "icon close");
 			attr(div1, "class", "header");
 			attr(div2, "class", "content");
@@ -918,24 +1030,37 @@ function create_fragment$1(ctx) {
 			append(div1, div0);
 			append(div0, t0);
 			append(div1, t1);
+			if_block.m(div1, null);
+			append(div1, t2);
 			append(div1, i);
-			append(div4, t2);
+			append(div4, t3);
 			append(div4, div2);
 
 			for (var i_1 = 0; i_1 < each_blocks.length; i_1 += 1) {
 				each_blocks[i_1].m(div2, null);
 			}
 
-			append(div4, t3);
+			append(div4, t4);
 			append(div4, div3);
 			append(div3, button);
-			append(button, t4);
+			append(button, t5);
 			add_binding_callback(() => ctx.div4_binding(div4, null));
 			current = true;
 		},
 
 		p(changed, ctx) {
-			if (changed.files) {
+			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+				if_block.p(changed, ctx);
+			} else {
+				if_block.d(1);
+				if_block = current_block_type(ctx);
+				if (if_block) {
+					if_block.c();
+					if_block.m(div1, t2);
+				}
+			}
+
+			if (changed.files || changed.selection) {
 				each_value = ctx.files;
 
 				for (var i_1 = 0; i_1 < each_value.length; i_1 += 1) {
@@ -982,6 +1107,8 @@ function create_fragment$1(ctx) {
 				detach(div4);
 			}
 
+			if_block.d();
+
 			destroy_each(each_blocks, detaching);
 
 			ctx.div4_binding(null, div4);
@@ -997,20 +1124,28 @@ function instance$1($$self, $$props, $$invalidate) {
     let container;
     let outerHeight;
     let outerWidth;
+    let size = 0.0;
 
     T.addText('rus', {
         filebrowser: {
-            title: 'Выберите файлы для скачивания',
-            download: 'Скачать'
-        },        
+            title: 'Выбранные файлы',
+            download: 'Скачать',            
+        },
+        size: 'Размер',
+        b: 'б',
+        kb: 'Кб',
+        mb: 'Мб'        
     });
 
     T.addText('eng', {
         filebrowser: {
-            title: 'Select files to download',
-            download: 'Download'
+            title: 'Selected files',
+            download: 'Download',            
         },
-        
+        size: 'Size',
+        b: 'b',
+        kb: 'Kb',
+        mb: 'Mb',        
     });
 
     const adjustPosition = ({top, left}) => {
@@ -1021,6 +1156,19 @@ function instance$1($$self, $$props, $$invalidate) {
     const dispatch = createEventDispatcher();
 
     onMount(() => adjustPosition({top: 100, left: 300}));
+
+    let selected = {};
+
+    function selection ({detail}) {
+        const {path, state} = detail;
+        if(state === 1) {
+            selected[path] = detail.size;        }
+        else {
+            delete selected[path];
+        }
+        $$invalidate('size', size = Object.keys(selected).reduce((a, s) => a + selected[s], 0));
+        dispatch('selection', detail);
+    }
 
 	function onwindowresize() {
 		outerHeight = window.outerHeight; $$invalidate('outerHeight', outerHeight);
@@ -1033,10 +1181,6 @@ function instance$1($$self, $$props, $$invalidate) {
 
 	function expand_handler({detail}) {
 		return dispatch('expand', detail);
-	}
-
-	function selection_handler({detail}) {
-		return dispatch('selection', detail);
 	}
 
 	function click_handler_1() {
@@ -1052,17 +1196,27 @@ function instance$1($$self, $$props, $$invalidate) {
 		if ('files' in $$props) $$invalidate('files', files = $$props.files);
 	};
 
+	let kBytes, mBytes;
+
+	$$self.$$.update = ($$dirty = { size: 1, kBytes: 1 }) => {
+		if ($$dirty.size) { $$invalidate('kBytes', kBytes = size / 1024); }
+		if ($$dirty.kBytes) { $$invalidate('mBytes', mBytes = kBytes / 1024); }
+	};
+
 	return {
 		files,
 		container,
 		outerHeight,
 		outerWidth,
+		size,
 		adjustPosition,
 		dispatch,
+		selection,
+		kBytes,
+		mBytes,
 		onwindowresize,
 		click_handler,
 		expand_handler,
-		selection_handler,
 		click_handler_1,
 		div4_binding
 	};
@@ -1088,153 +1242,7 @@ function get_each_context$2(ctx, list, i) {
 	return child_ctx;
 }
 
-// (126:12) {#if expanded}
-function create_if_block$1(ctx) {
-	var if_block_anchor;
-
-	function select_block_type(ctx) {
-		if (ctx.mBytes >= 1.0) return create_if_block_1;
-		if (ctx.kBytes >= 1.0) return create_if_block_2;
-		return create_else_block$1;
-	}
-
-	var current_block_type = select_block_type(ctx);
-	var if_block = current_block_type(ctx);
-
-	return {
-		c() {
-			if_block.c();
-			if_block_anchor = empty();
-		},
-
-		m(target, anchor) {
-			if_block.m(target, anchor);
-			insert(target, if_block_anchor, anchor);
-		},
-
-		p(changed, ctx) {
-			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
-				if_block.p(changed, ctx);
-			} else {
-				if_block.d(1);
-				if_block = current_block_type(ctx);
-				if (if_block) {
-					if_block.c();
-					if_block.m(if_block_anchor.parentNode, if_block_anchor);
-				}
-			}
-		},
-
-		d(detaching) {
-			if_block.d(detaching);
-
-			if (detaching) {
-				detach(if_block_anchor);
-			}
-		}
-	};
-}
-
-// (131:16) {:else}
-function create_else_block$1(ctx) {
-	var td, t0_value = ctx.size.toFixed(1), t0, t1, t2_value = ctx.translate('b'), t2;
-
-	return {
-		c() {
-			td = element("td");
-			t0 = text(t0_value);
-			t1 = space();
-			t2 = text(t2_value);
-		},
-
-		m(target, anchor) {
-			insert(target, td, anchor);
-			append(td, t0);
-			append(td, t1);
-			append(td, t2);
-		},
-
-		p(changed, ctx) {
-			if ((changed.size) && t0_value !== (t0_value = ctx.size.toFixed(1))) {
-				set_data(t0, t0_value);
-			}
-		},
-
-		d(detaching) {
-			if (detaching) {
-				detach(td);
-			}
-		}
-	};
-}
-
-// (129:40) 
-function create_if_block_2(ctx) {
-	var td, t0_value = ctx.kBytes.toFixed(1), t0, t1, t2_value = ctx.translate('kb'), t2;
-
-	return {
-		c() {
-			td = element("td");
-			t0 = text(t0_value);
-			t1 = space();
-			t2 = text(t2_value);
-		},
-
-		m(target, anchor) {
-			insert(target, td, anchor);
-			append(td, t0);
-			append(td, t1);
-			append(td, t2);
-		},
-
-		p(changed, ctx) {
-			if ((changed.kBytes) && t0_value !== (t0_value = ctx.kBytes.toFixed(1))) {
-				set_data(t0, t0_value);
-			}
-		},
-
-		d(detaching) {
-			if (detaching) {
-				detach(td);
-			}
-		}
-	};
-}
-
-// (127:16) {#if mBytes >= 1.0}
-function create_if_block_1(ctx) {
-	var td, t0_value = ctx.mBytes.toFixed(1), t0, t1, t2_value = ctx.translate('mb'), t2;
-
-	return {
-		c() {
-			td = element("td");
-			t0 = text(t0_value);
-			t1 = space();
-			t2 = text(t2_value);
-		},
-
-		m(target, anchor) {
-			insert(target, td, anchor);
-			append(td, t0);
-			append(td, t1);
-			append(td, t2);
-		},
-
-		p(changed, ctx) {
-			if ((changed.mBytes) && t0_value !== (t0_value = ctx.mBytes.toFixed(1))) {
-				set_data(t0, t0_value);
-			}
-		},
-
-		d(detaching) {
-			if (detaching) {
-				detach(td);
-			}
-		}
-	};
-}
-
-// (145:8) {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
+// (124:8) {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
 function create_each_block$2(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.sceneId, t0, t1, td1, t2, dispose;
 
@@ -1286,9 +1294,7 @@ function create_each_block$2(ctx) {
 }
 
 function create_fragment$2(ctx) {
-	var div, table0, tr0, td0, i0, t0, td1, i1, t1, td2, t2, t3, t4, td3, i2, t5, table1, tr1, th0, t6_value = ctx.translate('product'), t6, t7, th1, t8, dispose;
-
-	var if_block = (ctx.expanded) && create_if_block$1(ctx);
+	var div, table0, tr0, td0, i0, t0, td1, i1, t1, td2, t2, t3, td3, i2, t4, table1, tr1, th0, t5_value = ctx.translate('product'), t5, t6, th1, t7, dispose;
 
 	var each_value = ctx.granules.filter(func);
 
@@ -1312,18 +1318,16 @@ function create_fragment$2(ctx) {
 			td2 = element("td");
 			t2 = text(ctx.name);
 			t3 = space();
-			if (if_block) if_block.c();
-			t4 = space();
 			td3 = element("td");
 			i2 = element("i");
-			t5 = space();
+			t4 = space();
 			table1 = element("table");
 			tr1 = element("tr");
 			th0 = element("th");
-			t6 = text(t6_value);
-			t7 = space();
+			t5 = text(t5_value);
+			t6 = space();
 			th1 = element("th");
-			t8 = space();
+			t7 = space();
 
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].c();
@@ -1367,18 +1371,16 @@ function create_fragment$2(ctx) {
 			append(tr0, td2);
 			append(td2, t2);
 			append(tr0, t3);
-			if (if_block) if_block.m(tr0, null);
-			append(tr0, t4);
 			append(tr0, td3);
 			append(td3, i2);
-			append(div, t5);
+			append(div, t4);
 			append(div, table1);
 			append(table1, tr1);
 			append(tr1, th0);
-			append(th0, t6);
-			append(tr1, t7);
+			append(th0, t5);
+			append(tr1, t6);
 			append(tr1, th1);
-			append(table1, t8);
+			append(table1, t7);
 
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].m(table1, null);
@@ -1398,19 +1400,6 @@ function create_fragment$2(ctx) {
 
 			if (changed.name) {
 				set_data(t2, ctx.name);
-			}
-
-			if (ctx.expanded) {
-				if (if_block) {
-					if_block.p(changed, ctx);
-				} else {
-					if_block = create_if_block$1(ctx);
-					if_block.c();
-					if_block.m(tr0, t4);
-				}
-			} else if (if_block) {
-				if_block.d(1);
-				if_block = null;
 			}
 
 			if (changed.expanded) {
@@ -1453,8 +1442,6 @@ function create_fragment$2(ctx) {
 				detach(div);
 			}
 
-			if (if_block) if_block.d();
-
 			destroy_each(each_blocks, detaching);
 
 			run_all(dispose);
@@ -1469,25 +1456,17 @@ function func({granule: {productType}}) {
 function instance$2($$self, $$props, $$invalidate) {
 	
 
-    let { id = '', geoJSON = null, name = '', granules = [], visible = false, size = 0, filePath = '' } = $$props;
+    let { id = '', geoJSON = null, name = '', granules = [], visible = false, filePath = '' } = $$props;
 
     let expanded = false;    
-    let selected = -1;
+    let selected = -1;    
 
     T.addText('eng', {
-        product: 'Product',
-        size: 'Size',
-        b: 'b',
-        kb: 'Kb',
-        mb: 'Mb'
+        product: 'Product',        
     });
 
     T.addText('rus', {
-        product: 'Продукт',
-        size: 'Размер',
-        b: 'б',
-        kb: 'Кб',
-        mb: 'Мб'
+        product: 'Продукт',        
     });
 
     let checked = false;
@@ -1572,15 +1551,10 @@ function instance$2($$self, $$props, $$invalidate) {
 		if ('name' in $$props) $$invalidate('name', name = $$props.name);
 		if ('granules' in $$props) $$invalidate('granules', granules = $$props.granules);
 		if ('visible' in $$props) $$invalidate('visible', visible = $$props.visible);
-		if ('size' in $$props) $$invalidate('size', size = $$props.size);
 		if ('filePath' in $$props) $$invalidate('filePath', filePath = $$props.filePath);
 	};
 
-	let kBytes, mBytes;
-
-	$$self.$$.update = ($$dirty = { size: 1, kBytes: 1, granules: 1, checked: 1, undetermined: 1 }) => {
-		if ($$dirty.size) { $$invalidate('kBytes', kBytes = size / 1024); }
-		if ($$dirty.kBytes) { $$invalidate('mBytes', mBytes = kBytes / 1024); }
+	$$self.$$.update = ($$dirty = { granules: 1, checked: 1, undetermined: 1 }) => {
 		if ($$dirty.granules || $$dirty.checked || $$dirty.undetermined) { {
                 $$invalidate('checked', checked = granules.every(({granule: {product}}) => product.checked));
                 $$invalidate('undetermined', undetermined = !checked && granules.some(({granule: {product}}) => product.checked));
@@ -1593,7 +1567,6 @@ function instance$2($$self, $$props, $$invalidate) {
 		name,
 		granules,
 		visible,
-		size,
 		filePath,
 		expanded,
 		selected,
@@ -1601,8 +1574,6 @@ function instance$2($$self, $$props, $$invalidate) {
 		translate,
 		download,
 		preview,
-		kBytes,
-		mBytes,
 		click_handler,
 		click_handler_1,
 		click_handler_2
@@ -1612,7 +1583,7 @@ function instance$2($$self, $$props, $$invalidate) {
 class Region extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance$2, create_fragment$2, safe_not_equal, ["id", "geoJSON", "name", "granules", "visible", "size", "filePath"]);
+		init(this, options, instance$2, create_fragment$2, safe_not_equal, ["id", "geoJSON", "name", "granules", "visible", "filePath"]);
 	}
 }
 
