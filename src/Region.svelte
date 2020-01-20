@@ -96,7 +96,9 @@
         }
     });
 
-    onDestroy(() => unsubscribe());
+    onDestroy(() => {
+        unsubscribe();        
+    });
     
 </script>
 

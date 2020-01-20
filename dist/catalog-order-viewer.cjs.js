@@ -811,7 +811,7 @@ function get_each_context$1(ctx, list, i) {
 	return child_ctx;
 }
 
-// (77:8) {:else}
+// (81:8) {:else}
 function create_else_block$1(ctx) {
 	var div, t0_value = ctx.size.toFixed(1), t0, t1, t2_value = T.getText('b'), t2;
 
@@ -845,7 +845,7 @@ function create_else_block$1(ctx) {
 	};
 }
 
-// (75:32) 
+// (79:32) 
 function create_if_block_1(ctx) {
 	var div, t0_value = ctx.kBytes.toFixed(1), t0, t1, t2_value = T.getText('kb'), t2;
 
@@ -879,7 +879,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (73:8) {#if mBytes >= 1.0}
+// (77:8) {#if mBytes >= 1.0}
 function create_if_block$1(ctx) {
 	var div, t0_value = ctx.mBytes.toFixed(1), t0, t1, t2_value = T.getText('mb'), t2;
 
@@ -913,7 +913,7 @@ function create_if_block$1(ctx) {
 	};
 }
 
-// (83:8) {#each files as file}
+// (87:8) {#each files as file}
 function create_each_block$1(ctx) {
 	var current;
 
@@ -1176,6 +1176,10 @@ function instance$1($$self, $$props, $$invalidate) {
         }
     }
 
+    onDestroy(() => {
+        document.querySelector('.catalog-order-viewer-files').remove();
+    });
+
 	function onwindowresize() {
 		outerHeight = window.outerHeight; $$invalidate('outerHeight', outerHeight);
 		outerWidth = window.outerWidth; $$invalidate('outerWidth', outerWidth);
@@ -1244,7 +1248,7 @@ function get_each_context$2(ctx, list, i) {
 	return child_ctx;
 }
 
-// (124:8) {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
+// (126:8) {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
 function create_each_block$2(ctx) {
 	var tr, td0, t0_value = ctx.g.granule.sceneId, t0, t1, td1, t2, dispose;
 
@@ -1529,7 +1533,9 @@ function instance$2($$self, $$props, $$invalidate) {
         }
     });
 
-    onDestroy(() => unsubscribe());
+    onDestroy(() => {
+        unsubscribe();        
+    });
 
 	function click_handler() {
 		const $$result = expanded = !expanded;

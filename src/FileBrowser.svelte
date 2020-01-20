@@ -1,6 +1,6 @@
 <script>
     import File from './File.svelte';
-    import {onMount, createEventDispatcher} from 'svelte';
+    import {onMount, createEventDispatcher, onDestroy} from 'svelte';
     import T from 'scanex-translations';
     import './FileBrowser.css';
     
@@ -63,6 +63,10 @@
             dispatch('download');
         }
     }
+
+    onDestroy(() => {
+        document.querySelector('.catalog-order-viewer-files').remove();
+    });
 
 </script>
 
