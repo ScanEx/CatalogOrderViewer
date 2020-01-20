@@ -71,7 +71,7 @@
 </script>
 
 <svelte:window bind:outerHeight="{outerHeight}" bind:outerWidth="{outerWidth}" />
-<div class="catalog-order-viewer-files" bind:this="{container}">
+<div class="catalog-order-viewer files" bind:this="{container}">
     <div class="header">
         <div>{T.getText('filebrowser.title')}</div>
         {#if mBytes >= 1.0}

@@ -1,54 +1,54 @@
-.catalog-order-viewer-files {
+.catalog-order-viewer.files {
     position: absolute;            
     z-index: 2000;
 }
-.catalog-order-viewer-files > .header {    
+.catalog-order-viewer.files > .header {    
     background-color: #F3F7FA;
     border: 1px solid #D8E1E8;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
-.catalog-order-viewer-files > .header > .size {
+.catalog-order-viewer.files > .header > .size {
     width: 70px;
     text-align: right;
 }
-.catalog-order-viewer-files > .header > i {
+.catalog-order-viewer.files > .header > i {
     float: right;
 }
-.catalog-order-viewer-files > .header > *,
-.catalog-order-viewer-files > .size > * {
+.catalog-order-viewer.files > .header > *,
+.catalog-order-viewer.files > .size > * {
     display: inline-block;
     vertical-align: middle;
 }
-.catalog-order-viewer-files > .header,
-.catalog-order-viewer-files > .content,
-.catalog-order-viewer-files > .footer {
+.catalog-order-viewer.files > .header,
+.catalog-order-viewer.files > .content,
+.catalog-order-viewer.files > .footer {
     padding: 9px;    
 }
-.catalog-order-viewer-files > .content,
-.catalog-order-viewer-files > .footer,
-.catalog-order-viewer-files > .footer > button {
+.catalog-order-viewer.files > .content,
+.catalog-order-viewer.files > .footer,
+.catalog-order-viewer.files > .footer > button {
     background-color: #FFFFFF;
 }
-.catalog-order-viewer-files > .content {
+.catalog-order-viewer.files > .content {
     border-left: 1px solid #D8E1E8;
     border-right: 1px solid #D8E1E8;
 }
-.catalog-order-viewer-files > .footer {
+.catalog-order-viewer.files > .footer {
     text-align: center;    
     border: 1px solid #D8E1E8;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-.catalog-order-viewer-files > .header > i,
-.catalog-order-viewer-files > .footer > button {
+.catalog-order-viewer.files > .header > i,
+.catalog-order-viewer.files > .footer > button {
     cursor: pointer;
 }
-.catalog-order-viewer-files > .header > .size,
-.catalog-order-viewer-files > .header > i {
+.catalog-order-viewer.files > .header > .size,
+.catalog-order-viewer.files > .header > i {
     margin-left: 9px;
 }
-.catalog-order-viewer-files > .footer > button {    
+.catalog-order-viewer.files > .footer > button {    
     border: 1px solid #D8E1E8;
     padding: 5px;
     border-radius: 4px;
