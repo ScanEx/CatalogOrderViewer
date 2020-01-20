@@ -1015,7 +1015,7 @@ function create_fragment$1(ctx) {
 			attr(div1, "class", "header");
 			attr(div2, "class", "content");
 			attr(div3, "class", "footer");
-			attr(div4, "class", "files");
+			attr(div4, "class", "catalog-order-viewer-files");
 
 			dispose = [
 				listen(window, "resize", ctx.onwindowresize),
