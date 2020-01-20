@@ -1,13 +1,13 @@
-.order > .header > * {
+.catalog-order-viewer .order > .header > * {
     display: inline-block;
     vertical-align: middle;
 }
-.order > .header {
+.catalog-order-viewer .order > .header {
     cursor: pointer;        
 }
-.order > .content {
+.catalog-order-viewer .order > .content {
     padding-left: 15px;
 }
-.order > .content.hidden {
+.catalog-order-viewer .order > .content.hidden {
     display: none;
 }

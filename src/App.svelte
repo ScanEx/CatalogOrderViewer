@@ -31,7 +31,7 @@
 
 </script>
 
-<div class="app">    
+<div class="catalog-order-viewer">    
     {#each orders as x}
     <Order
         {...x}

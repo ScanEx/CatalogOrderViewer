@@ -2192,7 +2192,7 @@ function create_fragment$5(ctx) {
 			for (var i = 0; i < each_blocks.length; i += 1) {
 				each_blocks[i].c();
 			}
-			attr(div, "class", "app");
+			attr(div, "class", "catalog-order-viewer");
 		},
 
 		m(target, anchor) {
