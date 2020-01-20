@@ -65,7 +65,7 @@
     }
 
     onDestroy(() => {
-        document.querySelector('.catalog-order-viewer-files').remove();
+        document.querySelector('.catalog-order-viewer.files').remove();
     });
 
 </script>

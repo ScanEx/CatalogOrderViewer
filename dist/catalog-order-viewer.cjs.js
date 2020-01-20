@@ -1177,7 +1177,7 @@ function instance$1($$self, $$props, $$invalidate) {
     }
 
     onDestroy(() => {
-        document.querySelector('.catalog-order-viewer-files').remove();
+        document.querySelector('.catalog-order-viewer.files').remove();
     });
 
 	function onwindowresize() {
