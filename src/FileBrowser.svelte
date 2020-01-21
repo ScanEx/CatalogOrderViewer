@@ -64,10 +64,6 @@
         }
     }
 
-    onDestroy(() => {
-        document.querySelector('.catalog-order-viewer.files').remove();
-    });
-
 </script>
 
 <svelte:window bind:outerHeight="{outerHeight}" bind:outerWidth="{outerWidth}" />

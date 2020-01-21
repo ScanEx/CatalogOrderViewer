@@ -811,7 +811,7 @@ function get_each_context$1(ctx, list, i) {
 	return child_ctx;
 }
 
-// (81:8) {:else}
+// (77:8) {:else}
 function create_else_block$1(ctx) {
 	var div, t0_value = ctx.size.toFixed(1), t0, t1, t2_value = T.getText('b'), t2;
 
@@ -845,7 +845,7 @@ function create_else_block$1(ctx) {
 	};
 }
 
-// (79:32) 
+// (75:32) 
 function create_if_block_1(ctx) {
 	var div, t0_value = ctx.kBytes.toFixed(1), t0, t1, t2_value = T.getText('kb'), t2;
 
@@ -879,7 +879,7 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (77:8) {#if mBytes >= 1.0}
+// (73:8) {#if mBytes >= 1.0}
 function create_if_block$1(ctx) {
 	var div, t0_value = ctx.mBytes.toFixed(1), t0, t1, t2_value = T.getText('mb'), t2;
 
@@ -913,7 +913,7 @@ function create_if_block$1(ctx) {
 	};
 }
 
-// (87:8) {#each files as file}
+// (83:8) {#each files as file}
 function create_each_block$1(ctx) {
 	var current;
 
@@ -1175,10 +1175,6 @@ function instance$1($$self, $$props, $$invalidate) {
             dispatch('download');
         }
     }
-
-    onDestroy(() => {
-        document.querySelector('.catalog-order-viewer.files').remove();
-    });
 
 	function onwindowresize() {
 		outerHeight = window.outerHeight; $$invalidate('outerHeight', outerHeight);
