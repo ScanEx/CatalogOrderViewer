@@ -38,6 +38,55 @@
 .catalog-order-viewer .order > .content.hidden {
     display: none;
 }
+.scene-info {
+    position: absolute;
+    background-color: #FFFFFF;
+    width: 420px;
+}
+.scene-info > .header {
+    border-top: 1px solid #D8E1E8;
+    border-left: 1px solid #D8E1E8;
+    border-right: 1px solid #D8E1E8;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #F3F7FA;
+}
+.scene-info > .content {
+    border: 1px solid #D8E1E8; 
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}    
+.scene-info > .content th,
+.scene-info > .content td {
+    border-left: 1px solid #D8E1E8;
+}
+.scene-info > .header td:first-child,
+.scene-info > .content th:first-child,
+.scene-info > .content td:first-child {        
+    border-left: none;
+}
+.scene-info > .content th {
+    padding: 5px 10px 5px 10px;
+    color: #92A0AC;
+    text-align: left;
+}
+.scene-info > .header td,
+.scene-info > .content td {
+    padding: 8px 10px 8px 10px;
+}
+.scene-info > .content td {
+    border-top: 1px solid #D8E1E8;        
+    color: #455467;
+}
+.scene-info > .content td > * {
+    vertical-align: middle;
+}
+.scene-info > .header td:first-child,
+.scene-info > .content th:last-child,
+.scene-info > .content td:last-child {
+    width: 100%;
+    word-break: break-all;   
+}  
 .catalog-order-viewer .roi {
     margin-top: 8px;
     font-family: 'IBM Plex Sans';
@@ -140,55 +189,6 @@
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
 }
-.scene-info {
-    position: absolute;
-    background-color: #FFFFFF;
-    width: 420px;
-}
-.scene-info > .header {
-    border-top: 1px solid #D8E1E8;
-    border-left: 1px solid #D8E1E8;
-    border-right: 1px solid #D8E1E8;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    background-color: #F3F7FA;
-}
-.scene-info > .content {
-    border: 1px solid #D8E1E8; 
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-}    
-.scene-info > .content th,
-.scene-info > .content td {
-    border-left: 1px solid #D8E1E8;
-}
-.scene-info > .header td:first-child,
-.scene-info > .content th:first-child,
-.scene-info > .content td:first-child {        
-    border-left: none;
-}
-.scene-info > .content th {
-    padding: 5px 10px 5px 10px;
-    color: #92A0AC;
-    text-align: left;
-}
-.scene-info > .header td,
-.scene-info > .content td {
-    padding: 8px 10px 8px 10px;
-}
-.scene-info > .content td {
-    border-top: 1px solid #D8E1E8;        
-    color: #455467;
-}
-.scene-info > .content td > * {
-    vertical-align: middle;
-}
-.scene-info > .header td:first-child,
-.scene-info > .content th:last-child,
-.scene-info > .content td:last-child {
-    width: 100%;
-    word-break: break-all;   
-}  
 .files {
     position: absolute;            
     z-index: 2000;
@@ -244,13 +244,13 @@
     padding: 5px;
     border-radius: 4px;
 }
-.catalog-order-viewer .entry > .header > * {
+.files .entry > .header > * {
     display: inline-block;
     vertical-align: middle;
 }
-.catalog-order-viewer .entry > .children {
+.files .entry > .children {
     margin-left: 23px;
 }
-.catalog-order-viewer .entry > .children.hidden {
+.files .entry > .children.hidden {
     display: none;
 }

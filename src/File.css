@@ -1,10 +1,10 @@
-.catalog-order-viewer .entry > .header > * {
+.files .entry > .header > * {
     display: inline-block;
     vertical-align: middle;
 }
-.catalog-order-viewer .entry > .children {
+.files .entry > .children {
     margin-left: 23px;
 }
-.catalog-order-viewer .entry > .children.hidden {
+.files .entry > .children.hidden {
     display: none;
 }
