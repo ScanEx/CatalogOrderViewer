@@ -1,9 +1,9 @@
-.catalog-order-viewer .scene-info {
+.scene-info {
     position: absolute;
     background-color: #FFFFFF;
     width: 420px;
 }
-.catalog-order-viewer .scene-info > .header {
+.scene-info > .header {
     border-top: 1px solid #D8E1E8;
     border-left: 1px solid #D8E1E8;
     border-right: 1px solid #D8E1E8;
@@ -11,39 +11,39 @@
     border-top-right-radius: 5px;
     background-color: #F3F7FA;
 }
-.catalog-order-viewer .scene-info > .content {
+.scene-info > .content {
     border: 1px solid #D8E1E8; 
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }    
-.catalog-order-viewer .scene-info > .content th,
-.catalog-order-viewer .scene-info > .content td {
+.scene-info > .content th,
+.scene-info > .content td {
     border-left: 1px solid #D8E1E8;
 }
-.catalog-order-viewer .scene-info > .header td:first-child,
-.catalog-order-viewer .scene-info > .content th:first-child,
-.catalog-order-viewer .scene-info > .content td:first-child {        
+.scene-info > .header td:first-child,
+.scene-info > .content th:first-child,
+.scene-info > .content td:first-child {        
     border-left: none;
 }
-.catalog-order-viewer .scene-info > .content th {
+.scene-info > .content th {
     padding: 5px 10px 5px 10px;
     color: #92A0AC;
     text-align: left;
 }
-.catalog-order-viewer .scene-info > .header td,
-.catalog-order-viewer .scene-info > .content td {
+.scene-info > .header td,
+.scene-info > .content td {
     padding: 8px 10px 8px 10px;
 }
-.catalog-order-viewer .scene-info > .content td {
+.scene-info > .content td {
     border-top: 1px solid #D8E1E8;        
     color: #455467;
 }
-.catalog-order-viewer .scene-info > .content td > * {
+.scene-info > .content td > * {
     vertical-align: middle;
 }
-.catalog-order-viewer .scene-info > .header td:first-child,
-.catalog-order-viewer .scene-info > .content th:last-child,
-.catalog-order-viewer .scene-info > .content td:last-child {
+.scene-info > .header td:first-child,
+.scene-info > .content th:last-child,
+.scene-info > .content td:last-child {
     width: 100%;
     word-break: break-all;   
 }  

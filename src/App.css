@@ -1,7 +1,9 @@
 .catalog-order-viewer {
     width: 390px;
 }
-.catalog-order-viewer .icon {
+.catalog-order-viewer .icon,
+.files .icon,
+.scene-info .icon {
     cursor: pointer;
     display: inline-block;
     background-position: center;

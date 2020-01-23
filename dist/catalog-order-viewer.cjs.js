@@ -1015,7 +1015,7 @@ function create_fragment$1(ctx) {
 			attr(div1, "class", "header");
 			attr(div2, "class", "content");
 			attr(div3, "class", "footer");
-			attr(div4, "class", "catalog-order-viewer files");
+			attr(div4, "class", "files");
 
 			dispose = [
 				listen(window, "resize", ctx.onwindowresize),
@@ -1651,7 +1651,7 @@ function create_fragment$3(ctx) {
 			attr(table1, "class", "content");
 			attr(table1, "cellpadding", "0");
 			attr(table1, "cellspacing", "0");
-			attr(div, "class", "catalog-order-viewer scene-info");
+			attr(div, "class", "scene-info");
 			dispose = listen(td2, "click", stop_propagation(ctx.click_handler));
 		},
 
