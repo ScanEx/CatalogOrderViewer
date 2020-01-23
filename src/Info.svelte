@@ -39,7 +39,7 @@
 
 </script>
 
-<div class="scene-info" bind:this="{container}">
+<div class="catalog-order-viewer scene-info" bind:this="{container}">
     <table class="header" cellpadding="0" cellspacing="0">
         <tr>
             <td>{platform}</td>

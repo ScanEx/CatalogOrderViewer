@@ -1651,7 +1651,7 @@ function create_fragment$3(ctx) {
 			attr(table1, "class", "content");
 			attr(table1, "cellpadding", "0");
 			attr(table1, "cellspacing", "0");
-			attr(div, "class", "scene-info");
+			attr(div, "class", "catalog-order-viewer scene-info");
 			dispose = listen(td2, "click", stop_propagation(ctx.click_handler));
 		},
 
