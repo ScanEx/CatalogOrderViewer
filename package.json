@@ -2,7 +2,7 @@
   "name": "catalog-order-viewer",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/catalog-order-viewer.cjs.js",
+  "main": "index.js",
   "module": "dist/catalog-order-viewer.cjs.js",
   "scripts": {
     "clean": "del dist /F /Q /S",
