@@ -1,9 +1,9 @@
 import svelte from 'rollup-plugin-svelte';
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import copy from 'rollup-plugin-copy';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
+import cpy from 'rollup-plugin-cpy';
 import css from 'rollup-plugin-css-porter';
-import json from 'rollup-plugin-json';
 import babel from 'rollup-plugin-babel';
 import pkg from './package.json';
 
@@ -24,14 +24,13 @@ export default {
         commonjs(),
         json(),
         css({dest: 'dist/catalog-order-viewer.css', minify: false}),
-        copy({
-            targets: [
-                {src: 'src/*.png', dest: './dist'}
-            ]
+        cpy([            
+        	{files: 'src/*.png', dest: 'dist'}            
+        ]),
+        babel({                
+                extensions: ['.js', '.svelte', '.mjs'],
+                exclude: ['node_modules/@babel/**', 'node_modules/core-js/**'],
+                include: ['src/**']
         }),
-        babel({
-            include: 'node_modules/svelte/shared.js',
-            exclude: 'node_modules/**'
-        })
     ]
 };
