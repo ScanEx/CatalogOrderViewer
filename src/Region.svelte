@@ -1,5 +1,5 @@
 <script>
-    import T from 'scanex-translations';
+    import T from '@scanex/translations';
     import { createEventDispatcher, onMount, onDestroy } from 'svelte';
     import { visibility } from './store.js';
     import FileBrowser from './FileBrowser.svelte';

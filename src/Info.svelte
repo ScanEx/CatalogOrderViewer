@@ -1,5 +1,5 @@
 <script>
-    import T from 'scanex-translations';
+    import T from '@scanex/translations';
     import {createEventDispatcher} from 'svelte';
     import './Info.css';
 

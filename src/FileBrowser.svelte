@@ -1,7 +1,7 @@
 <script>
     import File from './File.svelte';
     import {onMount, createEventDispatcher, onDestroy} from 'svelte';
-    import T from 'scanex-translations';
+    import T from '@scanex/translations';
     import './FileBrowser.css';
     
     export let files = [];
