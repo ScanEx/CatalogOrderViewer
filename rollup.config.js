@@ -28,7 +28,7 @@ export default {
         }),
         commonjs(),
         json(),
-        css({dest: 'dist/catalog-order-viewer.css', minify: false}),
+        css({dest: 'dist/order-viewer.css', minify: false}),
         cpy([            
         	{files: 'src/*.png', dest: 'dist'}            
         ]),
