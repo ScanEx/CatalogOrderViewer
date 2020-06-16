@@ -8,19 +8,24 @@ import css from 'rollup-plugin-css-porter';
 import babel from 'rollup-plugin-babel';
 
 export default {
-    input: 'src/App.svelte',
-    external: ['scanex-translations'],
+    input: pkg.module,
+    external: ['@scanex/translations'],
     output: {
         file: pkg.main,
         format: 'cjs',
         sourcemap: true,
         globals: {
-            'scanex-translations': 'T'
+            '@scanex/translations': 'T'
         }
     },
     plugins: [       
         svelte(),
-        resolve(),            
+        resolve({
+            dedupe: [
+                '@scanex/translations',
+                'core-js',
+            ]
+        }),
         commonjs(),
         json(),
         css({dest: 'dist/catalog-order-viewer.css', minify: false}),
