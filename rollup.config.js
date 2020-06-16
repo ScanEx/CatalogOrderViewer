@@ -35,7 +35,7 @@ export default {
         babel({                
                 extensions: ['.js', '.svelte', '.mjs'],
                 exclude: ['node_modules/@babel/**', 'node_modules/core-js/**'],
-                include: ['src/**', 'node_modules/svelte/**']
+                include: ['src/**', 'node_modules/svelte/**', 'node_modules/**']
         }),
     ]
 };
