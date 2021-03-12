@@ -54,6 +54,8 @@
 .catalog-order-viewer .roi > .content td {
     text-align: left;
     border-left: 1px solid #D8E1E8;
+    border-bottom: 1px solid #D8E1E8;
+    border-right: 1px solid #D8E1E8;
     padding-top: 6px;
     padding-bottom: 6px;
     padding-left: 12px;

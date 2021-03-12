@@ -8,6 +8,9 @@
 
     export let contractId = '';
     export let name = '';
+    //export let openDate = ''; //
+    export let date = '';
+    export let time = '';
     export let id;
     let regions = [];
     let expanded = false;
@@ -29,11 +32,11 @@
     let info;    
 
     const select = ({detail}) => {
-        const {sceneId, product: {platform}, reset} = detail;
+        const {sceneId, productType,  date, time, product: {platform, name, }, reset} = detail;
         if (!info) {
             info = new Info({
                 target: document.body,
-                props: {sceneId, platform}
+                props: {sceneId, productType, date, time, platform, name}
             });
             const {top, left, width} = headerContainer.getBoundingClientRect();
             info.adjustPosition({top, left: left + width + 20});
@@ -44,7 +47,7 @@
             });
         }
         else {
-            info.$set({sceneId, platform});
+            info.$set({sceneId, productType, date, time, platform, name});
         }        
     };       
 
@@ -53,7 +56,7 @@
 <div class="order">
     <div class="header" on:click|stopPropagation="{toggle}" bind:this="{headerContainer}">
         <i class="icon" class:caret-right="{!expanded}" class:caret-down="{expanded}"></i>
-        <span>{contractId || name}</span>
+        <span>{contractId || name || date }</span>
     </div>
     <div class="content" class:hidden="{!expanded}">
         {#each regions as r}

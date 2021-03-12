@@ -5,8 +5,15 @@
 
     export let sceneId = '';
     export let platform = '';
+	export let productType = ''; //
+	//export let granules = [];
     export let date = '';
+	//export let openDate = '';
+    //export let order = {};
+    export let contractId = ''; // Удалил ниже
     export let time = '';
+	//export let productType = ''; //
+    export let name = '';
 
     T.addText('eng', {
         sceneId: 'Scene ID',
@@ -20,7 +27,7 @@
     T.addText('rus', {
         sceneId: 'Идентификатор сцены',
         platform: 'Платформа',
-        date: 'Дата съемки',
+        date: 'Дата съемки', // * Дата добавления заказа
         time: 'Время съемки (UTC)',
         parameter: 'Параметр',
         value: 'Значение',
@@ -63,12 +70,16 @@
             <td>{platform}</td>
         </tr>
         <tr>
+            <td>{'Тип снимка'}</td>
+            <td>{name}</td>
+        </tr>
+        <tr>
             <td>{translate('date')}</td>
             <td>{date}</td>
         </tr>
         <tr>
             <td>{translate('time')}</td>
-            <td>{time}</td>
+            <td>{""}</td>
         </tr>
     </table>
 </div>

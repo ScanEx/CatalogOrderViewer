@@ -4051,6 +4051,19 @@ function createEventDispatcher() {
     }
   };
 }
+// shorthand events, or if we want to implement
+// a real bubbling mechanism
+
+
+function bubble(component, event) {
+  var callbacks = component.$$.callbacks[event.type];
+
+  if (callbacks) {
+    callbacks.slice().forEach(function (fn) {
+      return fn(event);
+    });
+  }
+}
 
 var dirty_components = [];
 var binding_callbacks = [];
@@ -5738,26 +5751,37 @@ var FileBrowser = /*#__PURE__*/function (_SvelteComponent) {
 
 function get_each_context$2(ctx, list, i) {
   var child_ctx = ctx.slice();
-  child_ctx[22] = list[i];
-  child_ctx[24] = i;
+  child_ctx[24] = list[i];
   return child_ctx;
-} // (126:8) {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
+}
+
+function get_each_context_1(ctx, list, i) {
+  var child_ctx = ctx.slice();
+  child_ctx[24] = list[i];
+  return child_ctx;
+}
+
+function get_each_context_2(ctx, list, i) {
+  var child_ctx = ctx.slice();
+  child_ctx[29] = list[i];
+  child_ctx[31] = i;
+  return child_ctx;
+} // (128:8) {#each granules.filter(({granule: {productType}}) => productType !== 100001) as g, i}
 
 
-function create_each_block$2(ctx) {
+function create_each_block_2(ctx) {
   var tr;
   var td0;
   var t0_value =
   /*g*/
-  ctx[22].granule.sceneId + "";
+  ctx[29].granule.sceneId + "";
   var t0;
   var t1;
   var td1;
-  var t2;
   var mounted;
   var dispose;
 
-  function click_handler_2() {
+  function click_handler_3() {
     var _ctx;
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -5765,10 +5789,10 @@ function create_each_block$2(ctx) {
     }
 
     return (
-      /*click_handler_2*/
-      (_ctx = ctx)[14].apply(_ctx, [
+      /*click_handler_3*/
+      (_ctx = ctx)[16].apply(_ctx, [
       /*i*/
-      ctx[24]].concat(args))
+      ctx[31]].concat(args))
     );
   }
 
@@ -5780,12 +5804,118 @@ function create_each_block$2(ctx) {
       t1 = space();
       td1 = element("td");
       td1.innerHTML = "<i class=\"icon info-circle\"></i>";
-      t2 = space();
       toggle_class(tr, "selected",
       /*i*/
-      ctx[24] ===
+      ctx[31] ===
       /*selected*/
-      ctx[4]);
+      ctx[5]);
+    },
+    m: function m(target, anchor) {
+      insert(target, tr, anchor);
+      append(tr, td0);
+      append(td0, t0);
+      append(tr, t1);
+      append(tr, td1);
+
+      if (!mounted) {
+        dispose = listen(tr, "click", click_handler_3);
+        mounted = true;
+      }
+    },
+    p: function p(new_ctx, dirty) {
+      ctx = new_ctx;
+      if (dirty[0] &
+      /*granules*/
+      1 && t0_value !== (t0_value =
+      /*g*/
+      ctx[29].granule.sceneId + "")) set_data(t0, t0_value);
+
+      if (dirty[0] &
+      /*selected*/
+      32) {
+        toggle_class(tr, "selected",
+        /*i*/
+        ctx[31] ===
+        /*selected*/
+        ctx[5]);
+      }
+    },
+    d: function d(detaching) {
+      if (detaching) detach(tr);
+      mounted = false;
+      dispose();
+    }
+  };
+} // (136:8) {#each tiles as t}
+
+
+function create_each_block_1(ctx) {
+  var tr;
+  var td;
+  var i;
+  var t0;
+  var t1_value =
+  /*t*/
+  ctx[24].tileName + "";
+  var t1;
+  var t2;
+  return {
+    c: function c() {
+      tr = element("tr");
+      td = element("td");
+      i = element("i");
+      t0 = space();
+      t1 = text(t1_value);
+      t2 = space();
+      attr(i, "class", "toggle icon");
+      attr(tr, "class", "tiles");
+    },
+    m: function m(target, anchor) {
+      insert(target, tr, anchor);
+      append(tr, td);
+      append(td, i);
+      append(td, t0);
+      append(td, t1);
+      append(tr, t2);
+    },
+    p: function p(ctx, dirty) {
+      if (dirty[0] &
+      /*tiles*/
+      8 && t1_value !== (t1_value =
+      /*t*/
+      ctx[24].tileName + "")) set_data(t1, t1_value);
+    },
+    d: function d(detaching) {
+      if (detaching) detach(tr);
+    }
+  };
+} // (150:8) {#each tiles as t}
+
+
+function create_each_block$2(ctx) {
+  var tr;
+  var td0;
+  var t0_value =
+  /*t*/
+  ctx[24].tileName + "";
+  var t0;
+  var t1;
+  var td1;
+  var t2;
+  var mounted;
+  var dispose;
+  return {
+    c: function c() {
+      tr = element("tr");
+      td0 = element("td");
+      t0 = text(t0_value);
+      t1 = space();
+      td1 = element("td");
+      td1.innerHTML = "<i class=\"icon info-circle\"></i>";
+      t2 = space();
+      toggle_class(tr, "selected",
+      /*selected*/
+      ctx[5]);
     },
     m: function m(target, anchor) {
       insert(target, tr, anchor);
@@ -5796,26 +5926,25 @@ function create_each_block$2(ctx) {
       append(tr, t2);
 
       if (!mounted) {
-        dispose = listen(tr, "click", click_handler_2);
+        dispose = listen(td0, "click",
+        /*click_handler*/
+        ctx[13]);
         mounted = true;
       }
     },
-    p: function p(new_ctx, dirty) {
-      ctx = new_ctx;
-      if (dirty &
-      /*granules*/
-      1 && t0_value !== (t0_value =
-      /*g*/
-      ctx[22].granule.sceneId + "")) set_data(t0, t0_value);
+    p: function p(ctx, dirty) {
+      if (dirty[0] &
+      /*tiles*/
+      8 && t0_value !== (t0_value =
+      /*t*/
+      ctx[24].tileName + "")) set_data(t0, t0_value);
 
-      if (dirty &
+      if (dirty[0] &
       /*selected*/
-      16) {
+      32) {
         toggle_class(tr, "selected",
-        /*i*/
-        ctx[24] ===
         /*selected*/
-        ctx[4]);
+        ctx[5]);
       }
     },
     d: function d(detaching) {
@@ -5848,15 +5977,41 @@ function create_fragment$2(ctx) {
   var t6;
   var th1;
   var t7;
+  var t8;
+  var t9;
+  var table2;
+  var tr2;
+  var th2;
+  var t11;
+  var th3;
+  var t12;
   var mounted;
   var dispose;
-  var each_value =
+  var each_value_2 =
   /*granules*/
   ctx[0].filter(func);
+  var each_blocks_2 = [];
+
+  for (var i = 0; i < each_value_2.length; i += 1) {
+    each_blocks_2[i] = create_each_block_2(get_each_context_2(ctx, each_value_2, i));
+  }
+
+  var each_value_1 =
+  /*tiles*/
+  ctx[3];
+  var each_blocks_1 = [];
+
+  for (var _i = 0; _i < each_value_1.length; _i += 1) {
+    each_blocks_1[_i] = create_each_block_1(get_each_context_1(ctx, each_value_1, _i));
+  }
+
+  var each_value =
+  /*tiles*/
+  ctx[3];
   var each_blocks = [];
 
-  for (var i = 0; i < each_value.length; i += 1) {
-    each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
+  for (var _i2 = 0; _i2 < each_value.length; _i2 += 1) {
+    each_blocks[_i2] = create_each_block$2(get_each_context$2(ctx, each_value, _i2));
   }
 
   return {
@@ -5883,22 +6038,41 @@ function create_fragment$2(ctx) {
       th0 = element("th");
       th0.textContent = "".concat(
       /*translate*/
-      ctx[6]("product"));
+      ctx[7]("product"));
       t6 = space();
       th1 = element("th");
       t7 = space();
 
-      for (var _i = 0; _i < each_blocks.length; _i += 1) {
-        each_blocks[_i].c();
+      for (var _i3 = 0; _i3 < each_blocks_2.length; _i3 += 1) {
+        each_blocks_2[_i3].c();
+      }
+
+      t8 = space();
+
+      for (var _i4 = 0; _i4 < each_blocks_1.length; _i4 += 1) {
+        each_blocks_1[_i4].c();
+      }
+
+      t9 = space();
+      table2 = element("table");
+      tr2 = element("tr");
+      th2 = element("th");
+      th2.textContent = "Пользовательский продукт";
+      t11 = space();
+      th3 = element("th");
+      t12 = space();
+
+      for (var _i5 = 0; _i5 < each_blocks.length; _i5 += 1) {
+        each_blocks[_i5].c();
       }
 
       attr(i0, "class", "toggle icon");
       toggle_class(i0, "caret-right", !
       /*expanded*/
-      ctx[3]);
+      ctx[4]);
       toggle_class(i0, "caret-down",
       /*expanded*/
-      ctx[3]);
+      ctx[4]);
       attr(i1, "class", "preview icon");
       toggle_class(i1, "eye",
       /*visible*/
@@ -5910,20 +6084,26 @@ function create_fragment$2(ctx) {
       attr(i2, "class", "icon download");
       toggle_class(i2, "caret-down",
       /*expanded*/
-      ctx[3]);
+      ctx[4]);
       toggle_class(i2, "caret-right", !
       /*expanded*/
-      ctx[3]);
+      ctx[4]);
       attr(table0, "class", "header");
       toggle_class(table0, "collapsed", !
       /*expanded*/
-      ctx[3]);
+      ctx[4]);
       attr(table1, "class", "content");
       attr(table1, "cellpadding", "0");
       attr(table1, "cellspacing", "0");
       toggle_class(table1, "hidden", !
       /*expanded*/
-      ctx[3]);
+      ctx[4]);
+      attr(table2, "class", "content");
+      attr(table2, "cellpadding", "0");
+      attr(table2, "cellspacing", "0");
+      toggle_class(table2, "hidden", !
+      /*expanded*/
+      ctx[4]);
       attr(div, "class", "roi");
     },
     m: function m(target, anchor) {
@@ -5949,44 +6129,59 @@ function create_fragment$2(ctx) {
       append(tr1, th1);
       append(table1, t7);
 
-      for (var _i2 = 0; _i2 < each_blocks.length; _i2 += 1) {
-        each_blocks[_i2].m(table1, null);
+      for (var _i6 = 0; _i6 < each_blocks_2.length; _i6 += 1) {
+        each_blocks_2[_i6].m(table1, null);
+      }
+
+      append(table1, t8);
+
+      for (var _i7 = 0; _i7 < each_blocks_1.length; _i7 += 1) {
+        each_blocks_1[_i7].m(table1, null);
+      }
+
+      append(div, t9);
+      append(div, table2);
+      append(table2, tr2);
+      append(tr2, th2);
+      append(tr2, t11);
+      append(tr2, th3);
+      append(table2, t12);
+
+      for (var _i8 = 0; _i8 < each_blocks.length; _i8 += 1) {
+        each_blocks[_i8].m(table2, null);
       }
 
       if (!mounted) {
-        dispose = [listen(td0, "click", stop_propagation(
-        /*click_handler*/
-        ctx[12])), listen(td1, "click", stop_propagation(
-        /*preview*/
-        ctx[8])), listen(td2, "click", stop_propagation(
+        dispose = [listen(td0, "click",
         /*click_handler_1*/
-        ctx[13])), listen(td3, "click", stop_propagation(
+        ctx[14]), listen(td1, "click", stop_propagation(
+        /*preview*/
+        ctx[9])), listen(td2, "click", stop_propagation(
+        /*click_handler_2*/
+        ctx[15])), listen(td3, "click", stop_propagation(
         /*download*/
-        ctx[7]))];
+        ctx[8]))];
         mounted = true;
       }
     },
-    p: function p(ctx, _ref) {
-      var _ref2 = _slicedToArray(_ref, 1),
-          dirty = _ref2[0];
-
-      if (dirty &
+    p: function p(ctx, dirty) {
+      if (dirty[0] &
       /*expanded*/
-      8) {
+      16) {
         toggle_class(i0, "caret-right", !
         /*expanded*/
-        ctx[3]);
+        ctx[4]);
       }
 
-      if (dirty &
+      if (dirty[0] &
       /*expanded*/
-      8) {
+      16) {
         toggle_class(i0, "caret-down",
         /*expanded*/
-        ctx[3]);
+        ctx[4]);
       }
 
-      if (dirty &
+      if (dirty[0] &
       /*visible*/
       2) {
         toggle_class(i1, "eye",
@@ -5994,7 +6189,7 @@ function create_fragment$2(ctx) {
         ctx[1]);
       }
 
-      if (dirty &
+      if (dirty[0] &
       /*visible*/
       2) {
         toggle_class(i1, "eye-invisible", !
@@ -6002,78 +6197,148 @@ function create_fragment$2(ctx) {
         ctx[1]);
       }
 
-      if (dirty &
+      if (dirty[0] &
       /*name*/
       4) set_data(t2,
       /*name*/
       ctx[2]);
 
-      if (dirty &
+      if (dirty[0] &
       /*expanded*/
-      8) {
+      16) {
         toggle_class(i2, "caret-down",
         /*expanded*/
-        ctx[3]);
+        ctx[4]);
       }
 
-      if (dirty &
+      if (dirty[0] &
       /*expanded*/
-      8) {
+      16) {
         toggle_class(i2, "caret-right", !
         /*expanded*/
-        ctx[3]);
+        ctx[4]);
       }
 
-      if (dirty &
+      if (dirty[0] &
       /*expanded*/
-      8) {
+      16) {
         toggle_class(table0, "collapsed", !
         /*expanded*/
-        ctx[3]);
+        ctx[4]);
       }
 
-      if (dirty &
+      if (dirty[0] &
       /*selected, select, granules*/
-      49) {
-        each_value =
+      97) {
+        each_value_2 =
         /*granules*/
         ctx[0].filter(func);
 
-        var _i3;
+        var _i9;
 
-        for (_i3 = 0; _i3 < each_value.length; _i3 += 1) {
-          var child_ctx = get_each_context$2(ctx, each_value, _i3);
+        for (_i9 = 0; _i9 < each_value_2.length; _i9 += 1) {
+          var child_ctx = get_each_context_2(ctx, each_value_2, _i9);
 
-          if (each_blocks[_i3]) {
-            each_blocks[_i3].p(child_ctx, dirty);
+          if (each_blocks_2[_i9]) {
+            each_blocks_2[_i9].p(child_ctx, dirty);
           } else {
-            each_blocks[_i3] = create_each_block$2(child_ctx);
+            each_blocks_2[_i9] = create_each_block_2(child_ctx);
 
-            each_blocks[_i3].c();
+            each_blocks_2[_i9].c();
 
-            each_blocks[_i3].m(table1, null);
+            each_blocks_2[_i9].m(table1, t8);
           }
         }
 
-        for (; _i3 < each_blocks.length; _i3 += 1) {
-          each_blocks[_i3].d(1);
+        for (; _i9 < each_blocks_2.length; _i9 += 1) {
+          each_blocks_2[_i9].d(1);
+        }
+
+        each_blocks_2.length = each_value_2.length;
+      }
+
+      if (dirty[0] &
+      /*tiles*/
+      8) {
+        each_value_1 =
+        /*tiles*/
+        ctx[3];
+
+        var _i10;
+
+        for (_i10 = 0; _i10 < each_value_1.length; _i10 += 1) {
+          var _child_ctx = get_each_context_1(ctx, each_value_1, _i10);
+
+          if (each_blocks_1[_i10]) {
+            each_blocks_1[_i10].p(_child_ctx, dirty);
+          } else {
+            each_blocks_1[_i10] = create_each_block_1(_child_ctx);
+
+            each_blocks_1[_i10].c();
+
+            each_blocks_1[_i10].m(table1, null);
+          }
+        }
+
+        for (; _i10 < each_blocks_1.length; _i10 += 1) {
+          each_blocks_1[_i10].d(1);
+        }
+
+        each_blocks_1.length = each_value_1.length;
+      }
+
+      if (dirty[0] &
+      /*expanded*/
+      16) {
+        toggle_class(table1, "hidden", !
+        /*expanded*/
+        ctx[4]);
+      }
+
+      if (dirty[0] &
+      /*selected, tiles*/
+      40) {
+        each_value =
+        /*tiles*/
+        ctx[3];
+
+        var _i11;
+
+        for (_i11 = 0; _i11 < each_value.length; _i11 += 1) {
+          var _child_ctx2 = get_each_context$2(ctx, each_value, _i11);
+
+          if (each_blocks[_i11]) {
+            each_blocks[_i11].p(_child_ctx2, dirty);
+          } else {
+            each_blocks[_i11] = create_each_block$2(_child_ctx2);
+
+            each_blocks[_i11].c();
+
+            each_blocks[_i11].m(table2, null);
+          }
+        }
+
+        for (; _i11 < each_blocks.length; _i11 += 1) {
+          each_blocks[_i11].d(1);
         }
 
         each_blocks.length = each_value.length;
       }
 
-      if (dirty &
+      if (dirty[0] &
       /*expanded*/
-      8) {
-        toggle_class(table1, "hidden", !
+      16) {
+        toggle_class(table2, "hidden", !
         /*expanded*/
-        ctx[3]);
+        ctx[4]);
       }
     },
     i: noop,
     o: noop,
     d: function d(detaching) {
       if (detaching) detach(div);
+      destroy_each(each_blocks_2, detaching);
+      destroy_each(each_blocks_1, detaching);
       destroy_each(each_blocks, detaching);
       mounted = false;
       run_all(dispose);
@@ -6081,9 +6346,9 @@ function create_fragment$2(ctx) {
   };
 }
 
-var func = function func(_ref3) {
-  var productType = _ref3.granule.productType;
-  return productType !== 100000;
+var func = function func(_ref) {
+  var productType = _ref.granule.productType;
+  return productType !== 100001;
 };
 
 function instance$2($$self, $$props, $$invalidate) {
@@ -6095,6 +6360,9 @@ function instance$2($$self, $$props, $$invalidate) {
       name = _$$props$name === void 0 ? "" : _$$props$name;
   var _$$props$granules = $$props.granules,
       granules = _$$props$granules === void 0 ? [] : _$$props$granules;
+  var _$$props$tiles = $$props.tiles,
+      tiles = _$$props$tiles === void 0 ? [] : _$$props$tiles; //
+
   var _$$props$visible = $$props.visible,
       visible = _$$props$visible === void 0 ? false : _$$props$visible;
   var _$$props$filePath = $$props.filePath,
@@ -6113,11 +6381,11 @@ function instance$2($$self, $$props, $$invalidate) {
   var dispatch = createEventDispatcher();
 
   var reset = function reset() {
-    $$invalidate(4, selected = -1);
+    $$invalidate(5, selected = -1);
   };
 
   var select = function select(i) {
-    $$invalidate(4, selected = i);
+    $$invalidate(5, selected = i);
     var granule = granules[i].granule;
     dispatch("select", _objectSpread2(_objectSpread2({}, granule), {}, {
       reset: reset
@@ -6141,8 +6409,8 @@ function instance$2($$self, $$props, $$invalidate) {
       },
       filePath: path
     });
-    fileBrowser.$on("expand", function (_ref5) {
-      var detail = _ref5.detail;
+    fileBrowser.$on("expand", function (_ref3) {
+      var detail = _ref3.detail;
       return dispatch("expand", detail);
     });
     fileBrowser.$on("close", function () {
@@ -6152,8 +6420,8 @@ function instance$2($$self, $$props, $$invalidate) {
       fileBrowser.$destroy();
       dispatch("download");
     });
-    fileBrowser.$on("selection", function (_ref6) {
-      var detail = _ref6.detail;
+    fileBrowser.$on("selection", function (_ref4) {
+      var detail = _ref4.detail;
       dispatch("selection", detail);
     });
   };
@@ -6165,8 +6433,8 @@ function instance$2($$self, $$props, $$invalidate) {
       visibility.set(true);
     }
 
-    var gs = granules.reduce(function (a, _ref7) {
-      var granuleId = _ref7.granuleId;
+    var gs = granules.reduce(function (a, _ref5) {
+      var granuleId = _ref5.granuleId;
       a[granuleId] = true;
       return a;
     }, {});
@@ -6187,45 +6455,50 @@ function instance$2($$self, $$props, $$invalidate) {
     unsubscribe();
   });
 
-  var click_handler = function click_handler() {
-    return $$invalidate(3, expanded = !expanded);
-  };
+  function click_handler(event) {
+    bubble($$self, event);
+  }
 
   var click_handler_1 = function click_handler_1() {
-    return $$invalidate(3, expanded = !expanded);
+    return $$invalidate(4, expanded = !expanded);
   };
 
-  var click_handler_2 = function click_handler_2(i) {
+  var click_handler_2 = function click_handler_2() {
+    return $$invalidate(4, expanded = !expanded);
+  };
+
+  var click_handler_3 = function click_handler_3(i) {
     return select(i);
   };
 
   $$self.$set = function ($$props) {
-    if ("id" in $$props) $$invalidate(9, id = $$props.id);
-    if ("geoJSON" in $$props) $$invalidate(10, geoJSON = $$props.geoJSON);
+    if ("id" in $$props) $$invalidate(10, id = $$props.id);
+    if ("geoJSON" in $$props) $$invalidate(11, geoJSON = $$props.geoJSON);
     if ("name" in $$props) $$invalidate(2, name = $$props.name);
     if ("granules" in $$props) $$invalidate(0, granules = $$props.granules);
+    if ("tiles" in $$props) $$invalidate(3, tiles = $$props.tiles);
     if ("visible" in $$props) $$invalidate(1, visible = $$props.visible);
-    if ("filePath" in $$props) $$invalidate(11, filePath = $$props.filePath);
+    if ("filePath" in $$props) $$invalidate(12, filePath = $$props.filePath);
   };
 
   $$self.$$.update = function () {
-    if ($$self.$$.dirty &
+    if ($$self.$$.dirty[0] &
     /*granules, checked, undetermined*/
-    163841) {
+    655361) {
        {
-        $$invalidate(15, checked = granules.every(function (_ref8) {
-          var product = _ref8.granule.product;
+        $$invalidate(17, checked = granules.every(function (_ref6) {
+          var product = _ref6.granule.product;
           return product.checked;
         }));
-        $$invalidate(17, undetermined = !checked && granules.some(function (_ref9) {
-          var product = _ref9.granule.product;
+        $$invalidate(19, undetermined = !checked && granules.some(function (_ref7) {
+          var product = _ref7.granule.product;
           return product.checked;
         }));
       }
     }
   };
 
-  return [granules, visible, name, expanded, selected, select, translate, download, preview, id, geoJSON, filePath, click_handler, click_handler_1, click_handler_2];
+  return [granules, visible, name, tiles, expanded, selected, select, translate, download, preview, id, geoJSON, filePath, click_handler, click_handler_1, click_handler_2, click_handler_3];
 }
 
 var Region = /*#__PURE__*/function (_SvelteComponent) {
@@ -6240,13 +6513,14 @@ var Region = /*#__PURE__*/function (_SvelteComponent) {
 
     _this = _super.call(this);
     init(_assertThisInitialized(_this), options, instance$2, create_fragment$2, safe_not_equal, {
-      id: 9,
-      geoJSON: 10,
+      id: 10,
+      geoJSON: 11,
       name: 2,
       granules: 0,
+      tiles: 3,
       visible: 1,
-      filePath: 11
-    });
+      filePath: 12
+    }, [-1, -1]);
     return _this;
   }
 
@@ -6294,6 +6568,18 @@ function create_fragment$3(ctx) {
   var t22;
   var td10;
   var t23;
+  var t24;
+  var tr6;
+  var td11;
+  var t26;
+  var td12;
+  var t27;
+  var t28;
+  var tr7;
+  var td13;
+  var t30;
+  var td14;
+  var t31;
   var mounted;
   var dispose;
   return {
@@ -6309,7 +6595,7 @@ function create_fragment$3(ctx) {
       td1 = element("td");
       t2 = text(
       /*date*/
-      ctx[2]);
+      ctx[3]);
       t3 = space();
       td2 = element("td");
       td2.innerHTML = "<i class=\"icon close\"></i>";
@@ -6319,18 +6605,18 @@ function create_fragment$3(ctx) {
       th0 = element("th");
       th0.textContent = "".concat(
       /*translate*/
-      ctx[5]("parameter"));
+      ctx[7]("parameter"));
       t6 = space();
       th1 = element("th");
       th1.textContent = "".concat(
       /*translate*/
-      ctx[5]("value"));
+      ctx[7]("value"));
       t8 = space();
       tr2 = element("tr");
       td3 = element("td");
       td3.textContent = "".concat(
       /*translate*/
-      ctx[5]("sceneId"));
+      ctx[7]("sceneId"));
       t10 = space();
       td4 = element("td");
       t11 = text(
@@ -6341,7 +6627,7 @@ function create_fragment$3(ctx) {
       td5 = element("td");
       td5.textContent = "".concat(
       /*translate*/
-      ctx[5]("platform"));
+      ctx[7]("platform"));
       t14 = space();
       td6 = element("td");
       t15 = text(
@@ -6352,23 +6638,41 @@ function create_fragment$3(ctx) {
       td7 = element("td");
       td7.textContent = "".concat(
       /*translate*/
-      ctx[5]("date"));
+      ctx[7]("date"));
       t18 = space();
       td8 = element("td");
       t19 = text(
       /*date*/
-      ctx[2]);
+      ctx[3]);
       t20 = space();
       tr5 = element("tr");
       td9 = element("td");
       td9.textContent = "".concat(
       /*translate*/
-      ctx[5]("time"));
+      ctx[7]("time"));
       t22 = space();
       td10 = element("td");
       t23 = text(
       /*time*/
-      ctx[3]);
+      ctx[5]);
+      t24 = space();
+      tr6 = element("tr");
+      td11 = element("td");
+      td11.textContent = "Тип продукта";
+      t26 = space();
+      td12 = element("td");
+      t27 = text(
+      /*productType*/
+      ctx[2]);
+      t28 = space();
+      tr7 = element("tr");
+      td13 = element("td");
+      td13.textContent = "Номер контракта";
+      t30 = space();
+      td14 = element("td");
+      t31 = text(
+      /*contractId*/
+      ctx[4]);
       attr(table0, "class", "header");
       attr(table0, "cellpadding", "0");
       attr(table0, "cellspacing", "0");
@@ -6418,14 +6722,26 @@ function create_fragment$3(ctx) {
       append(tr5, t22);
       append(tr5, td10);
       append(td10, t23);
+      append(table1, t24);
+      append(table1, tr6);
+      append(tr6, td11);
+      append(tr6, t26);
+      append(tr6, td12);
+      append(td12, t27);
+      append(table1, t28);
+      append(table1, tr7);
+      append(tr7, td13);
+      append(tr7, t30);
+      append(tr7, td14);
+      append(td14, t31);
       /*div_binding*/
 
-      ctx[9](div);
+      ctx[11](div);
 
       if (!mounted) {
         dispose = listen(td2, "click", stop_propagation(
         /*click_handler*/
-        ctx[8]));
+        ctx[10]));
         mounted = true;
       }
     },
@@ -6440,9 +6756,9 @@ function create_fragment$3(ctx) {
       ctx[1]);
       if (dirty &
       /*date*/
-      4) set_data(t2,
+      8) set_data(t2,
       /*date*/
-      ctx[2]);
+      ctx[3]);
       if (dirty &
       /*sceneId*/
       1) set_data(t11,
@@ -6455,14 +6771,24 @@ function create_fragment$3(ctx) {
       ctx[1]);
       if (dirty &
       /*date*/
-      4) set_data(t19,
+      8) set_data(t19,
       /*date*/
-      ctx[2]);
+      ctx[3]);
       if (dirty &
       /*time*/
-      8) set_data(t23,
+      32) set_data(t23,
       /*time*/
-      ctx[3]);
+      ctx[5]);
+      if (dirty &
+      /*productType*/
+      4) set_data(t27,
+      /*productType*/
+      ctx[2]);
+      if (dirty &
+      /*contractId*/
+      16) set_data(t31,
+      /*contractId*/
+      ctx[4]);
     },
     i: noop,
     o: noop,
@@ -6470,7 +6796,7 @@ function create_fragment$3(ctx) {
       if (detaching) detach(div);
       /*div_binding*/
 
-      ctx[9](null);
+      ctx[11](null);
       mounted = false;
       dispose();
     }
@@ -6482,10 +6808,16 @@ function instance$3($$self, $$props, $$invalidate) {
       sceneId = _$$props$sceneId === void 0 ? "" : _$$props$sceneId;
   var _$$props$platform = $$props.platform,
       platform = _$$props$platform === void 0 ? "" : _$$props$platform;
+  var _$$props$productType = $$props.productType,
+      productType = _$$props$productType === void 0 ? "" : _$$props$productType; //
+
   var _$$props$date = $$props.date,
       date = _$$props$date === void 0 ? "" : _$$props$date;
+  var _$$props$contractId = $$props.contractId,
+      contractId = _$$props$contractId === void 0 ? "" : _$$props$contractId;
   var _$$props$time = $$props.time,
-      time = _$$props$time === void 0 ? "" : _$$props$time;
+      time = _$$props$time === void 0 ? "" : _$$props$time; //export let productType = ''; //
+
   T.addText("eng", {
     sceneId: "Scene ID",
     platform: "Platform",
@@ -6497,7 +6829,7 @@ function instance$3($$self, $$props, $$invalidate) {
   T.addText("rus", {
     sceneId: "Идентификатор сцены",
     platform: "Платформа",
-    date: "Дата съемки",
+    date: "Дата съемки2",
     time: "Время съемки (UTC)",
     parameter: "Параметр",
     value: "Значение"
@@ -6509,8 +6841,8 @@ function instance$3($$self, $$props, $$invalidate) {
   function adjustPosition(_ref3) {
     var top = _ref3.top,
         left = _ref3.left;
-    $$invalidate(4, container.style.top = "".concat(top, "px"), container);
-    $$invalidate(4, container.style.left = "".concat(left, "px"), container);
+    $$invalidate(6, container.style.top = "".concat(top, "px"), container);
+    $$invalidate(6, container.style.left = "".concat(left, "px"), container);
   }
 
   var click_handler = function click_handler() {
@@ -6520,18 +6852,20 @@ function instance$3($$self, $$props, $$invalidate) {
   function div_binding($$value) {
     binding_callbacks[$$value ? "unshift" : "push"](function () {
       container = $$value;
-      $$invalidate(4, container);
+      $$invalidate(6, container);
     });
   }
 
   $$self.$set = function ($$props) {
     if ("sceneId" in $$props) $$invalidate(0, sceneId = $$props.sceneId);
     if ("platform" in $$props) $$invalidate(1, platform = $$props.platform);
-    if ("date" in $$props) $$invalidate(2, date = $$props.date);
-    if ("time" in $$props) $$invalidate(3, time = $$props.time);
+    if ("productType" in $$props) $$invalidate(2, productType = $$props.productType);
+    if ("date" in $$props) $$invalidate(3, date = $$props.date);
+    if ("contractId" in $$props) $$invalidate(4, contractId = $$props.contractId);
+    if ("time" in $$props) $$invalidate(5, time = $$props.time);
   };
 
-  return [sceneId, platform, date, time, container, translate, dispatch, adjustPosition, click_handler, div_binding];
+  return [sceneId, platform, productType, date, contractId, time, container, translate, dispatch, adjustPosition, click_handler, div_binding];
 }
 
 var Info = /*#__PURE__*/function (_SvelteComponent) {
@@ -6548,9 +6882,11 @@ var Info = /*#__PURE__*/function (_SvelteComponent) {
     init(_assertThisInitialized(_this), options, instance$3, create_fragment$3, safe_not_equal, {
       sceneId: 0,
       platform: 1,
-      date: 2,
-      time: 3,
-      adjustPosition: 7
+      productType: 2,
+      date: 3,
+      contractId: 4,
+      time: 5,
+      adjustPosition: 9
     });
     return _this;
   }
@@ -6558,7 +6894,7 @@ var Info = /*#__PURE__*/function (_SvelteComponent) {
   _createClass(Info, [{
     key: "adjustPosition",
     get: function get() {
-      return this.$$.ctx[7];
+      return this.$$.ctx[9];
     }
   }]);
 
@@ -6567,9 +6903,9 @@ var Info = /*#__PURE__*/function (_SvelteComponent) {
 
 function get_each_context$3(ctx, list, i) {
   var child_ctx = ctx.slice();
-  child_ctx[16] = list[i];
+  child_ctx[17] = list[i];
   return child_ctx;
-} // (59:8) {#each regions as r}
+} // (60:8) {#each regions as r}
 
 
 function create_each_block$3(ctx) {
@@ -6577,7 +6913,7 @@ function create_each_block$3(ctx) {
   var current;
   var region_spread_levels = [
   /*r*/
-  ctx[16]];
+  ctx[17]];
   var region_props = {};
 
   for (var i = 0; i < region_spread_levels.length; i += 1) {
@@ -6589,19 +6925,19 @@ function create_each_block$3(ctx) {
   });
   region.$on("select",
   /*select*/
-  ctx[7]);
+  ctx[8]);
   region.$on("selection",
   /*selection_handler*/
-  ctx[10]);
+  ctx[11]);
   region.$on("download",
   /*download_handler*/
-  ctx[11]);
+  ctx[12]);
   region.$on("preview",
   /*preview_handler*/
-  ctx[12]);
+  ctx[13]);
   region.$on("expand",
   /*expand_handler*/
-  ctx[13]);
+  ctx[14]);
   return {
     c: function c() {
       create_component(region.$$.fragment);
@@ -6613,9 +6949,9 @@ function create_each_block$3(ctx) {
     p: function p(ctx, dirty) {
       var region_changes = dirty &
       /*regions*/
-      4 ? get_spread_update(region_spread_levels, [get_spread_object(
+      8 ? get_spread_update(region_spread_levels, [get_spread_object(
       /*r*/
-      ctx[16])]) : {};
+      ctx[17])]) : {};
       region.$set(region_changes);
     },
     i: function i(local) {
@@ -6643,7 +6979,9 @@ function create_fragment$4(ctx) {
   /*contractId*/
   ctx[0] ||
   /*name*/
-  ctx[1]) + "";
+  ctx[1] ||
+  /*openDate*/
+  ctx[2]) + "";
   var t1;
   var t2;
   var div1;
@@ -6652,7 +6990,7 @@ function create_fragment$4(ctx) {
   var dispose;
   var each_value =
   /*regions*/
-  ctx[2];
+  ctx[3];
   var each_blocks = [];
 
   for (var _i = 0; _i < each_value.length; _i += 1) {
@@ -6683,15 +7021,15 @@ function create_fragment$4(ctx) {
       attr(i, "class", "icon");
       toggle_class(i, "caret-right", !
       /*expanded*/
-      ctx[3]);
+      ctx[4]);
       toggle_class(i, "caret-down",
       /*expanded*/
-      ctx[3]);
+      ctx[4]);
       attr(div0, "class", "header");
       attr(div1, "class", "content");
       toggle_class(div1, "hidden", !
       /*expanded*/
-      ctx[3]);
+      ctx[4]);
       attr(div2, "class", "order");
     },
     m: function m(target, anchor) {
@@ -6703,7 +7041,7 @@ function create_fragment$4(ctx) {
       append(span, t1);
       /*div0_binding*/
 
-      ctx[9](div0);
+      ctx[10](div0);
       append(div2, t2);
       append(div2, div1);
 
@@ -6716,7 +7054,7 @@ function create_fragment$4(ctx) {
       if (!mounted) {
         dispose = listen(div0, "click", stop_propagation(
         /*toggle*/
-        ctx[6]));
+        ctx[7]));
         mounted = true;
       }
     },
@@ -6726,34 +7064,36 @@ function create_fragment$4(ctx) {
 
       if (dirty &
       /*expanded*/
-      8) {
+      16) {
         toggle_class(i, "caret-right", !
         /*expanded*/
-        ctx[3]);
+        ctx[4]);
       }
 
       if (dirty &
       /*expanded*/
-      8) {
+      16) {
         toggle_class(i, "caret-down",
         /*expanded*/
-        ctx[3]);
+        ctx[4]);
       }
 
       if ((!current || dirty &
-      /*contractId, name*/
-      3) && t1_value !== (t1_value = (
+      /*contractId, name, openDate*/
+      7) && t1_value !== (t1_value = (
       /*contractId*/
       ctx[0] ||
       /*name*/
-      ctx[1]) + "")) set_data(t1, t1_value);
+      ctx[1] ||
+      /*openDate*/
+      ctx[2]) + "")) set_data(t1, t1_value);
 
       if (dirty &
       /*regions, select, dispatch*/
-      164) {
+      328) {
         each_value =
         /*regions*/
-        ctx[2];
+        ctx[3];
 
         var _i4;
 
@@ -6786,10 +7126,10 @@ function create_fragment$4(ctx) {
 
       if (dirty &
       /*expanded*/
-      8) {
+      16) {
         toggle_class(div1, "hidden", !
         /*expanded*/
-        ctx[3]);
+        ctx[4]);
       }
     },
     i: function i(local) {
@@ -6814,7 +7154,7 @@ function create_fragment$4(ctx) {
       if (detaching) detach(div2);
       /*div0_binding*/
 
-      ctx[9](null);
+      ctx[10](null);
       destroy_each(each_blocks, detaching);
       mounted = false;
       dispose();
@@ -6828,6 +7168,9 @@ function instance$4($$self, $$props, $$invalidate) {
       contractId = _$$props$contractId === void 0 ? "" : _$$props$contractId;
   var _$$props$name = $$props.name,
       name = _$$props$name === void 0 ? "" : _$$props$name;
+  var _$$props$openDate = $$props.openDate,
+      openDate = _$$props$openDate === void 0 ? "" : _$$props$openDate; // 
+
   var id = $$props.id;
   var regions = [];
   var expanded = false;
@@ -6839,13 +7182,13 @@ function instance$4($$self, $$props, $$invalidate) {
         return response.json();
       }).then(function (json) {
         loaded = true;
-        $$invalidate(2, regions = json);
+        $$invalidate(3, regions = json);
       }).catch(function (e) {
         return console.log(e);
       });
     }
 
-    $$invalidate(3, expanded = !expanded);
+    $$invalidate(4, expanded = !expanded);
   };
 
   var headerContainer;
@@ -6854,7 +7197,10 @@ function instance$4($$self, $$props, $$invalidate) {
   var select = function select(_ref3) {
     var detail = _ref3.detail;
     var sceneId = detail.sceneId,
-        platform = detail.product.platform,
+        productType = detail.productType,
+        _detail$product = detail.product,
+        platform = _detail$product.platform,
+        name = _detail$product.name,
         reset = detail.reset;
 
     if (!info) {
@@ -6862,7 +7208,9 @@ function instance$4($$self, $$props, $$invalidate) {
         target: document.body,
         props: {
           sceneId: sceneId,
-          platform: platform
+          productType: productType,
+          platform: platform,
+          name: name
         }
       });
 
@@ -6883,7 +7231,9 @@ function instance$4($$self, $$props, $$invalidate) {
     } else {
       info.$set({
         sceneId: sceneId,
-        platform: platform
+        productType: productType,
+        platform: platform,
+        name: name
       });
     }
   };
@@ -6891,7 +7241,7 @@ function instance$4($$self, $$props, $$invalidate) {
   function div0_binding($$value) {
     binding_callbacks[$$value ? "unshift" : "push"](function () {
       headerContainer = $$value;
-      $$invalidate(4, headerContainer);
+      $$invalidate(5, headerContainer);
     });
   }
 
@@ -6917,10 +7267,11 @@ function instance$4($$self, $$props, $$invalidate) {
   $$self.$set = function ($$props) {
     if ("contractId" in $$props) $$invalidate(0, contractId = $$props.contractId);
     if ("name" in $$props) $$invalidate(1, name = $$props.name);
-    if ("id" in $$props) $$invalidate(8, id = $$props.id);
+    if ("openDate" in $$props) $$invalidate(2, openDate = $$props.openDate);
+    if ("id" in $$props) $$invalidate(9, id = $$props.id);
   };
 
-  return [contractId, name, regions, expanded, headerContainer, dispatch, toggle, select, id, div0_binding, selection_handler, download_handler, preview_handler, expand_handler];
+  return [contractId, name, openDate, regions, expanded, headerContainer, dispatch, toggle, select, id, div0_binding, selection_handler, download_handler, preview_handler, expand_handler];
 }
 
 var Order = /*#__PURE__*/function (_SvelteComponent) {
@@ -6937,7 +7288,8 @@ var Order = /*#__PURE__*/function (_SvelteComponent) {
     init(_assertThisInitialized(_this), options, instance$4, create_fragment$4, safe_not_equal, {
       contractId: 0,
       name: 1,
-      id: 8
+      openDate: 2,
+      id: 9
     });
     return _this;
   }

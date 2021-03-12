@@ -9,11 +9,14 @@
     export let geoJSON = null;
     export let name = '';
     export let granules = [];
+    export let tiles = []; //
+    //export const order = {}; // ?
     export let visible = false;    
     export let filePath = '';
 
     let expanded = false;    
-    let selected = -1;    
+    let selected = -1;
+    let selected2 = -1;
 
     T.addText('eng', {
         product: 'Product',        
@@ -23,7 +26,7 @@
         product: 'Продукт',        
     });
 
-    let checked = false;
+    /*let checked = false;
     let unchecked = true;
     let undetermined = false;
 
@@ -31,26 +34,36 @@
         checked = granules.every(({granule: {product}}) => product.checked);
         undetermined = !checked && granules.some(({granule: {product}}) => product.checked);
         unchecked = !checked && !undetermined;
-    }
+    }*/
 
-    const toggle = () => {
+    /*const toggle = () => {
         let items = granules.slice();
         items.forEach(({granule: {product}}) => {
             product.checked = unchecked;
         });
         granules = items;
-    };
+    };*/
 
     const dispatch = createEventDispatcher();
 
     const reset = () => {
         selected = -1;
+        //selected2 = -1;
     };
 
     const select = i => {
         selected = i;
+        selected2 = -1
         const {granule} = granules[i];
         dispatch('select', {...granule, reset});
+    };
+
+    const select2 = i => {
+        selected2 = i;
+        selected = -1;
+        //const {tile} = tiles[i];
+        //dispatch('select', {...tile});
+        //dispatch('select', {reset});
     };
 
     const translate = T.getText.bind(T);
@@ -106,7 +119,7 @@
 <div class="roi">
     <table class="header" class:collapsed="{!expanded}">
         <tr>
-            <td on:click|stopPropagation="{() => expanded = !expanded}">
+            <td on:click="{() => expanded = !expanded}">
                 <i class="toggle icon" class:caret-right="{!expanded}" class:caret-down="{expanded}"></i>
             </td>
             <td on:click|stopPropagation="{preview}">
@@ -121,15 +134,35 @@
     <table class="content" class:hidden="{!expanded}" cellpadding="0" cellspacing="0">
         <tr>
             <th>{translate('product')}</th>            
-            <th></th>            
+            <th>{"доп"}</th>            
         </tr>
-        {#each granules.filter(({granule: {productType}}) => productType !== 100000) as g, i}
+        {#each granules.filter(({granule: {productType}}) => productType !== 100001 || productType !== null ) as g, i}
         <tr class:selected="{i === selected}" on:click="{() => select(i)}">
             <td>{g.granule.sceneId}</td>            
             <td>
                 <i class="icon info-circle"></i>
+                <i class="icon settings2"></i>
+                <i class="icon info-circle"></i>
             </td>            
         </tr>
         {/each}
-    </table>    
+    </table>
+    <table class="content" class:hidden="{!expanded}" cellpadding="0" cellspacing="0">
+        <tr>
+            <th>{'Пользовательский продукт'}</th>            
+            <th></th>            
+        </tr>
+        {#each tiles as t, i}
+        <tr class:selected="{i === selected2}" on:click="{() => select2(i)}">
+            <td >
+                {t.tileName}
+            </td>
+            <td>
+                <i class="icon info-circle"></i>
+                <i class="icon settings"></i>
+                <i class="icon square"></i>
+            </td> 
+        </tr>
+        {/each}
+    </table>
 </div>
